@@ -1,6 +1,5 @@
-# Python and Django advanced topics
+# Python and Django advanced topics with simple examples
 
-![](python.png)
 ## Introduction
 This research aims to collect advanced topics in Python and their application in Django projects. Naturally, this research does not provide deep knowledge in any field but seeks to create a mental framework for the reader. By reading this research, we will get to know the advanced topics of Python using practical examples and see the applications of each in Django. The examples given in this research are only simple examples for a better understanding of the content. Naturally, studying more examples can help to understand the concepts.
 
@@ -506,3 +505,52 @@ p2.join()
 
 ```
 In general, concurrency is preferred for IO-bound tasks, as it allows you to do something else while the IO resources are being fetched. Parallelism, on the other hand, is preferred for CPU-bound tasks, as it allows you to take advantage of multiple CPU cores to execute multiple tasks simultaneously.
+
+## Main types of methods in python classes
+In Python, there are three main types of methods that can be defined in a class:
+1. Instance Methods
+Instance methods are the most common type of methods used in Python classes. They are defined using the **self** parameter as the first argument. Instance methods can access and modify the instance attributes of the class.
+
+```
+class MyClass:
+    def my_instance_method(self, x, y):
+        self.x = x
+        self.y = y
+        return self.x + self.y
+
+my_object = MyClass()
+result = my_object.my_instance_method(3, 4)
+print(result)  # Output: 7
+```
+2. Class Methods
+Class methods are methods that are bound to the class and not the instance of the class. They are defined using the **@classmethod** decorator, and they take the class itself as their first argument, typically named **cls**. Class methods can be called on the class itself, rather than on an instance of the class. 
+
+```
+class MyClass:
+    class_attribute = 0
+    
+    @classmethod
+    def my_class_method(cls, x, y):
+        cls.class_attribute += 1
+        return cls.class_attribute + x + y
+
+result1 = MyClass.my_class_method(3, 4)
+print(result1)  # Output: 2 + 3 + 4 = 9
+
+result2 = MyClass.my_class_method(1, 2)
+print(result2)  # Output: 3 + 1 + 2 = 6
+```
+3. Static Methods
+Static methods are methods that don't depend on the class or instance. They are defined using the **@staticmethod** decorator and take no special first argument. Static methods are typically used for utility functions that don't require access to the class or instance. 
+
+```
+class MyClass:
+    @staticmethod
+    def my_static_method(x, y):
+        return x + y
+
+result = MyClass.my_static_method(3, 4)
+print(result)  # Output: 7
+```
+
+
