@@ -1,4 +1,6 @@
 # Python and Django advanced topics
+
+![](python.png)
 ## Introduction
 This research aims to collect advanced topics in Python and their application in Django projects. Naturally, this research does not provide deep knowledge in any field but seeks to create a mental framework for the reader. By reading this research, we will get to know the advanced topics of Python using practical examples and see the applications of each in Django. The examples given in this research are only simple examples for a better understanding of the content. Naturally, studying more examples can help to understand the concepts.
 
@@ -58,7 +60,7 @@ usernames = list(map(lambda user: user.username, users))
  
 # Output: ['user1', 'user2', 'user3', ...]
 ```
-# Itertools
+## Itertools
 Itertools is a Python module that provides a collection of functions for creating and manipulating iterators, which are objects that can be iterated (looped) over. Here are some commonly used functions provided by the itertools module
 - count(): Generates an infinite sequence of numbers starting from a specified value.
 - chain(): Combines multiple iterators into a single iterator.
