@@ -598,3 +598,33 @@ order = Order(product=product, quantity=3)
 order.save()  # This will trigger the order_placed signal
 ```
 When the save method is called on the Order object, the order_placed signal will be triggered, and the update_product_quantity function will be called, updating the product quantity in the database.
+
+### Django middleware
+Django middleware provides a way to process requests and responses globally in your application. Middleware can be used to perform authentication, logging, modifying headers, and more.
+Let's say we have a Django application that needs to add a custom header to every HTTP response. We can use Django middleware to accomplish this.
+Here are the steps to use Django middleware:
+
+1. Create a new file called **middleware.py** in the same directory as your settings.py file.
+1. Define a class that extends the **MiddlewareMixin** class.
+Implement the process_response method to modify the response object.
+1. Add your middleware class to the MIDDLEWARE setting in your **settings.py** file.
+
+Here's an example implementation:
+
+```
+class CustomHeaderMiddleware:
+    def process_response(self, request, response):
+        response['X-Custom-Header'] = 'Hello, World!'
+        return response
+```
+
+In this example, we define a new middleware class called CustomHeaderMiddleware that extends the MiddlewareMixin class. We implement the process_response method to modify the response object by adding a custom header.
+Finally, we add our middleware class to the MIDDLEWARE setting in our **settings.py** file:
+
+```
+MIDDLEWARE = [
+    # Other middleware classes...
+    'myapp.middleware.CustomHeaderMiddleware',
+]
+```
+Now, whenever an HTTP response is returned by our application, the CustomHeaderMiddleware class will modify the response by adding a custom header.
