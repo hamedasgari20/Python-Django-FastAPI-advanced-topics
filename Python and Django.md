@@ -554,5 +554,47 @@ result = MyClass.my_static_method(3, 4)
 print(result)  # Output: 7
 ```
 ## Django related topics:
+### Django signals
+Django signals can be used to automate tasks and update data in your application without having to manually perform those tasks or update the data.
+Let's say we have a Django application that allows users to place orders for products. We want to automatically update the product quantity in the database whenever an order is placed. We can use Django signals to accomplish this.
+Here are the steps to use Django signals for this example:
 
+1. Create a new file called **signals.py** in the same directory as your **models.p**y file.
+1. Import the** django.dispatch.Signal** class.
+1. Define a new signal using the Signal class.
+1. Define a function that will be called when the signal is triggered. This function should accept two arguments: sender and instance.
+1. Connect the signal to the function using the receiver decorator.
 
+Here's an example implementation:
+```
+from django.dispatch import Signal
+from myapp.models import Order, Product
+
+order_placed = Signal()
+
+def update_product_quantity(sender, instance, **kwargs):
+    # Get the product associated with the order
+    product = instance.product
+
+    # Calculate the new quantity
+    new_quantity = product.quantity - instance.quantity
+
+    # Update the product quantity in the database
+    Product.objects.filter(pk=product.pk).update(quantity=new_quantity)
+
+order_placed.connect(update_product_quantity, sender=Order)
+```
+In this example, we define a new signal called order_placed using the Signal class. We also define a function called update_product_quantity that will be called when the signal is triggered. This function gets the Product object associated with the Order object, calculates the new quantity, and updates the product quantity in the database.
+
+Finally, we connect the order_placed signal to the update_product_quantity function using the connect method. We also specify the sender argument to indicate that this signal should only be triggered when an Order object is saved.
+
+To trigger the signal, we simply need to create a new Order object:
+
+```
+from myapp.models import Order, Product
+
+product = Product.objects.get(pk=1)
+order = Order(product=product, quantity=3)
+order.save()  # This will trigger the order_placed signal
+```
+When the save method is called on the Order object, the order_placed signal will be triggered, and the update_product_quantity function will be called, updating the product quantity in the database.
