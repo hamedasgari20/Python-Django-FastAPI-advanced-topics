@@ -1,11 +1,12 @@
 # Python and Django advanced topics with simple examples
 
 ## Introduction
-This research aims to collect advanced topics in Python and their application in Django projects. Naturally, this research does not provide deep knowledge in any field but seeks to create a mental framework for the reader. By reading this research, we will get to know the advanced topics of Python using practical examples and see the applications of each in Django. The examples given in this research are only simple examples for a better understanding of the content. Naturally, studying more examples can help to understand the concepts.
+In this research, I have given a brief overview of advanced topics in Python and Django. This article does not provide in-depth knowledge on various topics and the purpose of this research is to collect topics in one place to provide the reader with a mental framework. In this article, I have used very simple examples to explain the topics easily. Naturally, studying and examining more and more practical examples will help a lot to understand each topic. I hope reading this article is useful for you. (**Hamid Asgari**)
 
-I hope this research can be useful for readers (**Hamed Asgari**).
 
-## Decorators
+## Python related topics:
+
+### Decorators
 In Python, decorators are a way to modify the behavior of functions or classes by wrapping them with other functions. Here's a simple example to demonstrate the basic concept of decorators:
 ```
 def decorator_function(original_function):
@@ -34,7 +35,7 @@ Here are a few examples of decorators commonly used in Django:
 -     @cache_page
 -     @transaction.atomic
 
-## Map function
+### Map function
 The map() function in Python is a built-in function that applies a given function to each item in an iterable (such as a list, tuple, or string) and returns an iterator with the results. It takes two or more arguments: the function to apply and one or more iterables. The basic syntax of the map() function is as follows:
 ```
 map(function, iterable1, iterable2, ...)
@@ -59,7 +60,7 @@ usernames = list(map(lambda user: user.username, users))
  
 # Output: ['user1', 'user2', 'user3', ...]
 ```
-## Itertools
+### Itertools
 Itertools is a Python module that provides a collection of functions for creating and manipulating iterators, which are objects that can be iterated (looped) over. Here are some commonly used functions provided by the itertools module
 - count(): Generates an infinite sequence of numbers starting from a specified value.
 - chain(): Combines multiple iterators into a single iterator.
@@ -111,7 +112,7 @@ comments = Comment.objects.filter(approved=True)
 combined_results = itertools.chain(posts, comments)
 sorted_results = sorted(combined_results, key=lambda item: item.created_at, reverse=True)
 ```
-## Lambda function
+### Lambda function
 In Python, a lambda function is a small anonymous function that can be defined without a name. It is also known as an inline function or a lambda expression. Lambda functions are typically used when you need a simple function that will be used only once or as a parameter to another function. The general syntax of a lambda function in Python is:
 ```
 lambda arguments: expression
@@ -135,7 +136,7 @@ You can use a lambda function as a condition for filtering objects in a Django q
 filtered_queryset = MyModel.objects.filter(lambda obj: obj.field_name == 'some_value')
 ```
 
-## Exception Handling
+### Exception Handling
 Exception handling in Python allows you to gracefully handle and recover from runtime errors or exceptional conditions that may occur during the execution of your program. Here's an example that demonstrates the usage of exception handling:
 ```
 try:
@@ -181,7 +182,7 @@ def my_view(request):
 
 In this example, if a DatabaseError occurs during database operations, you can render an error template with the exception message.
 
-## SOLID principles
+### SOLID principles
 The SOLID principles are a set of design principles that help in creating maintainable, scalable, and flexible software systems.
 - Single Responsibility Principle (SRP)
 This principle states that a class should have only one reason to change, meaning it should have only one responsibility. Let's say we have a User class that handles both user authentication and user data management. Instead, we can separate these responsibilities into two classes: Authenticator and UserManager. Here's a Python example:
@@ -269,7 +270,7 @@ This principle states that high-level modules should not depend on low-level mod
 
 I have not found yet good example to show this principle.
 
-## Python collection
+### Python collection
 Python provides several built-in collection types, such as lists, tuples, sets, and dictionaries. These collections can be used to store and organize data efficiently.
 
  - lists
@@ -355,7 +356,7 @@ del student['university']
 print(student)  # Output: {'name': 'Alice', 'age': 21, 'major': 'Computer Science'}
 
 ```
-## Generators and Iterators
+### Generators and Iterators
 Generators and iterators are powerful constructs in Python used for efficient iteration and lazy evaluation. They provide a way to generate or yield values on the fly, enabling you to work with large or infinite sequences without loading everything into memory at once. 
 - Lazy file reading using generators:
 
@@ -399,7 +400,7 @@ The main advantage of the generator approach is its simplicity and conciseness. 
 
 Ultimately, the choice between generators and iterators depends on the specific requirements of your program. Generators are often the preferred choice for simpler iterations and lazy evaluation, while iterators offer more customization and control when dealing with complex iteration scenarios.
 
-## Magic methods
+### Magic methods
 Magic methods, also known as dunder methods, are special methods in Python that start and end with double underscores. They are not meant to be invoked directly by the user, but are called internally by the class on certain actions. 
  Here are some examples of commonly used magic methods in Python: 
 
@@ -429,7 +430,7 @@ Magic methods, also known as dunder methods, are special methods in Python that 
         return self.name == other.name and self.age == other.age
 ```
 
-## concurrency and parallelism
+### concurrency and parallelism
 Concurrency involves allowing multiple tasks to take turns accessing the same shared resources, like disk, network, or a single CPU core. Parallelism, on the other hand, is about maximizing the use of hardware resources, such as multiple CPU cores, to execute multiple tasks simultaneously. Threading is a way to achieve concurrency by running multiple threads within a single process, while asyncio is a way to achieve concurrency by running a single thread that can switch between multiple tasks.
 - Threading:
 The following code snippet demonstrates how to use threading to execute multiple tasks concurrently within a single process.
@@ -506,7 +507,7 @@ p2.join()
 ```
 In general, concurrency is preferred for IO-bound tasks, as it allows you to do something else while the IO resources are being fetched. Parallelism, on the other hand, is preferred for CPU-bound tasks, as it allows you to take advantage of multiple CPU cores to execute multiple tasks simultaneously.
 
-## Main types of methods in python classes
+### Main types of methods in python classes
 In Python, there are three main types of methods that can be defined in a class:
 1. Instance Methods
 Instance methods are the most common type of methods used in Python classes. They are defined using the **self** parameter as the first argument. Instance methods can access and modify the instance attributes of the class.
@@ -552,5 +553,6 @@ class MyClass:
 result = MyClass.my_static_method(3, 4)
 print(result)  # Output: 7
 ```
+## Django related topics:
 
 
