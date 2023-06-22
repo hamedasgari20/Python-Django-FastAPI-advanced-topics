@@ -2224,3 +2224,44 @@ class Book(models.Model):
 ```
 In this example, we've created a custom validator called validate_title that checks whether the first character of the title is a capital letter. If the validation fails, a ValidationError is raised. We've also added the validate_title validator to the title field of the Book model.
 Now when a user tries to create a book with a title that doesn't start with a capital letter, the validation will fail and an error message will be displayed.
+
+### Custom management commands
+Custom management commands allow you to add your own functionality to the manage.py command, making it easy to automate tasks and perform custom operations on your Django project.
+
+Here is a simple example to demonstrate how to create and use custom management commands in Django:
+- Create a new Django app:
+
+```
+python manage.py startapp myapp
+```
+- Create a new directory called **management** inside the app directory, and create another directory called **commands** inside the management directory:
+
+```
+mkdir myapp/management
+mkdir myapp/management/commands
+```
+
+- Create a new Python file inside the commands directory, and name it** mycommand.py**. This will be the file that contains the code for your custom management command:
+
+```
+from django.core.management.base import BaseCommand
+
+class Command(BaseCommand):
+    help = 'My custom management command'
+
+    def handle(self, *args, **options):
+        print('Hello from my custom management command!')
+```
+Register the new command with Django by adding an empty** __init__.py** file inside the management directory:
+
+```
+touch myapp/management/__init__.py
+```
+- Test the new command by running it from the command line:
+
+```
+python manage.py mycommand
+```
+
+You should see the message** "Hello from my custom management command!" **printed to the console.
+
