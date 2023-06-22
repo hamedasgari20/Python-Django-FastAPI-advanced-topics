@@ -2174,3 +2174,35 @@ python manage.py migrate
 ```
 That's it! You now have a custom user model in Django that you can use for authentication and authorization in your blog app.
 
+### Django Custom Managers
+Django provides a default manager for each model that allows you to interact with the database. However, sometimes you may need to customize the default manager to add additional functionality or implement custom queries.
+Here's a simple example of how to create a custom manager in Django:
+- Let's say we have a model called Book in our app that represents books in a library. We want to create a custom manager that returns only the books that are currently available for borrowing.
+
+```
+from django.db import models
+
+class AvailableBooksManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_available=True)
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=100)
+    is_available = models.BooleanField(default=True)
+
+    objects = models.Manager()  # default manager
+    available_books = AvailableBooksManager()  # custom manager
+```
+In this example, we've created a custom manager called AvailableBooksManager that filters the books based on the is_available field. We've also added a available_books attribute to the Book model that uses the custom manager.
+- Now we can use the custom manager in our views or templates to get only the books that are currently available for borrowing. For example:
+
+```
+from django.shortcuts import render
+from myapp.models import Book
+
+def available_books(request):
+    books = Book.available_books.all()
+    return render(request, 'available_books.html', {'books': books})
+```
+In this example, we're using the available_books manager to get all the books that are currently available for borrowing, and passing them to the available_books.html template.
