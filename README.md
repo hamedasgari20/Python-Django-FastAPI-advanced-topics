@@ -6,6 +6,126 @@ In this research, I have given a brief overview of advanced topics in Python and
 
 ## Python related topics:
 
+### object-oriented programming (OOP)
+Here are some of the most important topics in object-oriented programming (**OOP**) in Python, along with simple examples of each:
+
+#### Inheritance
+Inheritance is a mechanism that allows a class to inherit properties and methods from another class. The class that inherits from another class is called a subclass or derived class, while the class that is being inherited from is called a superclass or base class.
+
+```
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        raise NotImplementedError("Subclass must implement abstract method")
+
+
+class Dog(Animal):
+    def speak(self):
+        return "Woof!"
+
+class Cat(Animal):
+    def speak(self):
+        return "Meow!"
+
+dog = Dog("Fido")
+print(dog.name)  # Output: Fido
+print(dog.speak())  # Output: Woof!
+
+cat = Cat("Whiskers")
+print(cat.name)  # Output: Whiskers
+print(cat.speak())  # Output: Meow!
+```
+In this example, Animal is the superclass, and Dog and Cat are subclasses that inherit from it. The speak method is an abstract method in the Animal class that is implemented in the subclasses.
+
+#### Polymorphism
+Polymorphism is the ability of objects to take on different forms or perform different actions depending on the context. In Python, polymorphism is achieved through **method overriding** and **method overloading**.
+
+```
+class Shape:
+    def area(self):
+        raise NotImplementedError("Subclass must implement abstract method")
+
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+
+    def area(self):
+        return 3.14 * self.radius ** 2
+
+
+shapes = [Rectangle(5, 10), Circle(7)]
+for shape in shapes:
+    print(shape.area())
+```
+In this example, Shape is an abstract class that defines the area method as an abstract method. Rectangle and Circle are concrete subclasses that implement the area method. The shapes list contains instances of both Rectangle and Circle, and the area method is called on each instance, demonstrating polymorphism.
+
+#### Encapsulation
+Encapsulation is the practice of hiding the internal details of an object and providing a public interface for interacting with it. In Python, encapsulation is achieved through the use of public and private methods and attributes.
+
+```
+class BankAccount:
+    def __init__(self, balance):
+        self._balance = balance
+
+    def deposit(self, amount):
+        self._balance += amount
+
+    def withdraw(self, amount):
+        if self._balance >= amount:
+            self._balance -= amount
+        else:
+            raise ValueError("Insufficient balance")
+
+    def get_balance(self):
+        return self._balance
+
+
+account = BankAccount(1000)
+account.deposit(500)
+account.withdraw(200)
+print(account.get_balance())  # Output: 1300
+```
+In this example, BankAccount is a class that represents a bank account. The** _balance** attribute is marked as private by convention (using a single underscore), and can only be accessed through public methods such as deposit, withdraw, and get_balance.
+
+#### Abstraction
+Abstraction is the process of simplifying complex systems by breaking them down into smaller, more manageable parts. In Python, abstraction is achieved through the use of abstract classes and interfaces.
+
+```
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+
+shapes = [Rectangle(5, 10)]
+for shape in shapes:
+    print(shape.area())
+```
+In this example, Shape is an abstract class that defines the area method as an abstract method. Rectangle is a concrete subclass that implements the area method. The shapes list contains an instance of Rectangle, demonstrating abstraction.
+
 ### Decorators
 In Python, decorators are a way to modify the behavior of functions or classes by wrapping them with other functions. Here's a simple example to demonstrate the basic concept of decorators:
 ```
