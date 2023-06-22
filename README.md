@@ -2265,3 +2265,24 @@ python manage.py mycommand
 
 You should see the message** "Hello from my custom management command!" **printed to the console.
 
+### Custom query expressions
+ Custom query expressions are a way to extend the Django query API with your own custom SQL expressions. Custom query expressions can be useful when you need to perform queries that are not easily expressible using the standard query API.
+
+Suppose you have a model called Person that represents a person with a first name, last name, and age. You want to perform a query that returns all people whose first name starts with a given letter. Here's how you can create a custom query expression to perform this query:
+
+```
+from django.db.models import Lookup
+
+class StartsWith(Lookup):
+    lookup_name = 'startswith'
+
+    def as_sql(self, compiler, connection):
+        lhs, lhs_params = self.process_lhs(compiler, connection)
+        rhs, rhs_params = self.process_rhs(compiler, connection)
+        params = lhs_params + [rhs_params[0] + '%']
+        return f"{lhs} LIKE %s", params
+
+Person.objects.filter(first_name__startswith='A')
+```
+
+In this example, we define a custom lookup called StartsWith that extends the Lookup class. We set the lookup_name attribute to 'startswith' to define the name of the lookup. We then define the as_sql method to generate the SQL expression for the lookup.
