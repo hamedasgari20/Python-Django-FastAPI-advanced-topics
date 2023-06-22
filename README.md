@@ -2206,3 +2206,21 @@ def available_books(request):
     return render(request, 'available_books.html', {'books': books})
 ```
 In this example, we're using the available_books manager to get all the books that are currently available for borrowing, and passing them to the available_books.html template.
+
+### Django Custom validators
+Django provides a set of built-in validators that can be used to validate form data and model fields. However, sometimes you may need to create your own custom validators to validate data in a specific way. Here's a simple example of how to create a custom validator in Django:
+- Let's say we have a model called Book in our app that represents books in a library. We want to create a custom validator that checks whether the book's title starts with a capital letter.
+
+```
+from django.core.exceptions import ValidationError
+
+def validate_title(value):
+    if not value[0].isupper():
+        raise ValidationError("Title must start with a capital letter.")
+
+class Book(models.Model):
+    title = models.CharField(max_length=100, validators=[validate_title])
+    author = models.CharField(max_length=100)
+```
+In this example, we've created a custom validator called validate_title that checks whether the first character of the title is a capital letter. If the validation fails, a ValidationError is raised. We've also added the validate_title validator to the title field of the Book model.
+Now when a user tries to create a book with a title that doesn't start with a capital letter, the validation will fail and an error message will be displayed.
