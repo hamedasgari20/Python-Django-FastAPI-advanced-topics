@@ -628,3 +628,35 @@ MIDDLEWARE = [
 ]
 ```
 Now, whenever an HTTP response is returned by our application, the CustomHeaderMiddleware class will modify the response by adding a custom header.
+
+### Django custom template tags
+Custom template tags can be used to perform complex operations on data or to create reusable components for your templates.
+Here's a simple example of how to create a custom template tag in Django:
+1. Create a new Python module in one of your Django app's templatetags directory. For example, if you have an app named myapp, you could create a new module named **myapp_tags.py** in the **myapp/templatetags** directory.
+
+1. Define a function in the module that takes a template context and any arguments you want to pass to the tag. The function should return the value you want to output in the template. For example, here's a function that takes a list of strings and returns the first item in the list:
+
+```
+from django import template
+
+register = template.Library()
+
+@register.simple_tag
+def first_item(my_list):
+    if my_list:
+        return my_list[0]
+    return ''
+```
+In this example, we're using the @register.simple_tag decorator to register the function as a simple template tag.
+1. In your template, load the custom tag library and use the new tag in your HTML code. To load the custom tag library, add** {% load myapp_tags %}** at the top of your template. Here's an example of how to use the first_item tag we defined earlier:
+
+```
+{% load myapp_tags %}
+
+<ul>
+  {% for item in my_list %}
+    <li>{% first_item item %}</li>
+  {% endfor %}
+</ul>
+```
+In this example, we're using the first_item tag to output the first item in each list item in a loop.
