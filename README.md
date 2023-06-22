@@ -660,3 +660,52 @@ In this example, we're using the @register.simple_tag decorator to register the 
 </ul>
 ```
 In this example, we're using the first_item tag to output the first item in each list item in a loop.
+### Django permissions
+Django provides a built-in permissions system that allows you to control access to views and models in your application. Permissions can be assigned to users or groups, and can be checked in your views or templates to determine whether a user has the necessary permissions to perform certain actions.
+Here's a simple example of how to use Django permissions:
+
+1. First, you need to define the permissions for your models. You can do this by adding a permissions attribute to your** model's meta class**. For example, let's say you have a Book model and you want to define a permission called **can_edit_book**:
+
+```
+from django.db import models
+from django.contrib.auth.models import User
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    published_date = models.DateField()
+
+    class Meta:
+        permissions = [
+            ("can_edit_book", "Can edit book"),
+        ]
+```
+In this example, we've added a permissions attribute to the Book model's meta class, and defined a single permission named can_edit_book.
+
+5. Next, you need to assign the permissions to users or groups. You can do this using Django's built-in admin interface, or programmatically in your code. For example, let's say we want to assign the can_edit_book permission to a group called Editors:
+
+```
+from django.contrib.auth.models import Group
+
+editors_group, created = Group.objects.get_or_create(name='Editors')
+editors_group.permissions.add('myapp.can_edit_book')
+
+```
+In this example, we're using the Group model to get or create a group called Editors, and then adding the myapp.can_edit_book permission to the group.
+
+9. Finally, you can check the user's permissions in your views or templates to control access to certain actions. For example, let's say we have a view that allows users to edit a book:
+
+```
+from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.decorators import login_required, permission_required
+from myapp.models import Book
+
+@login_required
+@permission_required('myapp.can_edit_book', raise_exception=True)
+def edit_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    # perform edit operation
+    return render(request, 'book_edit.html', {'book': book})
+```
+In this example, we're using the permission_required decorator to check if the user has the myapp.can_edit_book permission before allowing them to edit the book. If the user does not have the necessary permission, a PermissionDenied exception will be raised.
+
