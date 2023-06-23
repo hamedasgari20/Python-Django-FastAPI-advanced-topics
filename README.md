@@ -10,35 +10,35 @@ reading this article is useful for you. (**Hamid Asgari**)
 
 <!-- TOC -->
 
-* [Python and Django advanced topics with simple examples](#python-and-django-advanced-topics-with-simple-examples)
-    * [Introduction](#introduction)
-    * [Python related topics:](#python-related-topics)
-        * [object-oriented programming (OOP)](#object-oriented-programming-oop)
-            * [Inheritance](#inheritance)
-            * [Polymorphism](#polymorphism)
-            * [Encapsulation](#encapsulation)
-            * [Abstraction](#abstraction)
-        * [Decorators](#decorators)
-        * [Map function](#map-function)
-        * [Itertools](#itertools)
-        * [Lambda function](#lambda-function)
-        * [Exception Handling](#exception-handling)
-        * [SOLID principles](#solid-principles)
-        * [Python collection](#python-collection)
-        * [Generators and Iterators](#generators-and-iterators)
-        * [Magic methods](#magic-methods)
-        * [concurrency and parallelism](#concurrency-and-parallelism)
-        * [Main types of methods in python classes](#main-types-of-methods-in-python-classes)
-    * [Django related topics:](#django-related-topics-2)
-        * [Django signals](#django-signals-2)
-        * [Django middleware](#django-middleware-2)
-        * [Django custom template tags](#django-custom-template-tags-2)
-        * [Django permissions](#django-permissions-2)
-        * [Django custom user models](#django-custom-user-models)
-        * [Django Custom Managers](#django-custom-managers)
-        * [Django Custom validators](#django-custom-validators)
-        * [Custom management commands](#custom-management-commands)
-        * [Custom query expressions](#custom-query-expressions)
+- [Python and Django advanced topics with simple examples](#python-and-django-advanced-topics-with-simple-examples)
+  - [Introduction](#introduction)
+  - [Python related topics:](#python-related-topics)
+    - [object-oriented programming (OOP)](#object-oriented-programming-oop)
+      - [Inheritance](#inheritance)
+      - [Polymorphism](#polymorphism)
+      - [Encapsulation](#encapsulation)
+      - [Abstraction](#abstraction)
+    - [Decorators](#decorators)
+    - [Map function](#map-function)
+    - [Itertools](#itertools)
+    - [Lambda function](#lambda-function)
+    - [Exception Handling](#exception-handling)
+    - [SOLID principles](#solid-principles)
+    - [Python collection](#python-collection)
+    - [Generators and Iterators](#generators-and-iterators)
+    - [Magic methods](#magic-methods)
+    - [concurrency and parallelism](#concurrency-and-parallelism)
+    - [Main types of methods in python classes](#main-types-of-methods-in-python-classes)
+  - [Django related topics:](#django-related-topics-2)
+    - [Django signals](#django-signals-2)
+    - [Django middleware](#django-middleware-2)
+    - [Django custom template tags](#django-custom-template-tags-2)
+    - [Django permissions](#django-permissions-2)
+    - [Django custom user models](#django-custom-user-models)
+    - [Django Custom Managers](#django-custom-managers)
+    - [Django Custom validators](#django-custom-validators)
+    - [Custom management commands](#custom-management-commands)
+    - [Custom query expressions](#custom-query-expressions)
 
 <!-- TOC -->
 
@@ -150,7 +150,7 @@ account.withdraw(200)
 print(account.get_balance())  # Output: 1300
 ```
 
-In this example, BankAccount is a class that represents a bank account. The** _balance** attribute is marked as private
+In this example, BankAccount is a class that represents a bank account. The** \_balance** attribute is marked as private
 by convention (using a single underscore), and can only be accessed through public methods such as deposit, withdraw,
 and get_balance.
 
@@ -197,11 +197,11 @@ def decorator_function(original_function):
         original_function()
         print("After the original function is called.")
     return wrapper_function
- 
+
 @decorator_function
 def greet():
     print("Hello, world!")
- 
+
 greet()
 ```
 
@@ -246,13 +246,13 @@ mapping a function to a query set:
 
 ```
 from django.contrib.auth.models import User
- 
+
 # Get a queryset of all users
 users = User.objects.all()
- 
+
 # Get a list of usernames using map() and a lambda function
 usernames = list(map(lambda user: user.username, users))
- 
+
 # Output: ['user1', 'user2', 'user3', ...]
 ```
 
@@ -269,10 +269,10 @@ example of cycle():
 
 ```
 import itertools
- 
+
 colors = ['red', 'green', 'blue']
 color_cycle = itertools.cycle(colors)
- 
+
 for _ in range(5):
     print(next(color_cycle))
 ```
@@ -291,10 +291,10 @@ example of combinations():
 
 ```
 import itertools
- 
+
 numbers = [1, 2, 3]
 combinations = itertools.combinations(numbers, 2)
- 
+
 for combination in combinations:
     print(combination)
 ```
@@ -314,10 +314,10 @@ results based on the creation date, using sorted().
 ```
 import itertools
 from myapp.models import Post, Comment
- 
+
 posts = Post.objects.filter(published=True)
 comments = Comment.objects.filter(approved=True)
- 
+
 combined_results = itertools.chain(posts, comments)
 sorted_results = sorted(combined_results, key=lambda item: item.created_at, reverse=True)
 ```
@@ -374,8 +374,8 @@ try:
 except ZeroDivisionError:
     # Code to handle ZeroDivisionError
     print("Division by zero is not allowed.")
- 
- 
+
+
 # Output:
 # Division by zero is not allowed.
 ```
@@ -452,19 +452,19 @@ class UserManager:
 class Shape:
     def area(self):
         raise NotImplementedError()
- 
+
 class Circle(Shape):
     def __init__(self, radius):
         self.radius = radius
- 
+
     def area(self):
         return 3.14 * self.radius * self.radius
- 
+
 class Rectangle(Shape):
     def __init__(self, width, height):
         self.width = width
         self.height = height
- 
+
     def area(self):
         return self.width * self.height
 ```
@@ -477,10 +477,10 @@ class Rectangle(Shape):
 ```
 def print_area(shape):
     print(f"Area: {shape.area()}")
- 
+
 shape = Circle(5)
 print_area(shape)  # Output: Area: 78.5
- 
+
 shape = Rectangle(3, 4)
 print_area(shape)  # Output: Area: 12
 ```
@@ -496,19 +496,19 @@ based on functionality:
 class Walker:
     def walk(self):
         raise NotImplementedError()
- 
+
 class Swimmer:
     def swim(self):
         raise NotImplementedError()
- 
+
 class Flyer:
     def fly(self):
         raise NotImplementedError()
- 
+
 class Dog(Walker):
     def walk(self):
         print("Dog is walking")
- 
+
 class Fish(Swimmer):
     def swim(self):
         print("Fish is swimming")
@@ -691,20 +691,20 @@ argument and returns the result of the addition.
 
 Here's an example of a class that defines some of these magic methods:
 
- ```
- class Person:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
+```
+class Person:
+   def __init__(self, name, age):
+       self.name = name
+       self.age = age
 
-    def __str__(self):
-        return f"{self.name} is {self.age} years old."
+   def __str__(self):
+       return f"{self.name} is {self.age} years old."
 
-    def __repr__(self):
-        return f"Person('{self.name}', {self.age})"
+   def __repr__(self):
+       return f"Person('{self.name}', {self.age})"
 
-    def __eq__(self, other):
-        return self.name == other.name and self.age == other.age
+   def __eq__(self, other):
+       return self.name == other.name and self.age == other.age
 ```
 
 ### concurrency and parallelism
@@ -817,14 +817,14 @@ print(result)  # Output: 7
 ```
 
 2. Class Methods
-   Class methods are methods that are bound to the class and not the instance of the class. They are defined using the *
-   *@classmethod** decorator, and they take the class itself as their first argument, typically named **cls**. Class
+   Class methods are methods that are bound to the class and not the instance of the class. They are defined using the \*
+   \*@classmethod** decorator, and they take the class itself as their first argument, typically named **cls\*\*. Class
    methods can be called on the class itself, rather than on an instance of the class.
 
 ```
 class MyClass:
     class_attribute = 0
-    
+
     @classmethod
     def my_class_method(cls, x, y):
         cls.class_attribute += 1
@@ -1077,11 +1077,11 @@ def decorator_function(original_function):
         original_function()
         print("After the original function is called.")
     return wrapper_function
- 
+
 @decorator_function
 def greet():
     print("Hello, world!")
- 
+
 greet()
 ```
 
@@ -1126,13 +1126,13 @@ mapping a function to a query set:
 
 ```
 from django.contrib.auth.models import User
- 
+
 # Get a queryset of all users
 users = User.objects.all()
- 
+
 # Get a list of usernames using map() and a lambda function
 usernames = list(map(lambda user: user.username, users))
- 
+
 # Output: ['user1', 'user2', 'user3', ...]
 ```
 
@@ -1149,10 +1149,10 @@ example of cycle():
 
 ```
 import itertools
- 
+
 colors = ['red', 'green', 'blue']
 color_cycle = itertools.cycle(colors)
- 
+
 for _ in range(5):
     print(next(color_cycle))
 ```
@@ -1171,10 +1171,10 @@ example of combinations():
 
 ```
 import itertools
- 
+
 numbers = [1, 2, 3]
 combinations = itertools.combinations(numbers, 2)
- 
+
 for combination in combinations:
     print(combination)
 ```
@@ -1194,10 +1194,10 @@ results based on the creation date, using sorted().
 ```
 import itertools
 from myapp.models import Post, Comment
- 
+
 posts = Post.objects.filter(published=True)
 comments = Comment.objects.filter(approved=True)
- 
+
 combined_results = itertools.chain(posts, comments)
 sorted_results = sorted(combined_results, key=lambda item: item.created_at, reverse=True)
 ```
@@ -1254,8 +1254,8 @@ try:
 except ZeroDivisionError:
     # Code to handle ZeroDivisionError
     print("Division by zero is not allowed.")
- 
- 
+
+
 # Output:
 # Division by zero is not allowed.
 ```
@@ -1332,19 +1332,19 @@ class UserManager:
 class Shape:
     def area(self):
         raise NotImplementedError()
- 
+
 class Circle(Shape):
     def __init__(self, radius):
         self.radius = radius
- 
+
     def area(self):
         return 3.14 * self.radius * self.radius
- 
+
 class Rectangle(Shape):
     def __init__(self, width, height):
         self.width = width
         self.height = height
- 
+
     def area(self):
         return self.width * self.height
 ```
@@ -1357,10 +1357,10 @@ class Rectangle(Shape):
 ```
 def print_area(shape):
     print(f"Area: {shape.area()}")
- 
+
 shape = Circle(5)
 print_area(shape)  # Output: Area: 78.5
- 
+
 shape = Rectangle(3, 4)
 print_area(shape)  # Output: Area: 12
 ```
@@ -1376,19 +1376,19 @@ based on functionality:
 class Walker:
     def walk(self):
         raise NotImplementedError()
- 
+
 class Swimmer:
     def swim(self):
         raise NotImplementedError()
- 
+
 class Flyer:
     def fly(self):
         raise NotImplementedError()
- 
+
 class Dog(Walker):
     def walk(self):
         print("Dog is walking")
- 
+
 class Fish(Swimmer):
     def swim(self):
         print("Fish is swimming")
@@ -1571,20 +1571,20 @@ argument and returns the result of the addition.
 
 Here's an example of a class that defines some of these magic methods:
 
- ```
- class Person:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
+```
+class Person:
+   def __init__(self, name, age):
+       self.name = name
+       self.age = age
 
-    def __str__(self):
-        return f"{self.name} is {self.age} years old."
+   def __str__(self):
+       return f"{self.name} is {self.age} years old."
 
-    def __repr__(self):
-        return f"Person('{self.name}', {self.age})"
+   def __repr__(self):
+       return f"Person('{self.name}', {self.age})"
 
-    def __eq__(self, other):
-        return self.name == other.name and self.age == other.age
+   def __eq__(self, other):
+       return self.name == other.name and self.age == other.age
 ```
 
 ### concurrency and parallelism
@@ -1697,14 +1697,14 @@ print(result)  # Output: 7
 ```
 
 2. Class Methods
-   Class methods are methods that are bound to the class and not the instance of the class. They are defined using the *
-   *@classmethod** decorator, and they take the class itself as their first argument, typically named **cls**. Class
+   Class methods are methods that are bound to the class and not the instance of the class. They are defined using the \*
+   \*@classmethod** decorator, and they take the class itself as their first argument, typically named **cls\*\*. Class
    methods can be called on the class itself, rather than on an instance of the class.
 
 ```
 class MyClass:
     class_attribute = 0
-    
+
     @classmethod
     def my_class_method(cls, x, y):
         cls.class_attribute += 1
@@ -1957,11 +1957,11 @@ def decorator_function(original_function):
         original_function()
         print("After the original function is called.")
     return wrapper_function
- 
+
 @decorator_function
 def greet():
     print("Hello, world!")
- 
+
 greet()
 ```
 
@@ -2006,13 +2006,13 @@ mapping a function to a query set:
 
 ```
 from django.contrib.auth.models import User
- 
+
 # Get a queryset of all users
 users = User.objects.all()
- 
+
 # Get a list of usernames using map() and a lambda function
 usernames = list(map(lambda user: user.username, users))
- 
+
 # Output: ['user1', 'user2', 'user3', ...]
 ```
 
@@ -2029,10 +2029,10 @@ example of cycle():
 
 ```
 import itertools
- 
+
 colors = ['red', 'green', 'blue']
 color_cycle = itertools.cycle(colors)
- 
+
 for _ in range(5):
     print(next(color_cycle))
 ```
@@ -2051,10 +2051,10 @@ example of combinations():
 
 ```
 import itertools
- 
+
 numbers = [1, 2, 3]
 combinations = itertools.combinations(numbers, 2)
- 
+
 for combination in combinations:
     print(combination)
 ```
@@ -2074,10 +2074,10 @@ results based on the creation date, using sorted().
 ```
 import itertools
 from myapp.models import Post, Comment
- 
+
 posts = Post.objects.filter(published=True)
 comments = Comment.objects.filter(approved=True)
- 
+
 combined_results = itertools.chain(posts, comments)
 sorted_results = sorted(combined_results, key=lambda item: item.created_at, reverse=True)
 ```
@@ -2134,8 +2134,8 @@ try:
 except ZeroDivisionError:
     # Code to handle ZeroDivisionError
     print("Division by zero is not allowed.")
- 
- 
+
+
 # Output:
 # Division by zero is not allowed.
 ```
@@ -2212,19 +2212,19 @@ class UserManager:
 class Shape:
     def area(self):
         raise NotImplementedError()
- 
+
 class Circle(Shape):
     def __init__(self, radius):
         self.radius = radius
- 
+
     def area(self):
         return 3.14 * self.radius * self.radius
- 
+
 class Rectangle(Shape):
     def __init__(self, width, height):
         self.width = width
         self.height = height
- 
+
     def area(self):
         return self.width * self.height
 ```
@@ -2237,10 +2237,10 @@ class Rectangle(Shape):
 ```
 def print_area(shape):
     print(f"Area: {shape.area()}")
- 
+
 shape = Circle(5)
 print_area(shape)  # Output: Area: 78.5
- 
+
 shape = Rectangle(3, 4)
 print_area(shape)  # Output: Area: 12
 ```
@@ -2256,19 +2256,19 @@ based on functionality:
 class Walker:
     def walk(self):
         raise NotImplementedError()
- 
+
 class Swimmer:
     def swim(self):
         raise NotImplementedError()
- 
+
 class Flyer:
     def fly(self):
         raise NotImplementedError()
- 
+
 class Dog(Walker):
     def walk(self):
         print("Dog is walking")
- 
+
 class Fish(Swimmer):
     def swim(self):
         print("Fish is swimming")
@@ -2451,20 +2451,20 @@ argument and returns the result of the addition.
 
 Here's an example of a class that defines some of these magic methods:
 
- ```
- class Person:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
+```
+class Person:
+   def __init__(self, name, age):
+       self.name = name
+       self.age = age
 
-    def __str__(self):
-        return f"{self.name} is {self.age} years old."
+   def __str__(self):
+       return f"{self.name} is {self.age} years old."
 
-    def __repr__(self):
-        return f"Person('{self.name}', {self.age})"
+   def __repr__(self):
+       return f"Person('{self.name}', {self.age})"
 
-    def __eq__(self, other):
-        return self.name == other.name and self.age == other.age
+   def __eq__(self, other):
+       return self.name == other.name and self.age == other.age
 ```
 
 ### concurrency and parallelism
@@ -2577,14 +2577,14 @@ print(result)  # Output: 7
 ```
 
 2. Class Methods
-   Class methods are methods that are bound to the class and not the instance of the class. They are defined using the *
-   *@classmethod** decorator, and they take the class itself as their first argument, typically named **cls**. Class
+   Class methods are methods that are bound to the class and not the instance of the class. They are defined using the \*
+   \*@classmethod** decorator, and they take the class itself as their first argument, typically named **cls\*\*. Class
    methods can be called on the class itself, rather than on an instance of the class.
 
 ```
 class MyClass:
     class_attribute = 0
-    
+
     @classmethod
     def my_class_method(cls, x, y):
         cls.class_attribute += 1
@@ -2849,8 +2849,8 @@ class BlogUser(AbstractBaseUser, PermissionsMixin):
 In this example, we've created a new model called BlogUser that inherits from AbstractBaseUser and PermissionsMixin.
 We've also defined the necessary fields, including a custom bio field.
 
-- Update your project settings to use the custom user model. In your project's **settings.py** file, update the *
-  *AUTH_USER_MODEL** setting to point to your new user model:
+- Update your project settings to use the custom user model. In your project's **settings.py** file, update the \*
+  \*AUTH_USER_MODEL\*\* setting to point to your new user model:
 
 ```
 AUTH_USER_MODEL = 'blog_auth.BlogUser'
@@ -2970,7 +2970,7 @@ class Command(BaseCommand):
         print('Hello from my custom management command!')
 ```
 
-Register the new command with Django by adding an empty** __init__.py** file inside the management directory:
+Register the new command with Django by adding an empty** **init**.py** file inside the management directory:
 
 ```
 touch myapp/management/__init__.py
