@@ -37,6 +37,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Django Custom Managers](#django-custom-managers)
     * [Django Custom validators](#django-custom-validators)
     * [Custom management commands](#custom-management-commands)
+    * [Django's Query API](#djangos-query-api)
     * [Custom query expressions](#custom-query-expressions)
 <!-- TOC -->
 
@@ -1221,6 +1222,100 @@ python manage.py mycommand
 ```
 
 You should see the message** "Hello from my custom management command!" **printed to the console.
+
+### Django's Query API
+Here are some examples of how to use Django's Query API:
+- Retrieving all objects from a model:
+```angular2html
+from myapp.models import MyModel
+
+all_objects = MyModel.objects.all()
+```
+This will retrieve all objects from the MyModel model and store them in the all_objects variable.
+
+- Filtering objects based on a condition:
+```angular2html
+from myapp.models import MyModel
+
+filtered_objects = MyModel.objects.filter(attribute=value)
+```
+This will retrieve all objects from the MyModel model where the attribute matches the value and store them in the filtered_objects variable.
+
+- Chaining filters:
+```angular2html
+from myapp.models import MyModel
+
+filtered_objects = MyModel.objects.filter(attribute1=value1).filter(attribute2=value2)
+```
+This will retrieve all objects from the MyModel model where attribute1 matches value1 and attribute2 matches value2 and store them in the filtered_objects variable.
+
+
+- Querying related fields:
+```angular2html
+from myapp.models import MyModel
+
+related_objects = MyModel.objects.filter(related_model__attribute=value)
+```
+This will retrieve all objects from the MyModel model where the related model's attribute matches value and store them in the related_objects variable.
+
+- Ordering results:
+```angular2html
+from myapp.models import MyModel
+
+ordered_objects = MyModel.objects.order_by('attribute')
+```
+This will retrieve all objects from the MyModel model and order them by the attribute field in ascending order. You can also use the - sign to order in descending order.
+
+- Limiting results:
+```angular2html
+from myapp.models import MyModel
+
+limited_objects = MyModel.objects.all()[:10]
+```
+This will retrieve the first 10 objects from the MyModel model and store them in the limited_objects variable.
+
+- Using OR conditions:
+```angular2html
+from myapp.models import MyModel
+from django.db.models import Q
+
+objects = MyModel.objects.filter(Q(attribute1=value1) | Q(attribute2=value2))
+```
+This will retrieve all objects from the MyModel model where either attribute1 matches value1 or attribute2 matches value2 and store them in the objects variable.
+
+- Using LIKE conditions:
+```angular2html
+from myapp.models import MyModel
+
+objects = MyModel.objects.filter(attribute__contains=value)
+```
+This will retrieve all objects from the MyModel model where attribute contains value and store them in the objects variable.
+
+- Using NOT conditions:
+```angular2html
+from myapp.models import MyModel
+
+objects = MyModel.objects.exclude(attribute=value)
+```
+This will retrieve all objects from the MyModel model where attribute does not match value and store them in the objects variable.
+
+- Retrieving a single object:
+```angular2html
+from myapp.models import MyModel
+
+object = MyModel.objects.get(id=value)
+```
+This will retrieve a single object from the MyModel model where id matches value and store it in the object variable.
+
+- Updating objects:
+```angular2html
+from myapp.models import MyModel
+
+MyModel.objects.filter(attribute=value).update(attribute=new_value)
+```
+This will update all objects from the MyModel model where attribute matches value and set attribute to new_value.
+
+
 
 ### Custom query expressions
 
