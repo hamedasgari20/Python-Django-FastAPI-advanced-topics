@@ -1344,3 +1344,27 @@ Person.objects.filter(first_name__startswith='A')
 In this example, we define a custom lookup called StartsWith that extends the Lookup class. We set the lookup_name
 attribute to 'startswith' to define the name of the lookup. We then define the as_sql method to generate the SQL
 expression for the lookup.
+
+### Data serialization
+Data serialization is the process of converting structured data into a format that allows sharing or storage of the data in a form that allows recovery of its original structure. In Python, there are several built-in modules for data serialization, including pickle, json, and marshal.
+
+Here's an example of using the pickle module to serialize and deserialize a Python object:
+
+```
+import pickle
+
+# Define a Python object
+grades = {'Alice': 89, 'Bob': 72, 'Charles': 87}
+
+# Serialize the object to a byte stream
+serial_grades = pickle.dumps(grades)
+
+# Deserialize the byte stream back into a Python object
+received_grades = pickle.loads(serial_grades)
+
+# Print the original and received objects
+print('Original object:', grades)
+print('Received object:', received_grades)
+```
+
+In this example, we define a Python dictionary grades and serialize it using the pickle.dumps() function. We then deserialize the byte stream back into a Python object using the pickle.loads() function and print the original and received objects.
