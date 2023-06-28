@@ -1,4 +1,3 @@
-# Python and Django advanced topics with simple examples
 ![](img.png)
 ## Introduction
 
