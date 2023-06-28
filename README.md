@@ -41,6 +41,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Custom management commands](#custom-management-commands)
     * [Django's Query API](#djangos-query-api)
     * [Custom query expressions](#custom-query-expressions)
+    * [Context managers](#context-managers)
 <!-- TOC -->
 
 ## Python related topics:
@@ -1376,3 +1377,38 @@ Person.objects.filter(first_name__startswith='A')
 In this example, we define a custom lookup called StartsWith that extends the Lookup class. We set the lookup_name
 attribute to 'startswith' to define the name of the lookup. We then define the as_sql method to generate the SQL
 expression for the lookup.
+
+### Context managers
+The context manager is responsible for setting up the context, running the block of code, and then cleaning up the context when the block is exited, regardless of whether the block raised an exception or not. In Django, context managers can be used to control signals, transactions, and caching.
+Here are some simple examples of context managers in Django:
+- Database transactions: 
+In Django, context managers can be used to control database transactions. For example:
+```angular2html
+from django.db import transaction
+
+with transaction.atomic():
+    # code that requires a transaction
+```
+
+- Caching: 
+Context managers can be used to control caching in Django. For example:
+```angular2html
+from django.core.cache import cache
+
+class CacheContext:
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+
+    def __enter__(self):
+        cache.set(self.key, self.value)
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        cache.delete(self.key)
+
+with CacheContext('my_key', 'my_value'):
+    # code that requires the cache to be set
+```
+
+In summary, context managers in Django provide a simple and intuitive API for a powerful construct. They allow you to allocate and release resources precisely when you want to, and they make it easier to write safe and readable code.
+
