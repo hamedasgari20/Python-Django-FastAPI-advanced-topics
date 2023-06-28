@@ -41,6 +41,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Custom management commands](#custom-management-commands)
     * [Django's Query API](#djangos-query-api)
     * [Custom query expressions](#custom-query-expressions)
+    * [Django Filterset](#django-filterset)
     * [Context managers](#context-managers)
 <!-- TOC -->
 
@@ -1377,6 +1378,56 @@ Person.objects.filter(first_name__startswith='A')
 In this example, we define a custom lookup called StartsWith that extends the Lookup class. We set the lookup_name
 attribute to 'startswith' to define the name of the lookup. We then define the as_sql method to generate the SQL
 expression for the lookup.
+
+### Django Filterset
+Django Filterset provides a simple and intuitive way to filter data in Django. It allows you to define filterset classes that specify the fields to filter on and provides a range of built-in filters that you can use to filter data. You can also define custom filters and combine filters to create more complex filtering logic.
+Here are some simple examples of using Django Filterset:
+- Basic filtering: 
+To filter a queryset using Django Filterset, you first need to define a filterset class that specifies the fields to filter on. For example:
+
+```angular2html
+import django_filters
+from .models import Product
+
+class ProductFilter(django_filters.FilterSet):
+    class Meta:
+        model = Product
+        fields = ['name', 'price']
+```
+
+This defines a filterset class that filters on the name and price fields of the Product model. You can then use this filterset class to filter a queryset:
+
+```angular2html
+from .filters import ProductFilter
+
+def product_list(request):
+    queryset = Product.objects.all()
+    filterset = ProductFilter(request.GET, queryset=queryset)
+    return render(request, 'product_list.html', {'filterset': filterset})
+```
+
+This filters the queryset based on the parameters provided in the GET request.
+
+- Custom filtering: 
+You can also define custom filters that perform more complex filtering logic. For example:
+
+```angular2html
+import django_filters
+from .models import Product
+
+class ProductFilter(django_filters.FilterSet):
+    min_price = django_filters.NumberFilter(field_name='price', lookup_expr='gte')
+    max_price = django_filters.NumberFilter(field_name='price', lookup_expr='lte')
+
+    class Meta:
+        model = Product
+        fields = ['name', 'min_price', 'max_price']
+```
+
+This defines custom filters that filter on the price field of the Product model. The min_price filter filters on products with a price greater than or equal to the provided value, and the max_price filter filters on products with a price less than or equal to the provided value.
+
+
+
 
 ### Context managers
 The context manager is responsible for setting up the context, running the block of code, and then cleaning up the context when the block is exited, regardless of whether the block raised an exception or not. In Django, context managers can be used to control signals, transactions, and caching.
