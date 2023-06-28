@@ -26,6 +26,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Python collection](#python-collection)
     * [Generators and Iterators](#generators-and-iterators)
     * [Magic methods](#magic-methods)
+    * [GIL](#gil)
     * [concurrency and parallelism](#concurrency-and-parallelism)
     * [Main types of methods in python classes](#main-types-of-methods-in-python-classes)
     * [Data serialization](#data-serialization)
@@ -706,6 +707,11 @@ class Person:
    def __eq__(self, other):
        return self.name == other.name and self.age == other.age
 ```
+### GIL
+The Global Interpreter Lock (GIL) is a mechanism in CPython (the most common implementation of Python) that serves to serialize access to Python objects, preventing multiple threads from executing Python bytecodes at once.
+In simple words, the GIL is a mutex (or a lock) that allows only one thread to hold the control of the Python interpreter.This means that only one thread can be in a state of execution at any point in time.
+
+
 
 ### concurrency and parallelism
 
