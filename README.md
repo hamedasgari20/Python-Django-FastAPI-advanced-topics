@@ -1,5 +1,5 @@
 # Python and Django advanced topics with simple examples
-
+![](img.png)
 ## Introduction
 
 In this research, I have given a brief overview of advanced topics in Python and Django. This article does not provide
