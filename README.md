@@ -29,6 +29,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Main types of methods in python classes](#main-types-of-methods-in-python-classes)
     * [Data serialization](#data-serialization)
     * [Data class in python](#data-class-in-python)
+    * [Shallow copy and deep copy](#shallow-copy-and-deep-copy)
   * [Django related topics:](#django-related-topics)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
@@ -898,6 +899,46 @@ class Person:
 ```
 
 In the above example, the @dataclass decorator is used to create a data class called Person. The class has two attributes, name and age, which are defined using type annotations. The dataclass decorator automatically generates several special methods such as __init__(), __repr__(), and __eq__() for the class.
+
+### Shallow copy and deep copy
+In Python, there are two types of copying: shallow copy and deep copy. A shallow copy creates a new object that stores references to the child objects of the original object. In contrast, a deep copy creates a new object that is completely independent of the original object.
+To create a shallow copy of an object, we can use the copy method provided by the copy module in Python. The copy method returns a shallow copy of the object. For example:
+
+```angular2html
+import copy
+
+list1 = [1, 2, [3, 4]]
+list2 = copy.copy(list1)
+
+print(list1)  # [1, 2, [3, 4]]
+print(list2)  # [1, 2, [3, 4]]
+
+list2[2][0] = 5
+
+print(list1)  # [1, 2, [5, 4]]
+print(list2)  # [1, 2, [5, 4]]
+```
+
+In this example, we create a shallow copy of list1 using the copy method. When we modify the nested list in list2, the same change is reflected in list1 because both lists share the same reference to the nested list.
+To create a deep copy of an object, we can use the deepcopy method provided by the copy module. The deepcopy method returns a deep copy of the object. For example:
+
+```angular2html
+import copy
+
+list1 = [1, 2, [3, 4]]
+list2 = copy.deepcopy(list1)
+
+print(list1)  # [1, 2, [3, 4]]
+print(list2)  # [1, 2, [3, 4]]
+
+list2[2][0] = 5
+
+print(list1)  # [1, 2, [3, 4]]
+print(list2)  # [1, 2, [5, 4]]
+```
+
+In this example, we create a deep copy of list1 using the deepcopy method. When we modify the nested list in list2, the change is not reflected in list1 because both lists have independent copies of the nested list.
+
 
 ## Django related topics:
 
