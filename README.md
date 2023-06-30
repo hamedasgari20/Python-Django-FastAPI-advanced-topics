@@ -1,4 +1,4 @@
-![](img.png)
+![](img1.png)
 ## Introduction
 
 In this research, I have given a brief overview of advanced topics in Python and Django. This article does not provide
