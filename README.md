@@ -31,6 +31,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Data class in python](#data-class-in-python)
     * [Shallow copy and deep copy](#shallow-copy-and-deep-copy)
     * [Local and global variables](#local-and-global-variables-)
+    * [Comprehension](#comprehension)
   * [Django related topics:](#django-related-topics)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
@@ -975,6 +976,28 @@ def my_function():
 my_function()
 print(z)  # Output: 20
 ```
+
+### Comprehension
+Comprehension is a concise and efficient way to create lists, dictionaries, and sets in Python. Multiple and nested comprehensions can be used to create complex data structures in a single line of code.
+Here's a very simple example of list comprehension:
+
+```angular2html
+# Example of list comprehension
+my_list = [x for x in range(10)]
+print(my_list)  # Output: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+In this example, we use list comprehension to create a list of numbers from 0 to 9. The list comprehension is enclosed in square brackets and consists of an expression x followed by a for loop that iterates over a range of numbers from 0 to 9.
+
+Here's a very simple example of nested list comprehension:
+
+```angular2html
+# Example of nested list comprehension
+my_list = [[x*y for y in range(5)] for x in range(5)]
+print(my_list)  # Output: [[0, 0, 0, 0, 0], [0, 1, 2, 3, 4], [0, 2, 4, 6, 8], [0, 3, 6, 9, 12], [0, 4, 8, 12, 16]]
+```
+
+In this example, we use nested list comprehension to create a list of multiplication tables for numbers from 0 to 4. The outer list comprehension iterates over numbers from 0 to 4, and the inner list comprehension iterates over numbers from 0 to 4 to create a list of products.
+
 
 ## Django related topics:
 
