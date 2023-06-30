@@ -734,6 +734,30 @@ class Person:
    def __eq__(self, other):
        return self.name == other.name and self.age == other.age
 ```
+
+Here is a simple example that demonstrates the difference between __str__ and __repr__:
+
+```angular2html
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __str__(self):
+        return f"{self.name} ({self.age})"
+
+    def __repr__(self):
+        return f"Person(name='{self.name}', age={self.age})"
+
+person = Person("Alice", 30)
+print(str(person))    # Output: Alice (30)
+print(repr(person))   # Output: Person(name='Alice', age=30)
+```
+
+In this example, we define a Person class that has a name and an age attribute. We define both __str__ and __repr__ methods for the class. The __str__ method returns a string that is intended to be readable by humans, while the __repr__ method returns a string that is intended to be unambiguous and can be used to recreate the object.
+When we create a Person object and print it using the str() and repr() functions, we get different outputs. The str() function calls the __str__ method, which returns a user-friendly string representation of the object. The repr() function calls the __repr__ method, which returns a developer-friendly string representation of the object.
+
+
 ### GIL
 The Global Interpreter Lock (GIL) is a mechanism in CPython (the most common implementation of Python) that serves to serialize access to Python objects, preventing multiple threads from executing Python bytecodes at once.
 In simple words, the GIL is a mutex (or a lock) that allows only one thread to hold the control of the Python interpreter.This means that only one thread can be in a state of execution at any point in time.
