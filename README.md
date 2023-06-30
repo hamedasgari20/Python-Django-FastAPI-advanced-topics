@@ -30,6 +30,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Data serialization](#data-serialization)
     * [Data class in python](#data-class-in-python)
     * [Shallow copy and deep copy](#shallow-copy-and-deep-copy)
+    * [Local and global variables](#local-and-global-variables-)
   * [Django related topics:](#django-related-topics)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
@@ -939,6 +940,41 @@ print(list2)  # [1, 2, [5, 4]]
 
 In this example, we create a deep copy of list1 using the deepcopy method. When we modify the nested list in list2, the change is not reflected in list1 because both lists have independent copies of the nested list.
 
+### Local and global variables 
+In summary, local variables are declared inside a function or method and can only be accessed within that specific block, while global variables are declared outside any function or method and can be accessed throughout the program and inside every function. To modify a global variable inside a function, we need to use the global keyword.
+Here are some simple examples of local and global variables in Python:
+
+```angular2html
+# Example of a local variable
+def my_function():
+    x = 5
+    print(x)
+
+my_function()  # Output: 5
+
+# Example of a global variable
+y = 10
+
+def my_function():
+    print(y)
+
+my_function()  # Output: 10
+```
+
+In this example, x is a local variable that is declared inside the my_function function and can only be accessed within that function. y, on the other hand, is a global variable that is declared outside any function and can be accessed inside the my_function function.
+To modify a global variable inside a function, we need to use the global keyword. Here's an example:
+
+```angular2html
+# Example of modifying a global variable inside a function
+z = 15
+
+def my_function():
+    global z
+    z = 20
+
+my_function()
+print(z)  # Output: 20
+```
 
 ## Django related topics:
 
