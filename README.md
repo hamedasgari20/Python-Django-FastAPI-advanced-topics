@@ -218,6 +218,29 @@ Hello, world!
 After the original function is called.
 ```
 
+Here is an example of how to implement the previous decorator in a class-based way:
+
+```angular2html
+class DecoratorClass:
+    def __init__(self, original_function):
+        self.original_function = original_function
+
+    def __call__(self):
+        print("Before the original function is called.")
+        self.original_function()
+        print("After the original function is called.")
+
+@DecoratorClass
+def greet():
+    print("Hello, world!")
+
+greet()
+```
+
+In this example, the DecoratorClass is a class-based decorator that takes the original function as an argument in its constructor. The __call__ method is used to define the behavior of the decorator when the decorated function is called.
+
+
+
 Here are a few examples of decorators commonly used in Django:
 
 -     @login_required
