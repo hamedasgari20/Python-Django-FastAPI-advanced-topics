@@ -8,7 +8,6 @@ Naturally, studying and examining more and more practical examples will help a l
 reading this article is useful for you. (**Hamid Asgari**)
 
 <!-- TOC -->
-* [Python and Django advanced topics with simple examples](#python-and-django-advanced-topics-with-simple-examples)
   * [Introduction](#introduction)
   * [Python related topics:](#python-related-topics)
     * [object-oriented programming (OOP)](#object-oriented-programming-oop)
@@ -29,6 +28,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [concurrency and parallelism](#concurrency-and-parallelism)
     * [Main types of methods in python classes](#main-types-of-methods-in-python-classes)
     * [Data serialization](#data-serialization)
+    * [Data class in python](#data-class-in-python)
   * [Django related topics:](#django-related-topics)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
@@ -883,6 +883,21 @@ print('Received object:', received_grades)
 
 In this example, we define a Python dictionary grades and serialize it using the pickle.dumps() function. We then deserialize the byte stream back into a Python object using the pickle.loads() function and print the original and received objects.
 
+### Data class in python
+Overall, data classes provide a convenient way to define classes that mainly hold data values, without having to write boilerplate code for initialization, representation, and comparisons.
+A data class is a class that is designed to only hold data values. It is similar to a regular class, but it usually doesn't have any other methods. It is typically used to store information that will be passed between different parts of a program or a system.
+Here's a simple example of a data class in Python:
+
+```angular2html
+from dataclasses import dataclass
+
+@dataclass
+class Person:
+    name: str
+    age: int
+```
+
+In the above example, the @dataclass decorator is used to create a data class called Person. The class has two attributes, name and age, which are defined using type annotations. The dataclass decorator automatically generates several special methods such as __init__(), __repr__(), and __eq__() for the class.
 
 ## Django related topics:
 
