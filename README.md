@@ -904,7 +904,14 @@ received_grades = pickle.loads(serial_grades)
 
 # Print the original and received objects
 print('Original object:', grades)
+print('Serialized object:', serial_grades)
 print('Received object:', received_grades)
+
+# Out put
+# Original object: {'Alice': 89, 'Bob': 72, 'Charles': 87}
+# Serialized object: b'\x80\x04\x95#\x00\x00\x00\x00\x00\x00\x00}\x94(\x8c\x05Alice\x94KY\x8c\x03Bob\x94KH\x8c\x07Charles\x94KWu.'
+# Received object: {'Alice': 89, 'Bob': 72, 'Charles': 87}
+
 ```
 
 In this example, we define a Python dictionary grades and serialize it using the pickle.dumps() function. We then deserialize the byte stream back into a Python object using the pickle.loads() function and print the original and received objects.
