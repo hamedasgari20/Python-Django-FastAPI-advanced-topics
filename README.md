@@ -48,6 +48,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Context managers](#context-managers)
     * [Django Channels](#django-channels)
     * [HTTP methods in Django](#http-methods-in-django)
+    * [annotate and aggregate in Django](#annotate-and-aggregate-in-django)
 <!-- TOC -->
 
 ## Python related topics:
@@ -1761,3 +1762,23 @@ class MyResourceView(APIView):
 ```
 
 In the above example, the put method is used to handle PUT requests and update the entire resource with the new name and age. The patch method is used to handle PATCH requests and update only the specified part of the resource. The request.data attribute is used to access the data sent in the request body.
+
+### annotate and aggregate in Django
+In Django, annotate() and aggregate() are used to perform SQL group by operations. annotate() calculates summary values for each item in the queryset, while aggregate() calculates values for the entire queryset.
+Here is a simple example of using annotate() and aggregate() in Django:
+
+```angular2html
+from django.db.models import Count
+from myapp.models import Book, Author
+
+# Count the number of books for each author
+authors = Author.objects.annotate(num_books=Count('book'))
+
+# Count the total number of books
+total_books = Book.objects.aggregate(total=Count('id'))
+
+```
+In the above example, annotate() is used to count the number of books for each author. The Count() function is used to count the number of related books for each author. The resulting queryset will have an additional attribute num_books for each author object.
+aggregate() is used to count the total number of books. The Count() function is used to count the number of books in the Book model. The resulting dictionary will have a single key total with the total number of books as its value.
+It is important to note that annotate() returns a queryset, while aggregate() returns a dictionary.
+Overall, annotate() and aggregate() are powerful tools in Django for performing group by operations and calculating summary values.
