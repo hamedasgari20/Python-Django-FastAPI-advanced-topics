@@ -9,8 +9,8 @@ reading this article is useful for you. (**Hamid Asgari**)
 
 <!-- TOC -->
   * [Introduction](#introduction)
-  * [Python related topics:](#python-related-topics)
-    * [object-oriented programming (OOP)](#object-oriented-programming-oop)
+  * [Python related topics:](#python-related-topics-)
+    * [object-oriented programming (OOP)](#object-oriented-programming--oop-)
       * [Inheritance](#inheritance)
       * [Polymorphism](#polymorphism)
       * [Encapsulation](#encapsulation)
@@ -30,9 +30,10 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Data serialization](#data-serialization)
     * [Data class in python](#data-class-in-python)
     * [Shallow copy and deep copy](#shallow-copy-and-deep-copy)
-    * [Local and global variables](#local-and-global-variables-)
+    * [Local and global variables](#local-and-global-variables)
     * [Comprehension](#comprehension)
-  * [Django related topics:](#django-related-topics)
+    * [Pydantic](#pydantic)
+  * [Django related topics:](#django-related-topics-)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
     * [Django custom template tags](#django-custom-template-tags)
@@ -1027,6 +1028,31 @@ print(my_list)  # Output: [[0, 0, 0, 0, 0], [0, 1, 2, 3, 4], [0, 2, 4, 6, 8], [0
 ```
 
 In this example, we use nested list comprehension to create a list of multiplication tables for numbers from 0 to 4. The outer list comprehension iterates over numbers from 0 to 4, and the inner list comprehension iterates over numbers from 0 to 4 to create a list of products.
+
+### Pydantic
+Pydantic is a Python package that provides data validation and settings management using Python type annotations. It is a lightweight and flexible package that can be used to validate and parse data from various sources such as JSON, YAML, and databases.
+ Here's a simple example of using Pydantic to define a data model and validate input data: 
+
+```angular2html
+from pydantic import BaseModel
+
+class Person(BaseModel):
+    name: str
+    age: int
+
+person_data = {
+    "name": "John Doe",
+    "age": 30
+}
+
+person = Person(**person_data)
+print(person)
+
+
+```
+
+In this example, we define a Pydantic data model Person that has two fields: name of type str and age of type int. 
+Pydantic automatically validates the input data against the data model and raises a ValueError if the data is invalid. If the data is valid, Pydantic creates a new Person object with the validated data and assigns it to the person variable. We then print the person object to verify that it was created correctly.
 
 
 ## Django related topics:
