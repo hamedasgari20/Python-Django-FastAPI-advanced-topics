@@ -45,6 +45,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Custom query expressions](#custom-query-expressions)
     * [Django Filterset](#django-filterset)
     * [Context managers](#context-managers)
+    * [Django Channels](#django-channels)
 <!-- TOC -->
 
 ## Python related topics:
@@ -83,12 +84,12 @@ print(dog.speak())  # Output: Woof!
 
 cat = Cat("Whiskers")
 print(cat.name)  # Output: Whiskers
-print(cat.speak())  # Output: Meow!
 ```
 
 In this example, Animal is the superclass, and Dog and Cat are subclasses that inherit from it. The speak method is an
 abstract method in the Animal class that is implemented in the subclasses.
 
+print(cat.speak())  # Output: Meow!
 #### Polymorphism
 
 Polymorphism is the ability of objects to take on different forms or perform different actions depending on the context.
@@ -1624,3 +1625,19 @@ with CacheContext('my_key', 'my_value'):
 
 In summary, context managers in Django provide a simple and intuitive API for a powerful construct. They allow you to allocate and release resources precisely when you want to, and they make it easier to write safe and readable code.
 
+### Django Channels
+Django Channels is a package that allows Django to handle WebSockets and other non-HTTP protocols. It extends the built-in capabilities of Django, allowing Django projects to handle not only HTTP but also protocols that require long-running connections, such as WebSockets, MQTT (IoT), chatbots, radios, and other real-time applications.
+Here are some differences between Django Channels and Django's built-in HTTP capabilities:
+Django Channels:
+
+- Allows Django projects to handle protocols other than HTTP, such as WebSockets, MQTT, and chatbots
+- Provides support for Django's core features like authentication and sessions
+- Preserves the synchronous behavior of Django and adds a layer of asynchronous protocols allowing users to write views that are entirely synchronous, asynchronous, or a mixture of both
+- Replaces Django's default WSGI with its ASGI (Asynchronous Server Gateway Interface) 
+
+Django's built-in HTTP capabilities:
+- Handle only HTTP requests
+- Do not support protocols that require long-running connections, such as WebSockets and MQTT
+- Do not provide support for asynchronous code execution
+
+In summary, Django Channels extends Django's built-in capabilities to handle protocols other than HTTP and provides support for asynchronous code execution.
