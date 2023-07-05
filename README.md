@@ -9,8 +9,8 @@ reading this article is useful for you. (**Hamid Asgari**)
 
 <!-- TOC -->
   * [Introduction](#introduction)
-  * [Python related topics:](#python-related-topics-)
-    * [object-oriented programming (OOP)](#object-oriented-programming--oop-)
+  * [Python related topics:](#python-related-topics)
+    * [object-oriented programming (OOP)](#object-oriented-programming-oop)
       * [Inheritance](#inheritance)
       * [Polymorphism](#polymorphism)
       * [Encapsulation](#encapsulation)
@@ -30,10 +30,10 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Data serialization](#data-serialization)
     * [Data class in python](#data-class-in-python)
     * [Shallow copy and deep copy](#shallow-copy-and-deep-copy)
-    * [Local and global variables](#local-and-global-variables)
+    * [Local and global variables](#local-and-global-variables-)
     * [Comprehension](#comprehension)
     * [Pydantic](#pydantic)
-  * [Django related topics:](#django-related-topics-)
+  * [Django related topics:](#django-related-topics)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
     * [Django custom template tags](#django-custom-template-tags)
@@ -47,6 +47,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Django Filterset](#django-filterset)
     * [Context managers](#context-managers)
     * [Django Channels](#django-channels)
+    * [HTTP methods in Django](#http-methods-in-django)
 <!-- TOC -->
 
 ## Python related topics:
@@ -1674,3 +1675,89 @@ Django's built-in HTTP capabilities:
 - Do not provide support for asynchronous code execution
 
 In summary, Django Channels extends Django's built-in capabilities to handle protocols other than HTTP and provides support for asynchronous code execution.
+
+### HTTP methods in Django
+Django provides built-in support for handling HTTP requests and responses using request and response objects Here are some examples of how to use HTTP methods in Django:
+- GET: 
+To handle a GET request in a class-based view, you can define a method called get() in your view class. For example:
+
+```angular2html
+from django.views import View
+from django.http import HttpResponse
+
+class HelloView(View):
+    def get(self, request):
+        return HttpResponse('Hello, World!')
+```
+
+- POST: 
+To handle a POST request in a class-based view, you can define a method called post() in your view class. For example:
+
+```angular2html
+from django.views import View
+from django.http import HttpResponse
+
+class LoginView(View):
+    def post(self, request):
+        username = request.POST['username']
+        password = request.POST['password']
+        # Authenticate user
+        return HttpResponse('Logged in successfully')
+```
+
+- PUT and DELETE: 
+Django's class-based views do not have built-in support for handling PUT and DELETE requests. However, you can use mixins or third-party packages like Django REST framework to handle these requests. For example, using Django REST framework, you can define a class-based view that inherits from APIView and override the appropriate methods for PUT and DELETE requests:
+
+```angular2html
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+class UserDetailView(APIView):
+    def put(self, request, pk):
+        # Update user object with pk
+        return Response({'message': 'User updated'})
+
+    def delete(self, request, pk):
+        # Delete user object with pk
+        return Response({'message': 'User deleted'})
+```
+
+In Django, the difference between PUT and PATCH methods is similar to their difference in general HTTP terms.
+
+- PUT is used to modify an entire resource on the server. When a client sends a PUT request in Django, it updates the entire resource with the new data provided. If the resource does not exist, PUT creates a new resource. PUT is idempotent, meaning that calling it once or multiple times successively has the same effect.
+- PATCH is used to modify a part of a resource on the server. When a client sends a PATCH request in Django, it updates only the specified part of the resource with the new data provided. PATCH is not idempotent, meaning that successive identical PATCH requests may have additional effects. PATCH allows partial updates and side-effects on other resources.
+
+Here's an example of how to handle PUT and PATCH requests in Django using Django REST Framework:
+
+```angular2html
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+class MyResourceView(APIView):
+    def put(self, request, pk):
+        # Retrieve the resource with the given pk
+        resource = MyResource.objects.get(pk=pk)
+
+        # Update the entire resource with the new data
+        resource.name = request.data.get('name')
+        resource.age = request.data.get('age')
+        resource.save()
+
+        return Response(status=status.HTTP_200_OK)
+
+    def patch(self, request, pk):
+        # Retrieve the resource with the given pk
+        resource = MyResource.objects.get(pk=pk)
+
+        # Update only the specified part of the resource with the new data
+        if 'name' in request.data:
+            resource.name = request.data['name']
+        if 'age' in request.data:
+            resource.age = request.data['age']
+        resource.save()
+
+        return Response(status=status.HTTP_200_OK)
+```
+
+In the above example, the put method is used to handle PUT requests and update the entire resource with the new name and age. The patch method is used to handle PATCH requests and update only the specified part of the resource. The request.data attribute is used to access the data sent in the request body.
