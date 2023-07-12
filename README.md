@@ -9,8 +9,8 @@ reading this article is useful for you. (**Hamid Asgari**)
 
 <!-- TOC -->
   * [Introduction](#introduction)
-  * [Python related topics:](#python-related-topics)
-    * [object-oriented programming (OOP)](#object-oriented-programming-oop)
+  * [Python related topics:](#python-related-topics-)
+    * [object-oriented programming (OOP)](#object-oriented-programming--oop-)
       * [Inheritance](#inheritance)
       * [Polymorphism](#polymorphism)
       * [Encapsulation](#encapsulation)
@@ -30,10 +30,10 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Data serialization](#data-serialization)
     * [Data class in python](#data-class-in-python)
     * [Shallow copy and deep copy](#shallow-copy-and-deep-copy)
-    * [Local and global variables](#local-and-global-variables-)
+    * [Local and global variables](#local-and-global-variables)
     * [Comprehension](#comprehension)
     * [Pydantic](#pydantic)
-  * [Django related topics:](#django-related-topics)
+  * [Django related topics:](#django-related-topics-)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
     * [Django custom template tags](#django-custom-template-tags)
@@ -49,6 +49,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Django Channels](#django-channels)
     * [HTTP methods in Django](#http-methods-in-django)
     * [annotate and aggregate in Django](#annotate-and-aggregate-in-django)
+    * [Django constraint](#django-constraint)
 <!-- TOC -->
 
 ## Python related topics:
@@ -1782,3 +1783,25 @@ In the above example, annotate() is used to count the number of books for each a
 aggregate() is used to count the total number of books. The Count() function is used to count the number of books in the Book model. The resulting dictionary will have a single key total with the total number of books as its value.
 It is important to note that annotate() returns a queryset, while aggregate() returns a dictionary.
 Overall, annotate() and aggregate() are powerful tools in Django for performing group by operations and calculating summary values.
+
+### Django constraint
+In Django, a constraint refers to a rule or condition that can be applied to a database table to enforce data integrity. Constraints ensure that the data stored in the table follows certain rules and meets specific requirements.
+Django provides a way to define constraints on model fields using the constraints attribute. This attribute allows you to specify one or more constraints for a model, such as unique constraints, check constraints, foreign key constraints, and more.
+Here's a simple example of defining and using a constraint in Django: 
+
+```angular2html
+from django.db import models
+
+class Person(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(check=models.Q(age__gte=18), name='age_gte_18')
+        ]
+
+```
+In this example, we define a Person model with two fields: name and age. We want to enforce a constraint that ensures the age field is greater than or equal to 18.
+By defining this constraint, Django will automatically create the necessary SQL statements to enforce the constraint when creating or modifying the database table for the Person model. Constraints help maintain data integrity and ensure that the data stored in the database follows the defined rules. They can be particularly useful in scenarios where you want to enforce specific conditions or relationships between fields in your models.
+
