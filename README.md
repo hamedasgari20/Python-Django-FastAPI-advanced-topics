@@ -9,8 +9,8 @@ reading this article is useful for you. (**Hamid Asgari**)
 
 <!-- TOC -->
   * [Introduction](#introduction)
-  * [Python related topics:](#python-related-topics)
-    * [object-oriented programming (OOP)](#object-oriented-programming-oop)
+  * [Python related topics:](#python-related-topics-)
+    * [object-oriented programming (OOP)](#object-oriented-programming--oop-)
       * [Inheritance](#inheritance)
       * [Polymorphism](#polymorphism)
       * [Encapsulation](#encapsulation)
@@ -30,10 +30,10 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Data serialization](#data-serialization)
     * [Data class in python](#data-class-in-python)
     * [Shallow copy and deep copy](#shallow-copy-and-deep-copy)
-    * [Local and global variables](#local-and-global-variables-)
+    * [Local and global variables](#local-and-global-variables)
     * [Comprehension](#comprehension)
     * [Pydantic](#pydantic)
-  * [Django related topics:](#django-related-topics)
+  * [Django related topics:](#django-related-topics-)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
     * [Django custom template tags](#django-custom-template-tags)
@@ -49,6 +49,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Django Channels](#django-channels)
     * [HTTP methods in Django](#http-methods-in-django)
     * [annotate and aggregate in Django](#annotate-and-aggregate-in-django)
+    * [bulk creation in Django](#bulk-creation-in-django)
 <!-- TOC -->
 
 ## Python related topics:
@@ -1782,3 +1783,30 @@ In the above example, annotate() is used to count the number of books for each a
 aggregate() is used to count the total number of books. The Count() function is used to count the number of books in the Book model. The resulting dictionary will have a single key total with the total number of books as its value.
 It is important to note that annotate() returns a queryset, while aggregate() returns a dictionary.
 Overall, annotate() and aggregate() are powerful tools in Django for performing group by operations and calculating summary values.
+
+### bulk creation in Django
+In Django, bulk creation refers to the process of creating multiple model instances in a single database query, rather than creating them one by one. This can significantly improve the performance of creating large numbers of objects.  This method takes a list of model instances as an argument and inserts them into the database efficiently.
+ Here's a simple example of using bulk_create() in Django: 
+
+```angular2html
+from django.db import models
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=100)
+    publication_year = models.IntegerField()
+
+# Create a list of Book instances
+books = [
+    Book(title='Book 1', author='Author 1', publication_year=2020),
+    Book(title='Book 2', author='Author 2', publication_year=2021),
+    Book(title='Book 3', author='Author 3', publication_year=2022),
+]
+
+# Bulk create the books
+Book.objects.bulk_create(books)
+
+```
+
+In this example, we define a Book model with three fields: title, author, and publication_year. We then create a list of Book instances with different values. To perform bulk creation, we use the bulk_create() method of the Book.objects manager. We pass the list of Book instances as an argument to bulk_create(), and Django will efficiently insert them into the database in a single query.
+ Overall, bulk_create() is a useful feature in Django for efficiently creating multiple model instances in a single database query.
