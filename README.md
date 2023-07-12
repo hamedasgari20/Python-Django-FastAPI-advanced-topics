@@ -9,8 +9,8 @@ reading this article is useful for you. (**Hamid Asgari**)
 
 <!-- TOC -->
   * [Introduction](#introduction)
-  * [Python related topics:](#python-related-topics)
-    * [object-oriented programming (OOP)](#object-oriented-programming-oop)
+  * [Python related topics:](#python-related-topics-)
+    * [object-oriented programming (OOP)](#object-oriented-programming--oop-)
       * [Inheritance](#inheritance)
       * [Polymorphism](#polymorphism)
       * [Encapsulation](#encapsulation)
@@ -30,10 +30,11 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Data serialization](#data-serialization)
     * [Data class in python](#data-class-in-python)
     * [Shallow copy and deep copy](#shallow-copy-and-deep-copy)
-    * [Local and global variables](#local-and-global-variables-)
+    * [Local and global variables](#local-and-global-variables)
     * [Comprehension](#comprehension)
     * [Pydantic](#pydantic)
-  * [Django related topics:](#django-related-topics)
+    * [Args and Kwargs in Python](#args-and-kwargs-in-python)
+  * [Django related topics:](#django-related-topics-)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
     * [Django custom template tags](#django-custom-template-tags)
@@ -1080,6 +1081,75 @@ print(person)
 
 In this example, we define a Pydantic data model Person that has two fields: name of type str and age of type int. 
 Pydantic automatically validates the input data against the data model and raises a ValueError if the data is invalid. If the data is valid, Pydantic creates a new Person object with the validated data and assigns it to the person variable. We then print the person object to verify that it was created correctly.
+
+
+### Args and Kwargs in Python
+In Python, *args and **kwargs are used to pass a variable number of arguments to a function. They allow you to handle arbitrary numbers of positional and keyword arguments, respectively. 
+__args__ is used to pass a variable number of positional arguments to a function. It allows you to pass any number of arguments to a function without explicitly specifying them in the function definition. The arguments passed using *args are collected into a tuple within the function.
+
+```angular2html
+def print_args(*args):
+    for arg in args:
+        print(arg)
+
+print_args('Hello', 'World', '!')
+
+```
+ Output:
+
+```angular2html
+Hello
+World
+!
+```
+
+**kwargs is used to pass a variable number of keyword arguments to a function. It allows you to pass key-value pairs as arguments to a function without explicitly specifying them in the function definition. The arguments passed using **kwargs are collected into a dictionary within the function.
+Here's a simple example: 
+
+```angular2html
+def print_kwargs(**kwargs):
+    for key, value in kwargs.items():
+        print(key, value)
+
+print_kwargs(name='John', age=25, city='New York')
+
+```
+
+Output: 
+
+```angular2html
+name John
+age 25
+city New York
+
+```
+In this example, the print_kwargs() function takes any number of keyword arguments using **kwargs. The key-value pairs are then printed one by one using a loop.
+You can also combine *args and **kwargs in a function definition to accept both positional and keyword arguments
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Django related topics:
