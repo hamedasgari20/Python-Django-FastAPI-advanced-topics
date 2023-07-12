@@ -9,8 +9,8 @@ reading this article is useful for you. (**Hamid Asgari**)
 
 <!-- TOC -->
   * [Introduction](#introduction)
-  * [Python related topics:](#python-related-topics)
-    * [object-oriented programming (OOP)](#object-oriented-programming-oop)
+  * [Python related topics:](#python-related-topics-)
+    * [object-oriented programming (OOP)](#object-oriented-programming--oop-)
       * [Inheritance](#inheritance)
       * [Polymorphism](#polymorphism)
       * [Encapsulation](#encapsulation)
@@ -30,10 +30,10 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Data serialization](#data-serialization)
     * [Data class in python](#data-class-in-python)
     * [Shallow copy and deep copy](#shallow-copy-and-deep-copy)
-    * [Local and global variables](#local-and-global-variables-)
+    * [Local and global variables](#local-and-global-variables)
     * [Comprehension](#comprehension)
     * [Pydantic](#pydantic)
-  * [Django related topics:](#django-related-topics)
+  * [Django related topics:](#django-related-topics-)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
     * [Django custom template tags](#django-custom-template-tags)
@@ -49,6 +49,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Django Channels](#django-channels)
     * [HTTP methods in Django](#http-methods-in-django)
     * [annotate and aggregate in Django](#annotate-and-aggregate-in-django)
+    * [Mixin in Django](#mixin-in-django)
 <!-- TOC -->
 
 ## Python related topics:
@@ -1782,3 +1783,36 @@ In the above example, annotate() is used to count the number of books for each a
 aggregate() is used to count the total number of books. The Count() function is used to count the number of books in the Book model. The resulting dictionary will have a single key total with the total number of books as its value.
 It is important to note that annotate() returns a queryset, while aggregate() returns a dictionary.
 Overall, annotate() and aggregate() are powerful tools in Django for performing group by operations and calculating summary values.
+
+### Mixin in Django
+In Django, a mixin is a class that provides additional functionality to other classes through inheritance. Mixins are used to add common or reusable functionality to multiple classes without the need for duplicating code.
+ Here's a simple example to demonstrate how mixins work in Django: 
+
+```angular2html
+# Define a mixin class
+class TimestampMixin:
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+# Use the mixin in a model
+class MyModel(TimestampMixin, models.Model):
+    name = models.CharField(max_length=100)
+    # other fields
+
+# Use the mixin in a view
+class MyView(TimestampMixin, View):
+    def get(self, request):
+        # handle GET request
+        pass
+
+    def post(self, request):
+        # handle POST request
+        pass
+
+```
+ In this example, we have defined a mixin class called TimestampMixin. It adds two fields, created_at and updated_at, to any class that inherits from it. The Meta class with abstract = True ensures that the mixin itself is not treated as a model.
+ By using mixins, you can easily add common functionality to multiple classes without duplicating code. This promotes code reuse, improves maintainability, and keeps your codebase organized.
+ 
