@@ -1986,6 +1986,7 @@ In this example, we define a Book model with three fields: title, author, and pu
 In Django, prefetch_related and select_related are query optimization techniques that allow you to reduce the number of database queries when retrieving related objects.
 
 1- select_related
+
 It works for ForeignKey and OneToOneField relationships. By using select_related, you can avoid the overhead of multiple database queries when accessing related objects.
  Here's a simple example: 
 
