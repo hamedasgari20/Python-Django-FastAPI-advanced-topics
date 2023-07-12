@@ -51,6 +51,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [annotate and aggregate in Django](#annotate-and-aggregate-in-django)
     * [Mixin in Django](#mixin-in-django)
     * [Cache in Django](#cache-in-django)
+    * [Django constraint](#django-constraint)
 <!-- TOC -->
 
 ## Python related topics:
@@ -1847,3 +1848,21 @@ def my_view(request):
 
 ```
 We then use the cache_page decorator to cache the result of the my_view function for 15 minutes. This means that the first time the view is accessed, the result will be computed and stored in the cache. For subsequent requests within the next 15 minutes, the cached result will be returned directly without executing the view function again.
+
+### Django constraint
+In Django, a constraint refers to a rule or condition that can be applied to a database table to enforce data integrity. Constraints ensure that the data stored in the table follows certain rules and meets specific requirements.
+Django provides a way to define constraints on model fields using the constraints attribute. This attribute allows you to specify one or more constraints for a model, such as unique constraints, check constraints, foreign key constraints, and more.
+Here's a simple example of defining and using a constraint in Django: 
+
+```angular2html
+from django.db import models
+class Person(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    class Meta:
+        constraints = [
+            models.CheckConstraint(check=models.Q(age__gte=18), name='age_gte_18')
+        ]
+```
+In this example, we define a Person model with two fields: name and age. We want to enforce a constraint that ensures the age field is greater than or equal to 18.
+By defining this constraint, Django will automatically create the necessary SQL statements to enforce the constraint when creating or modifying the database table for the Person model. Constraints help maintain data integrity and ensure that the data stored in the database follows the defined rules. They can be particularly useful in scenarios where you want to enforce specific conditions or relationships between fields in your models.
