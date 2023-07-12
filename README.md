@@ -9,8 +9,8 @@ reading this article is useful for you. (**Hamid Asgari**)
 
 <!-- TOC -->
   * [Introduction](#introduction)
-  * [Python related topics:](#python-related-topics-)
-    * [object-oriented programming (OOP)](#object-oriented-programming--oop-)
+  * [Python related topics:](#python-related-topics)
+    * [object-oriented programming (OOP)](#object-oriented-programming-oop)
       * [Inheritance](#inheritance)
       * [Polymorphism](#polymorphism)
       * [Encapsulation](#encapsulation)
@@ -30,10 +30,10 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Data serialization](#data-serialization)
     * [Data class in python](#data-class-in-python)
     * [Shallow copy and deep copy](#shallow-copy-and-deep-copy)
-    * [Local and global variables](#local-and-global-variables)
+    * [Local and global variables](#local-and-global-variables-)
     * [Comprehension](#comprehension)
     * [Pydantic](#pydantic)
-  * [Django related topics:](#django-related-topics-)
+  * [Django related topics:](#django-related-topics)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
     * [Django custom template tags](#django-custom-template-tags)
@@ -50,6 +50,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [HTTP methods in Django](#http-methods-in-django)
     * [annotate and aggregate in Django](#annotate-and-aggregate-in-django)
     * [Mixin in Django](#mixin-in-django)
+    * [Cache in Django](#cache-in-django)
 <!-- TOC -->
 
 ## Python related topics:
@@ -1816,3 +1817,33 @@ class MyView(TimestampMixin, View):
  In this example, we have defined a mixin class called TimestampMixin. It adds two fields, created_at and updated_at, to any class that inherits from it. The Meta class with abstract = True ensures that the mixin itself is not treated as a model.
  By using mixins, you can easily add common functionality to multiple classes without duplicating code. This promotes code reuse, improves maintainability, and keeps your codebase organized.
  
+### Cache in Django
+ By using caching in Django, you can significantly improve the performance of your application by reducing the load on the database and serving cached results faster. It is an essential technique for optimizing web applications and improving user experience.
+ Django provides built-in support for caching through its caching framework. The caching framework allows you to cache the results of views, template fragments, and even low-level database queries. It supports various cache backends and provides flexibility in configuring cache settings.
+Here's a simple example to demonstrate how caching works in Django:
+
+ 1- Configure the cache backend in your Django settings:
+
+```angular2html
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+```
+
+2- Use the cache_page decorator to cache the result of a view:
+
+```angular2html
+from django.views.decorators.cache import cache_page
+
+@cache_page(60 * 15)  # Cache the page for 15 minutes
+def my_view(request):
+    # Expensive computation or database query
+    # ...
+    return HttpResponse('Hello, World!')
+
+```
+We then use the cache_page decorator to cache the result of the my_view function for 15 minutes. This means that the first time the view is accessed, the result will be computed and stored in the cache. For subsequent requests within the next 15 minutes, the cached result will be returned directly without executing the view function again.
