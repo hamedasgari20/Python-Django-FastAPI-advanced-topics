@@ -7,6 +7,10 @@ reader with a mental framework. In this article, I have used very simple example
 Naturally, studying and examining more and more practical examples will help a lot to understand each topic. I hope
 reading this article is useful for you. (**Hamid Asgari**)
 
+I am grateful to all my friends who have guided me in writing this article:
+__Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__, __Ali Emamalinejad__
+, __Malihe Sheidaiefar__, __Ali Lavasani__, __Fatemeh Pasandideh__
+
 <!-- TOC -->
   * [Introduction](#introduction)
   * [Python related topics:](#python-related-topics)
