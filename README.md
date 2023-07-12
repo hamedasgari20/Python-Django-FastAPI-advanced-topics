@@ -9,8 +9,8 @@ reading this article is useful for you. (**Hamid Asgari**)
 
 <!-- TOC -->
   * [Introduction](#introduction)
-  * [Python related topics:](#python-related-topics)
-    * [object-oriented programming (OOP)](#object-oriented-programming-oop)
+  * [Python related topics:](#python-related-topics-)
+    * [object-oriented programming (OOP)](#object-oriented-programming--oop-)
       * [Inheritance](#inheritance)
       * [Polymorphism](#polymorphism)
       * [Encapsulation](#encapsulation)
@@ -30,10 +30,10 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Data serialization](#data-serialization)
     * [Data class in python](#data-class-in-python)
     * [Shallow copy and deep copy](#shallow-copy-and-deep-copy)
-    * [Local and global variables](#local-and-global-variables-)
+    * [Local and global variables](#local-and-global-variables)
     * [Comprehension](#comprehension)
     * [Pydantic](#pydantic)
-  * [Django related topics:](#django-related-topics)
+  * [Django related topics:](#django-related-topics-)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
     * [Django custom template tags](#django-custom-template-tags)
@@ -49,6 +49,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Django Channels](#django-channels)
     * [HTTP methods in Django](#http-methods-in-django)
     * [annotate and aggregate in Django](#annotate-and-aggregate-in-django)
+    * [prefetch_related and select_related in Django](#prefetch_related-and-select_related-in-django)
 <!-- TOC -->
 
 ## Python related topics:
@@ -1782,3 +1783,78 @@ In the above example, annotate() is used to count the number of books for each a
 aggregate() is used to count the total number of books. The Count() function is used to count the number of books in the Book model. The resulting dictionary will have a single key total with the total number of books as its value.
 It is important to note that annotate() returns a queryset, while aggregate() returns a dictionary.
 Overall, annotate() and aggregate() are powerful tools in Django for performing group by operations and calculating summary values.
+
+### prefetch_related and select_related in Django
+In Django, prefetch_related and select_related are query optimization techniques that allow you to reduce the number of database queries when retrieving related objects.
+1- select_related
+It works for ForeignKey and OneToOneField relationships. By using select_related, you can avoid the overhead of multiple database queries when accessing related objects.
+ Here's a simple example: 
+
+```angular2html
+from django.db import models
+
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+
+```
+
+ Suppose we have a Book model with a ForeignKey relationship to the Author model. If we want to retrieve all books and their corresponding authors, we can use select_related to fetch the related authors in a single query: 
+ 
+```angular2html
+books = Book.objects.select_related('author').all()
+
+for book in books:
+    print(f"Book: {book.title}, Author: {book.author.name}")
+
+```
+
+ In this example, select_related('author') is used to fetch the related Author objects along with the Book objects in a single query. This avoids the need for an additional query for each book's author.
+ 
+2- prefetch_related
+
+It works for ManyToManyField and reverse ForeignKey relationships. By using prefetch_related, you can reduce the number of queries when accessing related objects. Here's a simple example:
+
+```angular2html
+from django.db import models
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    categories = models.ManyToManyField(Category)
+
+```
+
+ Suppose we have a Product model with a ManyToManyField relationship to the Category model. If we want to retrieve all products and their corresponding categories, we can use prefetch_related to fetch the related categories efficiently: 
+ 
+```angular2html
+products = Product.objects.prefetch_related('categories').all()
+
+for product in products:
+    print(f"Product: {product.name}")
+    for category in product.categories.all():
+        print(f"Category: {category.name}")
+
+```
+ To retrieve all authors along with their books efficiently, we can use prefetch_related as follows: 
+
+```angular2html
+authors = Author.objects.prefetch_related('books').all()
+
+for author in authors:
+    print(f"Author: {author.name}")
+    for book in author.books.all():
+        print(f"Book: {book.title}")
+
+```
+
+ In this example, prefetch_related('books') is used to fetch all the related Book objects efficiently for each author. It reduces the number of queries by fetching all the related books in a separate query, rather than fetching them individually for each author.
+
+ In this example, prefetch_related('categories') is used to fetch the related Category objects efficiently. It reduces the number of queries by fetching all the related categories in a separate query, rather than fetching them individually for each product.
+ Using select_related and prefetch_related can significantly improve the performance of your Django queries by reducing the number of database queries. It is especially useful when dealing with large datasets or complex relationships between models.
+ 
