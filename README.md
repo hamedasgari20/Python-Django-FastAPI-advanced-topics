@@ -55,6 +55,7 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Django constraint](#django-constraint)
     * [bulk creation in Django](#bulk-creation-in-django)
     * [prefetch_related and select_related in Django](#prefetchrelated-and-selectrelated-in-django)
+    * [Third-party packages in Django](#third-party-packages-in-django)
 <!-- TOC -->
 
 ## Python related topics:
@@ -2045,3 +2046,15 @@ for author in authors:
 
  In this example, prefetch_related('categories') is used to fetch the related Category objects efficiently. It reduces the number of queries by fetching all the related categories in a separate query, rather than fetching them individually for each product.
  Using select_related and prefetch_related can significantly improve the performance of your Django queries by reducing the number of database queries. It is especially useful when dealing with large datasets or complex relationships between models.
+
+### Third-party packages in Django
+There are several third-party packages that can greatly enhance your development experience and provide additional functionality. Here is a list of must-have third-party packages that are commonly used in Django projects:
+- Django REST framework: A powerful and flexible toolkit for building Web APIs.
+- Django Crispy Forms: Easily manage Django forms' layout using bootstrap styles.
+- Django Debug Toolbar: Provides a set of panels displaying various debug information about the current request/response.
+- Django Celery: Distributed task queue system for asynchronous processing.
+- Django Allauth: User registration, authentication, and account management.
+- Django Rest Auth: Provides a set of REST API endpoints for user registration, authentication, and account management.
+- Django Filter: Simplifies the process of filtering querysets dynamically.
+- Django Rest Framework Swagger: Generates interactive API documentation using the OpenAPI standard.
+- Django Environ: Allows you to define environment variables for your Django project.
