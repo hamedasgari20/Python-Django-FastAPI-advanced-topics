@@ -1548,7 +1548,7 @@ This will update all objects from the MyModel model where attribute matches valu
 
 
 
-### Custom query expressions
+### Custom query expressions or custom lookup
 
 Custom query expressions are a way to extend the Django query API with your own custom SQL expressions. Custom query
 expressions can be useful when you need to perform queries that are not easily expressible using the standard query API.
@@ -1575,6 +1575,38 @@ Person.objects.filter(first_name__startswith='A')
 In this example, we define a custom lookup called StartsWith that extends the Lookup class. We set the lookup_name
 attribute to 'startswith' to define the name of the lookup. We then define the as_sql method to generate the SQL
 expression for the lookup.
+
+Here's another simple example of defining and using a custom lookup in Django: 
+
+```angular2html
+from django.db import models
+from django.db.models import Lookup
+
+class GreaterThanLookup(Lookup):
+    lookup_name = 'gt'
+
+    def as_sql(self, compiler, connection):
+        lhs, lhs_params = self.process_lhs(compiler, connection)
+        rhs, rhs_params = self.process_rhs(compiler, connection)
+        params = lhs_params + rhs_params
+        return f'{lhs} > {rhs}', params
+
+models.IntegerField.register_lookup(GreaterThanLookup)
+
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+
+```
+
+Usage of the custom lookup
+
+```angular2html
+expensive_products = Product.objects.filter(price__gt=100.00)
+```
+In this example, we define a custom lookup called GreaterThanLookup that performs a greater-than comparison (>) for IntegerField fields. We subclass django.db.models.Lookup and override the as_sql() method to define the SQL representation of the lookup.
+The usage of the custom lookup is demonstrated, where we filter the Product objects based on the price field using the gt lookup.
+
 
 ### Django Filterset
 Django Filterset provides a simple and intuitive way to filter data in Django. It allows you to define filterset classes that specify the fields to filter on and provides a range of built-in filters that you can use to filter data. You can also define custom filters and combine filters to create more complex filtering logic.
