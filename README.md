@@ -103,7 +103,6 @@ print(cat.name)  # Output: Whiskers
 In this example, Animal is the superclass, and Dog and Cat are subclasses that inherit from it. The speak method is an
 abstract method in the Animal class that is implemented in the subclasses.
 
-print(cat.speak())  # Output: Meow!
 #### Polymorphism
 
 Polymorphism is the ability of objects to take on different forms or perform different actions depending on the context.
@@ -170,7 +169,7 @@ account.withdraw(200)
 print(account.get_balance())  # Output: 1300
 ```
 
-In this example, BankAccount is a class that represents a bank account. The** \_balance** attribute is marked as private
+In this example, BankAccount is a class that represents a bank account. The **_balance** attribute is marked as private
 by convention (using a single underscore), and can only be accessed through public methods such as deposit, withdraw,
 and get_balance.
 
@@ -264,17 +263,49 @@ Here are a few examples of decorators commonly used in Django:
 -     @cache_page
 -     @transaction.atomic
 
+Here is an example of creating a custom decorator in Django:
+
+In this example, the my_view function is decorated with the log_execution_time decorator, which will log the execution time of the view function every time it is called.
+
+```angular2html
+from django.shortcuts import render
+from .decorators import log_execution_time
+
+@log_execution_time
+def my_view(request):
+    # your view code here
+    return render(request, 'my_template.html', context)
+```
+here is the implementation of the custom decorator in previous code: 
+
+```angular2html
+import time
+
+def log_execution_time(view_func):
+    def wrapper(request, *args, **kwargs):
+        start_time = time.time()
+        response = view_func(request, *args, **kwargs)
+        end_time = time.time()
+        execution_time = end_time - start_time
+        print(f"Execution time: {execution_time:.2f} seconds")
+        return response
+    return wrapper
+
+```
+Overall, creating a custom decorator in Django is a simple process that can help you add reusable functionality to your views and improve the maintainability of your code.
+
+
 ### Map function
 
-The map() function in Python is a built-in function that applies a given function to each item in an iterable (such as a
-list, tuple, or string) and returns an iterator with the results. It takes two or more arguments: the function to apply
-and one or more iterables. The basic syntax of the map() function is as follows:
+The __map()__ function in Python is a built-in function that applies a given function to each item in an iterable (such as a
+list, tuple, or string) and returns an iterator with the results. It takes two or more arguments: the __function__ to apply
+and one or more iterables. The basic syntax of the __map()__ function is as follows:
 
 ```
 map(function, iterable1, iterable2, ...)
 ```
 
-Here's an example that demonstrates the usage of the map() function:
+Here's an example that demonstrates the usage of the **map()** function:
 
 ```
 # Example 1: Squaring numbers using map()
@@ -284,7 +315,7 @@ print(list(squared))
 # Output: [1, 4, 9, 16, 25]
 ```
 
-The map() function can be useful in various scenarios when working with Django. In the following gives an example of
+The **map()** function can be useful in various scenarios when working with Django. In the following gives an example of
 mapping a function to a query set:
 
 ```
@@ -304,9 +335,11 @@ usernames = list(map(lambda user: user.username, users))
 Itertools is a Python module that provides a collection of functions for creating and manipulating iterators, which are
 objects that can be iterated (looped) over. Here are some commonly used functions provided by the itertools module
 
-- count(): Generates an infinite sequence of numbers starting from a specified value.
-- chain(): Combines multiple iterators into a single iterator.
-- groupby(): Groups consecutive elements in an iterable based on a common key
+- **count()**: Generates an infinite sequence of numbers starting from a specified value.
+- **chain()**: Combines multiple iterators into a single iterator.
+- **groupby()**: Groups consecutive elements in an iterable based on a common key
+- **cycle()**: cycles through the elements of an iterable object infinitely
+- **combinations()**: generates all possible combinations of a given iterable object
 
 example of cycle():
 
@@ -367,7 +400,7 @@ sorted_results = sorted(combined_results, key=lambda item: item.created_at, reve
 
 ### Lambda function
 
-In Python, a lambda function is a small anonymous function that can be defined without a name. It is also known as an
+In Python, a **lambda** function is a small anonymous function that can be defined without a name. It is also known as an
 inline function or a lambda expression. Lambda functions are typically used when you need a simple function that will be
 used only once or as a parameter to another function. The general syntax of a lambda function in Python is:
 
@@ -383,9 +416,9 @@ result = add(3, 5)
 print(result)  # Output: 8
 ```
 
-Lambda functions are often used with built-in functions like map(), filter(), and reduce(). These functions take another
+Lambda functions are often used with built-in functions like **map()**, **filter()**, and **reduce()**. These functions take another
 function as a parameter, and lambda functions provide a convenient way to define these functions on the fly without
-explicitly defining a separate function. Here's an example using the map() function with a lambda function to square a
+explicitly defining a separate function. Here's an example using the **map()** function with a **lambda** function to square a
 list of numbers:
 
 ```
@@ -394,8 +427,8 @@ squared_numbers = list(map(lambda x: x ** 2, numbers))
 print(squared_numbers)  # Output: [1, 4, 9, 16, 25]
 ```
 
-For more complex or reusable functions, it's often better to define a regular named function using the def keyword. Here
-are a few examples of how you can use lambda functions in Django:
+For more complex or reusable functions, it's often better to define a regular named function using the **def** keyword. Here
+are a few examples of how you can use **lambda functions in Django**:
 
 - Filtering objects in a queryset:
   You can use a lambda function as a condition for filtering objects in a Django queryset. For instance:
@@ -467,7 +500,7 @@ The SOLID principles are a set of design principles that help in creating mainta
 systems.
 
 - Single Responsibility Principle (SRP)
-  This principle states that a class should have only one reason to change, meaning it should have only one
+  This principle states that a class should have only one
   responsibility. Let's say we have a User class that handles both user authentication and user data management.
   Instead, we can separate these responsibilities into two classes: Authenticator and UserManager. Here's a Python
   example:
@@ -515,18 +548,45 @@ class Rectangle(Shape):
 - Liskov Substitution Principle (LSP)
   This principle states that objects of a superclass should be replaceable with objects of its subclasses without
   affecting the correctness of the program. Let's say we have a function that expects a Shape object. According to LSP,
-  we should be able to pass any subclass of Shape without causing any issues:
+  we should be able to pass any subclass of Shape without causing any issues. In simpler terms, it means that a subclass should be able to be used wherever its superclass is expected, without causing any issues or breaking the functionality of the program.
 
+Here's a simple Python example to illustrate the Liskov Substitution Principle:
+
+```angular2html
+class Shape:
+    def area(self):
+        pass
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+class Square(Shape):
+    def __init__(self, side):
+        self.side = side
+
+    def area(self):
+        return self.side * self.side
 ```
+In this example, we have a superclass called Shape with a method **area()** that calculates the area of a shape. We then have two subclasses, **Rectangle** and **Square**, that inherit from the **Shape** class and override the **area()** method to calculate the area specific to each shape.
+According to the Liskov Substitution Principle, we should be able to use objects of the Rectangle and Square classes interchangeably with objects of the Shape class. For example:
+
+```angular2html
 def print_area(shape):
-    print(f"Area: {shape.area()}")
+    print(f"The area is: {shape.area()}")
 
-shape = Circle(5)
-print_area(shape)  # Output: Area: 78.5
+rectangle = Rectangle(4, 5)
+square = Square(4)
 
-shape = Rectangle(3, 4)
-print_area(shape)  # Output: Area: 12
+print_area(rectangle)  # Output: The area is: 20
+print_area(square)  # Output: The area is: 16
 ```
+In this example, we can see that both the **Rectangle** and **Square** objects can be passed to the **print_area()** function, which expects an object of the **Shape** class. This demonstrates the Liskov Substitution Principle, as the subclasses can be used in place of the superclass without any issues or breaking the functionality of the program.
+
 
 - Interface Segregation Principle (ISP)
 
@@ -560,18 +620,17 @@ class Fish(Swimmer):
 
 - Dependency Inversion Principle (DIP)
   This principle states that high-level modules should not depend on low-level modules. Both should depend on
-  abstractions. It encourages the use of interfaces or abstract classes to decouple dependencies.
+  abstractions. It encourages the use of interfaces or abstract classes to decouple dependencies. . This helps to decouple the high-level and low-level modules, making it easier to change the low-level ones without affecting the high-level ones
 
-I have not found yet good example to show this principle.
 
 ### Python collection
 
 Python provides several built-in collection types, such as lists, tuples, sets, and dictionaries. These collections can
 be used to store and organize data efficiently.
 
-- lists
+- **lists**:
   A list is a mutable collection that can store an ordered sequence of elements. It is defined using square
-  brackets ([]). Here's an example:
+  brackets (**[]**). Here's an example:
 
 ```
 # Creating a list
@@ -594,9 +653,9 @@ print(fruits)  # Output: ['apple', 'orange', 'grape']
 
 ```
 
-- Tuples
+- **Tuples**:
   A tuple is an immutable collection that can store an ordered sequence of elements. It is defined using
-  parentheses (()). Here's an example:
+  parentheses (). Here's an example:
 
 ```
 # Creating a tuple
@@ -611,7 +670,7 @@ print(x, y)  # Output: 3 4
 
 ```
 
-- Sets
+- **Sets**:
   A set is an unordered collection that stores unique elements. It is defined using curly braces ({}) or the set()
   function. Here's an example:
 
@@ -629,7 +688,7 @@ print(numbers)  # Output: {1, 3, 4, 5}
 
 ```
 
-- Dictionaries
+- **Dictionaries**:
   A dictionary is a collection that stores key-value pairs. It is defined using curly braces ({}) and colons (:). Here's
   an example:
 
@@ -656,6 +715,9 @@ print(student)  # Output: {'name': 'Alice', 'age': 21, 'university': 'XYZ', 'maj
 del student['university']
 print(student)  # Output: {'name': 'Alice', 'age': 21, 'major': 'Computer Science'}
 
+# Updating a field
+student.update({'age': 21})
+
 ```
 
 ### Generators and Iterators
@@ -678,7 +740,7 @@ for line in lines:
 
 ```
 
-Here, the read_lines() function returns a generator that yields one line at a time. This approach is memory-efficient
+Here, the **read_lines()** function returns a generator that yields one line at a time. This approach is memory-efficient
 and allows you to process large files without loading the entire contents into memory.
 Here is the implementation of the previous example with custom iterator:
 
@@ -726,11 +788,13 @@ used to initialize the object's attributes.
 `__str__(self)` : This method is called when the object is printed as a string. It returns a string representation of
 the object.
 
-`__len__(self)` : This method is called when the built-in len() function is called on the object. It returns the length
+`__len__(self)` : This method is called when the built-in **len()** function is called on the object. It returns the length
 of the object.
 
 `__add__(self, other)` : This method is called when the + operator is used on the object. It takes another object as an
 argument and returns the result of the addition.
+
+`__call__(self, other)`: The method in Python is a special method that allows an object to be called like a function
 
 Here's an example of a class that defines some of these magic methods:
 
@@ -770,24 +834,24 @@ print(repr(person))   # Output: Person(name='Alice', age=30)
 ```
 
 In this example, we define a Person class that has a name and an age attribute. We define both __str__ and __repr__ methods for the class. The __str__ method returns a string that is intended to be readable by humans, while the __repr__ method returns a string that is intended to be unambiguous and can be used to recreate the object.
-When we create a Person object and print it using the str() and repr() functions, we get different outputs. The str() function calls the __str__ method, which returns a user-friendly string representation of the object. The repr() function calls the __repr__ method, which returns a developer-friendly string representation of the object.
+When we create a Person object and print it using the **str()** and **repr()** functions, we get different outputs. The **str()** function calls the __str__ method, which returns a user-friendly string representation of the object. The **repr()** function calls the __repr__ method, which returns a developer-friendly string representation of the object.
 
 
 ### GIL
-The Global Interpreter Lock (GIL) is a mechanism in CPython (the most common implementation of Python) that serves to serialize access to Python objects, preventing multiple threads from executing Python bytecodes at once.
-In simple words, the GIL is a mutex (or a lock) that allows only one thread to hold the control of the Python interpreter.This means that only one thread can be in a state of execution at any point in time.
+The **_Global Interpreter Lock_** is a mechanism in CPython (the most common implementation of Python) that serves to serialize access to Python objects, preventing multiple threads from executing Python bytecodes at once.
+In simple words, the GIL is a mutex (or a lock) that allows only one thread to hold the control of the Python interpreter.This means that _only one thread can be in a state of execution at any point in time_.
 
 
 
 ### concurrency and parallelism
 
-Concurrency involves allowing multiple tasks to take turns accessing the same shared resources, like disk, network, or a
-single CPU core. Parallelism, on the other hand, is about maximizing the use of hardware resources, such as multiple CPU
-cores, to execute multiple tasks simultaneously. Threading is a way to achieve concurrency by running multiple threads
-within a single process, while asyncio is a way to achieve concurrency by running a single thread that can switch
+**Concurrency** involves allowing multiple tasks to take turns accessing the same shared resources, like disk, network, or a
+single CPU core. **Parallelism**, on the other hand, is about maximizing the use of hardware resources, such as multiple CPU
+cores, to execute multiple tasks simultaneously. **Threading** is a way to achieve concurrency by running multiple threads
+within a single process, while **asyncio** is a way to achieve concurrency by running a single thread that can switch
 between multiple tasks.
 
-- Threading:
+- **Threading**:
   The following code snippet demonstrates how to use threading to execute multiple tasks concurrently within a single
   process.
 
@@ -813,7 +877,7 @@ t1.join()
 t2.join()
 ```
 
-- Asyncio:
+- **Asyncio**:
   The following code snippet demonstrates how to use asyncio to execute multiple tasks concurrently within a single
   thread:
 
@@ -837,7 +901,7 @@ loop.close()
 
 ```
 
-- Multiprocessing:
+- **Multiprocessing**:
   The following code snippet demonstrates how to use multiprocessing to execute multiple tasks in parallel across
   multiple processes:
 
@@ -864,15 +928,15 @@ p2.join()
 
 ```
 
-In general, concurrency is preferred for IO-bound tasks, as it allows you to do something else while the IO resources
-are being fetched. Parallelism, on the other hand, is preferred for CPU-bound tasks, as it allows you to take advantage
+In general, **concurrency** is preferred for **IO-bound** tasks, as it allows you to do something else while the IO resources
+are being fetched. **Parallelism**, on the other hand, is preferred for **CPU-bound** tasks, as it allows you to take advantage
 of multiple CPU cores to execute multiple tasks simultaneously.
 
 ### Main types of methods in python classes
 
 In Python, there are three main types of methods that can be defined in a class:
 
-1. Instance Methods
+1. **Instance Methods:**
    Instance methods are the most common type of methods used in Python classes. They are defined using the **self**
    parameter as the first argument. Instance methods can access and modify the instance attributes of the class.
 
@@ -888,9 +952,9 @@ result = my_object.my_instance_method(3, 4)
 print(result)  # Output: 7
 ```
 
-2. Class Methods
+2. **Class Methods**:
    Class methods are methods that are bound to the class and not the instance of the class. They are defined using the \*
-   \*@classmethod** decorator, and they take the class itself as their first argument, typically named **cls\*\*. Class
+   **@classmethod** decorator, and they take the class itself as their first argument, typically named **cls**. Class
    methods can be called on the class itself, rather than on an instance of the class.
 
 ```
@@ -909,7 +973,7 @@ result2 = MyClass.my_class_method(1, 2)
 print(result2)  # Output: 3 + 1 + 2 = 6
 ```
 
-3. Static Methods
+3. **Static Methods:**
    Static methods are methods that don't depend on the class or instance. They are defined using the **@staticmethod**
    decorator and take no special first argument. Static methods are typically used for utility functions that don't
    require access to the class or instance.
@@ -925,9 +989,9 @@ print(result)  # Output: 7
 ```
 
 ### Data serialization
-Data serialization is the process of converting structured data into a format that allows sharing or storage of the data in a form that allows recovery of its original structure. In Python, there are several built-in modules for data serialization, including pickle, json, and marshal.
+Data serialization is the process of converting structured data into a format that allows sharing or storage of the data in a form that allows recovery of its original structure. In Python, there are several built-in modules for data serialization, including **pickle**, **json**, and **marshal**.
 
-Here's an example of using the pickle module to serialize and deserialize a Python object:
+Here's an example of using the **pickle** module to serialize and deserialize a Python object:
 
 ```
 import pickle
@@ -953,11 +1017,11 @@ print('Received object:', received_grades)
 
 ```
 
-In this example, we define a Python dictionary grades and serialize it using the pickle.dumps() function. We then deserialize the byte stream back into a Python object using the pickle.loads() function and print the original and received objects.
+In this example, we define a Python dictionary grades and serialize it using the **pickle.dumps()** function. We then deserialize the byte stream back into a Python object using the **pickle.loads()** function and print the original and received objects.
 
 ### Data class in python
 Overall, data classes provide a convenient way to define classes that mainly hold data values, without having to write boilerplate code for initialization, representation, and comparisons.
-A data class is a class that is designed to only hold data values. It is similar to a regular class, but it usually doesn't have any other methods. It is typically used to store information that will be passed between different parts of a program or a system.
+A **data class** is a class that is designed to only hold data values. It is similar to a regular class, but it usually doesn't have any other methods. It is typically used to store information that will be passed between different parts of a program or a system.
 Here's a simple example of a data class in Python:
 
 ```angular2html
@@ -969,10 +1033,10 @@ class Person:
     age: int
 ```
 
-In the above example, the @dataclass decorator is used to create a data class called Person. The class has two attributes, name and age, which are defined using type annotations. The dataclass decorator automatically generates several special methods such as __init__(), __repr__(), and __eq__() for the class.
+In the above example, the **@dataclass** decorator is used to create a data class called **Person**. The class has two attributes, name and age, which are defined using type annotations. The dataclass decorator automatically generates several special methods such as __init__(), __repr__(), and __eq__() for the class.
 
 ### Shallow copy and deep copy
-In Python, there are two types of copying: shallow copy and deep copy. A shallow copy creates a new object that stores references to the child objects of the original object. In contrast, a deep copy creates a new object that is completely independent of the original object.
+In Python, there are two types of copying: **shallow copy** and **deep copy**. A **shallow copy** creates a new object that stores references to the child objects of the original object. In contrast, a **deep copy** creates a new object that is completely independent of the original object.
 To create a shallow copy of an object, we can use the copy method provided by the copy module in Python. The copy method returns a shallow copy of the object. For example:
 
 ```angular2html
@@ -990,7 +1054,7 @@ print(list1)  # [1, 2, [5, 4]]
 print(list2)  # [1, 2, [5, 4]]
 ```
 
-In this example, we create a shallow copy of list1 using the copy method. When we modify the nested list in list2, the same change is reflected in list1 because both lists share the same reference to the nested list.
+In this example, we create a shallow copy of **list1** using the copy method. When we modify the nested list in **list2**, the same change is reflected in **list1** because both lists share the same reference to the nested list.
 To create a deep copy of an object, we can use the deepcopy method provided by the copy module. The deepcopy method returns a deep copy of the object. For example:
 
 ```angular2html
@@ -1008,10 +1072,10 @@ print(list1)  # [1, 2, [3, 4]]
 print(list2)  # [1, 2, [5, 4]]
 ```
 
-In this example, we create a deep copy of list1 using the deepcopy method. When we modify the nested list in list2, the change is not reflected in list1 because both lists have independent copies of the nested list.
+In this example, we create a deep copy of **list1** using the deepcopy method. When we modify the nested list in **list2**, the change is not reflected in **list1** because both lists have independent copies of the nested list.
 
 ### Local and global variables 
-In summary, local variables are declared inside a function or method and can only be accessed within that specific block, while global variables are declared outside any function or method and can be accessed throughout the program and inside every function. To modify a global variable inside a function, we need to use the global keyword.
+In summary, local variables are declared inside a function or method and can only be accessed within that specific block, while global variables are declared outside any function or method and can be accessed throughout the program and inside every function. To modify a global variable inside a function, we need to use the **global** keyword.
 Here are some simple examples of local and global variables in Python:
 
 ```angular2html
@@ -1031,8 +1095,8 @@ def my_function():
 my_function()  # Output: 10
 ```
 
-In this example, x is a local variable that is declared inside the my_function function and can only be accessed within that function. y, on the other hand, is a global variable that is declared outside any function and can be accessed inside the my_function function.
-To modify a global variable inside a function, we need to use the global keyword. Here's an example:
+In this example, **x** is a local variable that is declared inside the **my_function** function and can only be accessed within that function. **y**, on the other hand, is a global variable that is declared outside any function and can be accessed inside the **my_function** function.
+To modify a global variable inside a function, we need to use the **global** keyword. Here's an example:
 
 ```angular2html
 # Example of modifying a global variable inside a function
@@ -1090,11 +1154,11 @@ print(person)
 ```
 
 In this example, we define a Pydantic data model Person that has two fields: name of type str and age of type int. 
-Pydantic automatically validates the input data against the data model and raises a ValueError if the data is invalid. If the data is valid, Pydantic creates a new Person object with the validated data and assigns it to the person variable. We then print the person object to verify that it was created correctly.
+Pydantic automatically validates the input data against the data model and raises a **ValueError** if the data is invalid. If the data is valid, Pydantic creates a new Person object with the validated data and assigns it to the person variable. We then print the person object to verify that it was created correctly.
 
 
 ### Args and Kwargs in Python
-In Python, *args and **kwargs are used to pass a variable number of arguments to a function. They allow you to handle arbitrary numbers of positional and keyword arguments, respectively. 
+In Python, ***args** and ****kwargs** are used to pass a variable number of arguments to a function. They allow you to handle arbitrary numbers of positional and keyword arguments, respectively. 
 __args__ is used to pass a variable number of positional arguments to a function. It allows you to pass any number of arguments to a function without explicitly specifying them in the function definition. The arguments passed using *args are collected into a tuple within the function.
 
 ```angular2html
@@ -1111,7 +1175,7 @@ World
 !
 ```
 
-**kwargs is used to pass a variable number of keyword arguments to a function. It allows you to pass key-value pairs as arguments to a function without explicitly specifying them in the function definition. The arguments passed using **kwargs are collected into a dictionary within the function.
+****kwargs** is used to pass a variable number of keyword arguments to a function. It allows you to pass key-value pairs as arguments to a function without explicitly specifying them in the function definition. The arguments passed using ****kwargs** are collected into a dictionary within the function.
 Here's a simple example: 
 
 ```angular2html
@@ -1128,8 +1192,8 @@ name John
 age 25
 city New York
 ```
-In this example, the print_kwargs() function takes any number of keyword arguments using **kwargs. The key-value pairs are then printed one by one using a loop.
-You can also combine *args and **kwargs in a function definition to accept both positional and keyword arguments
+In this example, the **print_kwargs()** function takes any number of keyword arguments using ****kwargs**. The key-value pairs are then printed one by one using a loop.
+You can also combine ***args** and ****kwargs** in a function definition to accept both positional and keyword arguments
 
 
 
