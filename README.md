@@ -38,6 +38,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Comprehension](#comprehension)
     * [Pydantic](#pydantic)
     * [Args and Kwargs in Python](#args-and-kwargs-in-python)
+    * [Operator overloading](#operator-overloading)
   * [Django related topics:](#django-related-topics)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
@@ -1195,6 +1196,59 @@ city New York
 ```
 In this example, the **print_kwargs()** function takes any number of keyword arguments using ****kwargs**. The key-value pairs are then printed one by one using a loop.
 You can also combine ***args** and ****kwargs** in a function definition to accept both positional and keyword arguments
+
+
+### Operator overloading
+Operator overloading in Python refers to the ability to redefine the behavior of built-in operators **(+, -, *, /, etc.)** for user-defined classes.
+This feature provides flexibility and allows you to make your classes work with operators in a way that makes sense for your specific use case.
+
+Here's a simple example to illustrate operator overloading using the **+** operator:
+
+```angular2html
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    def __add__(self, other):
+        new_x = self.x + other.x
+        new_y = self.y + other.y
+        return Point(new_x, new_y)
+
+point1 = Point(2, 3)
+point2 = Point(4, 5)
+result = point1 + point2
+print(result.x, result.y)  # Output: 6 8
+```
+
+When we use the "+" operator between point1 and point2, it calls the **__add__()** method behind the scenes, allowing us to perform the addition operation in a customized way. The result is a new Point object with the summed coordinates.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
