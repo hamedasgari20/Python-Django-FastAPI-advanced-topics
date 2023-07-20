@@ -75,6 +75,12 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
       * [Model inheritance](#model-inheritance)
     * [Class-based views methods](#class-based-views-methods)
     * [Django optimization](#django-optimization)
+      * [**Database Optimization:**](#database-optimization)
+      * [**Caching:**](#caching-)
+      * [**Code Optimization:**](#code-optimization-)
+      * [**Distributed Task Queues:**](#distributed-task-queues-)
+      * [**Scaling Horizontally:**](#scaling-horizontally)
+      * [**Benchmarking:**](#benchmarking-)
 <!-- TOC -->
 
 ## Python related topics:
@@ -2462,7 +2468,7 @@ By understanding these methods, you can customize the behavior of Django class-b
 ### Django optimization
 To optimize your Django application for scalability, there are several techniques you can implement:
 
-- **Database Optimization:**
+#### **Database Optimization:**
 
 Django's database layer provides various ways to improve performance, such as using database indexes, optimizing queries, and reducing database round trips
 Suppose you have a Django model called **Book** with a field called **title**. To optimize the database query, you can add an index to the title field by adding **db_index=True** to the field definition in the model:
@@ -2475,7 +2481,7 @@ class Book(models.Model):
 ```
 this index will speed up queries that filter or order by the title field, as the database can use the index to quickly find the relevant rows
 
-- **Caching:** 
+#### **Caching:** 
 
 Implementing caching can significantly improve the performance of your Django application. You can use tools like Django's built-in caching framework. For example, to cache the result of a query for 5 minutes, you can use the **cache_page** decorator:
 
@@ -2489,7 +2495,7 @@ def my_view(request):
     
 ```
 
-- **Code Optimization:** 
+#### **Code Optimization:** 
 
 Optimizing your code can help improve the overall performance of your application. This includes writing efficient algorithms, reducing unnecessary database queries, and optimizing resource-intensive operations.
 
@@ -2520,7 +2526,7 @@ def book_list(request):
 
 In the first example, the code performs a separate database query for each author of each book, resulting in a large number of queries. In the second example, the **prefetch_related** method fetches all related authors in a single query, reducing the number of queries and improving performance.
 
-- **Distributed Task Queues:** 
+#### **Distributed Task Queues:** 
 
 Using distributed task queues, such as **Celery**, can help offload time-consuming tasks to separate worker processes, allowing your application to handle more concurrent requests.
 Suppose you have a view that performs a time-consuming task, such as sending an email. To offload the task to a separate worker process, you can use **Celery** such as below:
@@ -2541,7 +2547,7 @@ def my_view(request):
 
 ```
 
-- **Scaling Horizontally:**
+#### **Scaling Horizontally:**
 
 To handle increased traffic and user load, you can scale your Django application horizontally by splitting it into individual services (SOA) and scaling them independently. This approach allows you to distribute the load and optimize each service individually.
 Suppose you have a Django application that handles both user authentication and payment processing. To scale the application horizontally, you can split it into two separate services:
@@ -2549,7 +2555,7 @@ Suppose you have a Django application that handles both user authentication and 
 2- Payment service: Handles payment processing and billing.
 
 
-- **Benchmarking:** 
+#### **Benchmarking:** 
 
 Regularly benchmarking and profiling your application can help identify performance bottlenecks and areas for improvement. Tools like **Django Debug Toolbar** and **Django Silk** can assist in analyzing and optimizing your code.
 
