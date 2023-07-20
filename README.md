@@ -63,6 +63,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [bulk creation in Django](#bulk-creation-in-django)
     * [prefetch_related and select_related in Django](#prefetchrelated-and-selectrelated-in-django)
     * [Third-party packages in Django](#third-party-packages-in-django)
+    * [Property decorators](#property-decorators)
 <!-- TOC -->
 
 ## Python related topics:
@@ -2271,4 +2272,52 @@ There are several third-party packages that can greatly enhance your development
 - **Django Filter**: Simplifies the process of filtering querysets dynamically.
 - **Django Rest Framework Swagger**: Generates interactive API documentation using the OpenAPI standard.
 - **Django Environ**: Allows you to define environment variables for your Django project.
+
+### Property decorators
+The @property decorator in Django is used to define a method that behaves like a model attribute. It allows you to call custom model methods as if they were normal model attributes. Here's a simple example to illustrate the concept:
+
+```angular2html
+from django.db import models
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=50)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+
+    @property
+    def price_in_euros(self):
+        return f"{self.price} EUR"
+
+```
+In this example, we define a **Book** model with fields for **title**, **author**, and **price**. We then define a **price_in_euros** method with the **@property** decorator. This method returns the price of the book in euros as a string.
+
+By using the **@property** decorator, we can access the **price_in_euros** method as if it were a model attribute. For example, we can retrieve the price of a book in euros as follows:
+
+```angular2html
+book = Book.objects.get(pk=1)
+print(book.price_in_euros)  # Output: "19.99 EUR"
+
+```
+
+In Django models, a method with the @property decorator behaves like a model attribute, while a method without this decorator behaves like a normal method. 
+Here's an example to illustrate the difference:
+
+```angular2html
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=50)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+
+    @property
+    def price_in_euros(self):
+        return f"{self.price} EUR"
+
+    def calculate_discounted_price(self, discount):
+        return self.price * (1 - discount)
+
+```
+
+When we access **my_book.price_in_euros**, it behaves like a model attribute and returns the price of the book in euros as a string. On the other hand, when we call **my_book.calculate_discounted_price(0.1)**, it behaves like a normal method and returns the discounted price of the book.
+
+
 
