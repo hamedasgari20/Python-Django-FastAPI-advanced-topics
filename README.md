@@ -67,6 +67,12 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [WSGI and ASGI](#wsgi-and-asgi)
       * [WSGI (Web Server Gateway Interface):](#wsgi-web-server-gateway-interface)
       * [ASGI (Asynchronous Server Gateway Interface):](#asgi-asynchronous-server-gateway-interface)
+    * [Advanced features in ORM](#advanced-features-in-orm)
+      * [Q objects:](#q-objects)
+      * [F expressions:](#f-expressions-)
+      * [QuerySet methods](#queryset-methods)
+      * [Model managers](#model-managers)
+      * [Model inheritance](#model-inheritance)
 <!-- TOC -->
 
 ## Python related topics:
@@ -2335,6 +2341,85 @@ The Web Server Gateway Interface (**WSGI**) and the Asynchronous Server Gateway 
 - It allows multiple, concurrent requests to be handled asynchronously, making it suitable for real-time applications, long-polling, and WebSockets.
 - ASGI servers can handle both synchronous and asynchronous applications, providing flexibility for developers.
 - ASGI is designed to be a superset of WSGI, meaning that WSGI applications can be run inside ASGI servers.
+
 In summary, **WSGI** is a synchronous interface for handling web requests and responses, while **ASGI** is an asynchronous interface that extends the capabilities of WSGI to support asynchronous applications. 
 **ASGI** provides the ability to handle multiple concurrent requests and is suitable for real-time and long-polling applications.
 
+### Advanced features in ORM
+Django ORM (Object-Relational Mapping) provides several advanced features that allow for more complex and powerful database queries and data manipulation. Here are some of the advanced features of Django ORM:
+
+#### Q objects:
+Q objects allow for complex queries by combining multiple filters using logical operators like AND (&) and OR (|). They encapsulate keyword arguments for filtering and provide more flexibility in query construction
+
+```angular2html
+from django.db.models import Q
+
+# Query to retrieve books with either 'fiction' or 'mystery' genre
+books = Book.objects.filter(Q(genre='fiction') | Q(genre='mystery'))
+```
+
+#### F expressions: 
+F expressions allow you to perform database operations using field values without pulling the values from the database. They enable calculations and comparisons directly within the database query, improving performance and reducing round trips to the database
+
+```angular2html
+from django.db.models import F
+
+# Query to update the price of all books by increasing it by 10%
+Book.objects.all().update(price=F('price') * 1.1)
+```
+
+#### QuerySet methods
+Django provides a comprehensive set of QuerySet methods for retrieving, filtering, and manipulating data from the database. These methods include **annotate()**, **aggregate()**, **values()**, **distinct()**, **order_by()**, **reverse()**, and many more
+
+```angular2html
+# Query to retrieve the top 5 books with the highest ratings
+top_books = Book.objects.order_by('-rating')[:5]
+
+# Query to retrieve the distinct authors of all books
+authors = Book.objects.values('author').distinct()
+
+# Query to annotate the average price for each genre
+genres = Book.objects.values('genre').annotate(avg_price=Avg('price'))
+```
+
+#### Model managers
+Model managers allow you to customize the default QuerySet behavior by defining custom methods on the manager class. Managers provide a way to encapsulate common query logic and make it easily accessible across multiple models
+
+```angular2html
+class BookManager(models.Manager):
+    def get_best_sellers(self):
+        return self.filter(sales__gt=1000)
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=50)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+    sales = models.IntegerField()
+
+    objects = BookManager()
+
+# Query to retrieve the best-selling books
+best_sellers = Book.objects.get_best_sellers()
+
+```
+#### Model inheritance
+Django supports model inheritance, allowing you to create more complex data models by building relationships between models. You can use abstract base classes, multi-table inheritance, and proxy models to implement different types of model inheritance
+
+```angular2html
+class Publication(models.Model):
+    title = models.CharField(max_length=100)
+    publisher = models.CharField(max_length=50)
+
+class Book(Publication):
+    author = models.CharField(max_length=50)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+
+class Magazine(Publication):
+    issue_number = models.IntegerField()
+
+# Query to retrieve all publications (books and magazines)
+publications = Publication.objects.all()
+
+```
+
+These examples demonstrate the usage of advanced features in Django ORM, such as Q objects for complex queries, F expressions for database operations, QuerySet methods for data retrieval and manipulation, model managers for custom query logic, and model inheritance for creating relationships between models.
