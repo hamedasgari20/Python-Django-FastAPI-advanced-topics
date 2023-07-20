@@ -73,6 +73,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
       * [QuerySet methods](#queryset-methods)
       * [Model managers](#model-managers)
       * [Model inheritance](#model-inheritance)
+    * [Class-based views methods](#class-based-views-methods)
 <!-- TOC -->
 
 ## Python related topics:
@@ -2423,3 +2424,46 @@ publications = Publication.objects.all()
 ```
 
 These examples demonstrate the usage of advanced features in Django ORM, such as Q objects for complex queries, F expressions for database operations, QuerySet methods for data retrieval and manipulation, model managers for custom query logic, and model inheritance for creating relationships between models.
+
+### Class-based views methods
+Django class-based views provide a set of methods that can be overridden to customize the behavior of the view. Here are some of the commonly used methods in Django class-based views:
+
+- **as_view()**: 
+This method returns a callable view function that handles the request and generates the response. It is called when the URL pattern is matched to the view class.
+
+- **dispatch()**: 
+This method is called by the **as_view()** method to handle the request. It inspects the request method (GET, POST, etc.) and calls the appropriate method (get(), post(), etc.) to generate the response.
+
+
+- **HTTP method handlers**:
+The HTTP method handlers (get(), post(), etc.) are called by the **dispatch()** method to generate the response. They perform the necessary operations (querying the database, rendering templates, etc.) and return an **HttpResponse** object.
+
+
+- **get_context_data()**: 
+This method is called by the HTTP method handlers to retrieve the context data for the template. It returns a dictionary of context variables that are passed to the template.
+
+- **get(), post(), put(), delete()**:
+These methods are called by the **dispatch()** method to handle the corresponding HTTP methods. They perform the necessary operations (querying the database, rendering templates, etc.) and return an HttpResponse object.
+
+- **get_queryset()**: 
+This method is used to retrieve the queryset that the view will use to retrieve objects. It can be overridden to customize the queryset based on the request.
+
+- **get_object()**: 
+This method is used to retrieve a single object from the queryset. It can be overridden to customize the object retrieval based on the request.
+
+- **form_valid(), form_invalid()**: 
+These methods are called when a form is submitted and validated. They perform the necessary operations (saving the form data, redirecting to a new page, etc.) and return an HttpResponse object.
+
+
+By understanding these methods, you can customize the behavior of Django class-based views to suit your specific requirements and optimize the performance of your Django applications.
+
+
+
+
+
+
+
+
+
+
+
