@@ -64,6 +64,9 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [prefetch_related and select_related in Django](#prefetchrelated-and-selectrelated-in-django)
     * [Third-party packages in Django](#third-party-packages-in-django)
     * [Property decorators](#property-decorators)
+    * [WSGI and ASGI](#wsgi-and-asgi)
+      * [WSGI (Web Server Gateway Interface):](#wsgi-web-server-gateway-interface)
+      * [ASGI (Asynchronous Server Gateway Interface):](#asgi-asynchronous-server-gateway-interface)
 <!-- TOC -->
 
 ## Python related topics:
@@ -2319,5 +2322,19 @@ class Book(models.Model):
 
 When we access **my_book.price_in_euros**, it behaves like a model attribute and returns the price of the book in euros as a string. On the other hand, when we call **my_book.calculate_discounted_price(0.1)**, it behaves like a normal method and returns the discounted price of the book.
 
+### WSGI and ASGI
+The Web Server Gateway Interface (**WSGI**) and the Asynchronous Server Gateway Interface (**ASGI**) are two different specifications in Django for handling web requests and responses. Here's a brief explanation of each:
 
+#### WSGI (Web Server Gateway Interface):
+- WSGI is a synchronous interface that defines how web servers communicate with Python web applications.
+- It provides a standard way for web servers to forward requests to Python web frameworks and applications.
+- WSGI servers handle one request at a time and block until the response is generated, making it suitable for traditional synchronous web applications.
+- WSGI is the older and more established interface, widely used by Python web frameworks and servers.
+#### ASGI (Asynchronous Server Gateway Interface):
+- ASGI is an asynchronous interface that extends the capabilities of WSGI to support asynchronous web applications.
+- It allows multiple, concurrent requests to be handled asynchronously, making it suitable for real-time applications, long-polling, and WebSockets.
+- ASGI servers can handle both synchronous and asynchronous applications, providing flexibility for developers.
+- ASGI is designed to be a superset of WSGI, meaning that WSGI applications can be run inside ASGI servers.
+In summary, **WSGI** is a synchronous interface for handling web requests and responses, while **ASGI** is an asynchronous interface that extends the capabilities of WSGI to support asynchronous applications. 
+**ASGI** provides the ability to handle multiple concurrent requests and is suitable for real-time and long-polling applications.
 
