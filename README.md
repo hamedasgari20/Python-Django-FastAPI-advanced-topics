@@ -57,6 +57,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Mixin in Django](#mixin-in-django)
     * [Cache in Django](#cache-in-django)
     * [Django constraint](#django-constraint)
+      * [Django constraints and model validators differences](#django-constraints-and-model-validators-differences)
     * [bulk creation in Django](#bulk-creation-in-django)
     * [prefetch_related and select_related in Django](#prefetchrelated-and-selectrelated-in-django)
     * [Third-party packages in Django](#third-party-packages-in-django)
@@ -1231,10 +1232,10 @@ the product quantity in the database whenever an order is placed. We can use Dja
 Here are the steps to use Django signals for this example:
 
 1. Create a new file called **signals.py** in the same directory as your **models.p**y file.
-1. Import the** django.dispatch.Signal** class.
-1. Define a new signal using the Signal class.
-1. Define a function that will be called when the signal is triggered. This function should accept two arguments: sender
-   and instance.
+1. Import the **django.dispatch.Signal** class.
+1. Define a new signal using the **Signal** class.
+1. Define a function that will be called when the signal is triggered. This function should accept two arguments: **sender**
+   and **instance**.
 1. Connect the signal to the function using the receiver decorator.
 
 Here's an example implementation:
@@ -1258,11 +1259,11 @@ def update_product_quantity(sender, instance, **kwargs):
 order_placed.connect(update_product_quantity, sender=Order)
 ```
 
-In this example, we define a new signal called order_placed using the Signal class. We also define a function called
-update_product_quantity that will be called when the signal is triggered. This function gets the Product object
+In this example, we define a new signal called **order_placed** using the Signal class. We also define a function called
+**update_product_quantity** that will be called when the signal is triggered. This function gets the Product object
 associated with the Order object, calculates the new quantity, and updates the product quantity in the database.
 
-Finally, we connect the order_placed signal to the update_product_quantity function using the connect method. We also
+Finally, we connect the **order_placed** signal to the update_product_quantity function using the **connect** method. We also
 specify the sender argument to indicate that this signal should only be triggered when an Order object is saved.
 
 To trigger the signal, we simply need to create a new Order object:
@@ -1275,8 +1276,8 @@ order = Order(product=product, quantity=3)
 order.save()  # This will trigger the order_placed signal
 ```
 
-When the save method is called on the Order object, the order_placed signal will be triggered, and the
-update_product_quantity function will be called, updating the product quantity in the database.
+When the save method is called on the **Order** object, the **order_placed** signal will be triggered, and the
+**update_product_quantity** function will be called, updating the product quantity in the database.
 
 ### Django middleware
 
@@ -1288,8 +1289,8 @@ Here are the steps to use Django middleware:
 
 1. Create a new file called **middleware.py** in the same directory as your settings.py file.
 1. Define a class that extends the **MiddlewareMixin** class.
-   Implement the process_response method to modify the response object.
-1. Add your middleware class to the MIDDLEWARE setting in your **settings.py** file.
+   Implement the **process_response** method to modify the response object.
+1. Add your middleware class to the **MIDDLEWARE** setting in your **settings.py** file.
 
 Here's an example implementation:
 
@@ -1300,8 +1301,8 @@ class CustomHeaderMiddleware:
         return response
 ```
 
-In this example, we define a new middleware class called CustomHeaderMiddleware that extends the MiddlewareMixin class.
-We implement the process_response method to modify the response object by adding a custom header.
+In this example, we define a new middleware class called **CustomHeaderMiddleware** that extends the MiddlewareMixin class.
+We implement the **process_response** method to modify the response object by adding a custom header.
 Finally, we add our middleware class to the MIDDLEWARE setting in our **settings.py** file:
 
 ```
@@ -1311,7 +1312,7 @@ MIDDLEWARE = [
 ]
 ```
 
-Now, whenever an HTTP response is returned by our application, the CustomHeaderMiddleware class will modify the response
+Now, whenever an HTTP response is returned by our application, the **CustomHeaderMiddleware** class will modify the response
 by adding a custom header.
 
 ### Django custom template tags
@@ -1321,7 +1322,7 @@ templates.
 Here's a simple example of how to create a custom template tag in Django:
 
 1. Create a new Python module in one of your Django app's templatetags directory. For example, if you have an app named
-   myapp, you could create a new module named **myapp_tags.py** in the **myapp/templatetags** directory.
+   **myapp**, you could create a new module named **myapp_tags.py** in the **myapp/templatetags** directory.
 
 1. Define a function in the module that takes a template context and any arguments you want to pass to the tag. The
    function should return the value you want to output in the template. For example, here's a function that takes a list
@@ -1339,10 +1340,10 @@ def first_item(my_list):
     return ''
 ```
 
-In this example, we're using the @register.simple_tag decorator to register the function as a simple template tag.
+In this example, we're using the **@register.simple_tag** decorator to register the function as a simple template tag.
 
 1. In your template, load the custom tag library and use the new tag in your HTML code. To load the custom tag library,
-   add** {% load myapp_tags %}** at the top of your template. Here's an example of how to use the first_item tag we
+   add **{% load myapp_tags %}** at the top of your template. Here's an example of how to use the first_item tag we
    defined earlier:
 
 ```
@@ -1355,7 +1356,7 @@ In this example, we're using the @register.simple_tag decorator to register the 
 </ul>
 ```
 
-In this example, we're using the first_item tag to output the first item in each list item in a loop.
+In this example, we're using the **first_item** tag to output the first item in each list item in a loop.
 
 ### Django permissions
 
@@ -1365,7 +1366,7 @@ user has the necessary permissions to perform certain actions.
 Here's a simple example of how to use Django permissions:
 
 1. First, you need to define the permissions for your models. You can do this by adding a permissions attribute to
-   your** model's meta class**. For example, let's say you have a Book model and you want to define a permission called
+   your **model's meta class**. For example, let's say you have a Book model and you want to define a permission called
    **can_edit_book**:
 
 ```
@@ -1384,10 +1385,10 @@ class Book(models.Model):
 ```
 
 In this example, we've added a permissions attribute to the Book model's meta class, and defined a single permission
-named can_edit_book.
+named **can_edit_book**.
 
 5. Next, you need to assign the permissions to users or groups. You can do this using Django's built-in admin interface,
-   or programmatically in your code. For example, let's say we want to assign the can_edit_book permission to a group
+   or programmatically in your code. For example, let's say we want to assign the **can_edit_book** permission to a group
    called Editors:
 
 ```
@@ -1399,7 +1400,7 @@ editors_group.permissions.add('myapp.can_edit_book')
 ```
 
 In this example, we're using the Group model to get or create a group called Editors, and then adding the
-myapp.can_edit_book permission to the group.
+**myapp.can_edit_book** permission to the group.
 
 9. Finally, you can check the user's permissions in your views or templates to control access to certain actions. For
    example, let's say we have a view that allows users to edit a book:
@@ -1417,15 +1418,15 @@ def edit_book(request, book_id):
     return render(request, 'book_edit.html', {'book': book})
 ```
 
-In this example, we're using the permission_required decorator to check if the user has the myapp.can_edit_book
-permission before allowing them to edit the book. If the user does not have the necessary permission, a PermissionDenied
+In this example, we're using the **permission_required** decorator to check if the user has the myapp.can_edit_book
+permission before allowing them to edit the book. If the user does not have the necessary permission, a **PermissionDenied**
 exception will be raised.
 
 ### Django custom user models
 
-Django's built-in User model provides a lot of functionality for authentication and authorization, but sometimes you may
+Django's built-in **User** model provides a lot of functionality for authentication and authorization, but sometimes you may
 need to customize the user model to include additional fields or functionality. In such cases, you can create a custom
-user model that inherits from Django's AbstractBaseUser or AbstractUser classes.
+user model that inherits from Django's **AbstractBaseUser** or **AbstractUser** classes.
 Here's a simple example of how to create a custom user model in Django:
 
 - Create a new app for your custom user model. For example, let's say you want to create a custom user model for a blog
@@ -1454,11 +1455,11 @@ class BlogUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 ```
 
-In this example, we've created a new model called BlogUser that inherits from AbstractBaseUser and PermissionsMixin.
+In this example, we've created a new model called **BlogUser** that inherits from **AbstractBaseUser** and **PermissionsMixin**.
 We've also defined the necessary fields, including a custom bio field.
 
 - Update your project settings to use the custom user model. In your project's **settings.py** file, update the \*
-  \*AUTH_USER_MODEL\*\* setting to point to your new user model:
+   **AUTH_USER_MODEL** setting to point to your new user model:
 
 ```
 AUTH_USER_MODEL = 'blog_auth.BlogUser'
@@ -1480,7 +1481,7 @@ Django provides a default manager for each model that allows you to interact wit
 may need to customize the default manager to add additional functionality or implement custom queries.
 Here's a simple example of how to create a custom manager in Django:
 
-- Let's say we have a model called Book in our app that represents books in a library. We want to create a custom
+- Let's say we have a model called **Book** in our app that represents books in a library. We want to create a custom
   manager that returns only the books that are currently available for borrowing.
 
 ```
@@ -1499,8 +1500,8 @@ class Book(models.Model):
     available_books = AvailableBooksManager()  # custom manager
 ```
 
-In this example, we've created a custom manager called AvailableBooksManager that filters the books based on the
-is_available field. We've also added a available_books attribute to the Book model that uses the custom manager.
+In this example, we've created a custom manager called **AvailableBooksManager** that filters the books based on the
+**is_available** field. We've also added a **available_books** attribute to the Book model that uses the custom manager.
 
 - Now we can use the custom manager in our views or templates to get only the books that are currently available for
   borrowing. For example:
@@ -1514,8 +1515,8 @@ def available_books(request):
     return render(request, 'available_books.html', {'books': books})
 ```
 
-In this example, we're using the available_books manager to get all the books that are currently available for
-borrowing, and passing them to the available_books.html template.
+In this example, we're using the **available_books** manager to get all the books that are currently available for
+borrowing, and passing them to the **available_books.html** template.
 
 ### Django Custom validators
 
@@ -1538,7 +1539,7 @@ class Book(models.Model):
     author = models.CharField(max_length=100)
 ```
 
-In this example, we've created a custom validator called validate_title that checks whether the first character of the
+In this example, we've created a custom validator called **validate_title** that checks whether the first character of the
 title is a capital letter. If the validation fails, a ValidationError is raised. We've also added the validate_title
 validator to the title field of the Book model.
 Now when a user tries to create a book with a title that doesn't start with a capital letter, the validation will fail
@@ -1546,7 +1547,7 @@ and an error message will be displayed.
 
 ### Custom management commands
 
-Custom management commands allow you to add your own functionality to the manage.py command, making it easy to automate
+Custom management commands allow you to add your own functionality to the **manage.py** command, making it easy to automate
 tasks and perform custom operations on your Django project.
 
 Here is a simple example to demonstrate how to create and use custom management commands in Django:
@@ -1557,15 +1558,14 @@ Here is a simple example to demonstrate how to create and use custom management 
 python manage.py startapp myapp
 ```
 
-- Create a new directory called **management** inside the app directory, and create another directory called **commands
-  ** inside the management directory:
+- Create a new directory called **management** inside the app directory, and create another directory called **commands** inside the management directory:
 
 ```
 mkdir myapp/management
 mkdir myapp/management/commands
 ```
 
-- Create a new Python file inside the commands directory, and name it** mycommand.py**. This will be the file that
+- Create a new Python file inside the commands directory, and name it **mycommand.py**. This will be the file that
   contains the code for your custom management command:
 
 ```
@@ -1578,7 +1578,7 @@ class Command(BaseCommand):
         print('Hello from my custom management command!')
 ```
 
-Register the new command with Django by adding an empty** **init**.py** file inside the management directory:
+Register the new command with Django by adding an empty** **__init__.py** file inside the management directory:
 
 ```
 touch myapp/management/__init__.py
@@ -1590,7 +1590,7 @@ touch myapp/management/__init__.py
 python manage.py mycommand
 ```
 
-You should see the message** "Hello from my custom management command!" **printed to the console.
+You should see the message **"Hello from my custom management command!"** printed to the console.
 
 ### Django's Query API
 Here are some examples of how to use Django's Query API:
@@ -1600,7 +1600,7 @@ from myapp.models import MyModel
 
 all_objects = MyModel.objects.all()
 ```
-This will retrieve all objects from the MyModel model and store them in the all_objects variable.
+This will retrieve all objects from the **MyModel** model and store them in the **all_objects** variable.
 
 - Filtering objects based on a condition:
 ```angular2html
@@ -1608,7 +1608,7 @@ from myapp.models import MyModel
 
 filtered_objects = MyModel.objects.filter(attribute=value)
 ```
-This will retrieve all objects from the MyModel model where the attribute matches the value and store them in the filtered_objects variable.
+This will retrieve all objects from the **MyModel** model where the attribute matches the value and store them in the filtered_objects variable.
 
 - Chaining filters:
 ```angular2html
@@ -1616,7 +1616,7 @@ from myapp.models import MyModel
 
 filtered_objects = MyModel.objects.filter(attribute1=value1).filter(attribute2=value2)
 ```
-This will retrieve all objects from the MyModel model where attribute1 matches value1 and attribute2 matches value2 and store them in the filtered_objects variable.
+This will retrieve all objects from the **MyModel** model where attribute1 matches value1 and attribute2 matches value2 and store them in the **filtered_objects** variable.
 
 
 - Querying related fields:
@@ -1625,7 +1625,7 @@ from myapp.models import MyModel
 
 related_objects = MyModel.objects.filter(related_model__attribute=value)
 ```
-This will retrieve all objects from the MyModel model where the related model's attribute matches value and store them in the related_objects variable.
+This will retrieve all objects from the **MyModel** model where the related model's attribute matches value and store them in the **related_objects** variable.
 
 - Ordering results:
 ```angular2html
@@ -1633,7 +1633,7 @@ from myapp.models import MyModel
 
 ordered_objects = MyModel.objects.order_by('attribute')
 ```
-This will retrieve all objects from the MyModel model and order them by the attribute field in ascending order. You can also use the - sign to order in descending order.
+This will retrieve all objects from the **MyModel** model and order them by the attribute field in ascending order. You can also use the - sign to order in descending order.
 
 - Limiting results:
 ```angular2html
@@ -1641,7 +1641,7 @@ from myapp.models import MyModel
 
 limited_objects = MyModel.objects.all()[:10]
 ```
-This will retrieve the first 10 objects from the MyModel model and store them in the limited_objects variable.
+This will retrieve the first 10 objects from the **MyModel** model and store them in the **limited_objects** variable.
 
 - Using OR conditions:
 ```angular2html
@@ -1650,7 +1650,7 @@ from django.db.models import Q
 
 objects = MyModel.objects.filter(Q(attribute1=value1) | Q(attribute2=value2))
 ```
-This will retrieve all objects from the MyModel model where either attribute1 matches value1 or attribute2 matches value2 and store them in the objects variable.
+This will retrieve all objects from the **MyModel** model where either attribute1 matches value1 or attribute2 matches value2 and store them in the objects variable.
 
 - Using LIKE conditions:
 ```angular2html
@@ -1658,7 +1658,7 @@ from myapp.models import MyModel
 
 objects = MyModel.objects.filter(attribute__contains=value)
 ```
-This will retrieve all objects from the MyModel model where attribute contains value and store them in the objects variable.
+This will retrieve all objects from the **MyModel** model where attribute contains value and store them in the objects variable.
 
 - Using NOT conditions:
 ```angular2html
@@ -1666,7 +1666,7 @@ from myapp.models import MyModel
 
 objects = MyModel.objects.exclude(attribute=value)
 ```
-This will retrieve all objects from the MyModel model where attribute does not match value and store them in the objects variable.
+This will retrieve all objects from the **MyModel** model where attribute does not match value and store them in the objects variable.
 
 - Retrieving a single object:
 ```angular2html
@@ -1674,7 +1674,7 @@ from myapp.models import MyModel
 
 object = MyModel.objects.get(id=value)
 ```
-This will retrieve a single object from the MyModel model where id matches value and store it in the object variable.
+This will retrieve a single object from the **MyModel** model where **id** matches value and store it in the object variable.
 
 - Updating objects:
 ```angular2html
@@ -1682,7 +1682,7 @@ from myapp.models import MyModel
 
 MyModel.objects.filter(attribute=value).update(attribute=new_value)
 ```
-This will update all objects from the MyModel model where attribute matches value and set attribute to new_value.
+This will update all objects from the **MyModel** model where attribute matches value and set attribute to new_value.
 
 
 
@@ -1691,7 +1691,7 @@ This will update all objects from the MyModel model where attribute matches valu
 Custom query expressions are a way to extend the Django query API with your own custom SQL expressions. Custom query
 expressions can be useful when you need to perform queries that are not easily expressible using the standard query API.
 
-Suppose you have a model called Person that represents a person with a first name, last name, and age. You want to
+Suppose you have a model called Person that represents a **person** with a first name, last name, and age. You want to
 perform a query that returns all people whose first name starts with a given letter. Here's how you can create a custom
 query expression to perform this query:
 
@@ -1710,8 +1710,8 @@ class StartsWith(Lookup):
 Person.objects.filter(first_name__startswith='A')
 ```
 
-In this example, we define a custom lookup called StartsWith that extends the Lookup class. We set the lookup_name
-attribute to 'startswith' to define the name of the lookup. We then define the as_sql method to generate the SQL
+In this example, we define a custom lookup called **StartsWith** that extends the Lookup class. We set the lookup_name
+attribute to **'startswith'** to define the name of the lookup. We then define the **as_sql** method to generate the SQL
 expression for the lookup.
 
 Here's another simple example of defining and using a custom lookup in Django: 
@@ -1719,6 +1719,8 @@ Here's another simple example of defining and using a custom lookup in Django:
 ```angular2html
 from django.db import models
 from django.db.models import Lookup
+
+
 class GreaterThanLookup(Lookup):
     lookup_name = 'gt'
     def as_sql(self, compiler, connection):
@@ -1726,6 +1728,8 @@ class GreaterThanLookup(Lookup):
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
         return f'{lhs} > {rhs}', params
+
+
 models.IntegerField.register_lookup(GreaterThanLookup)
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -1737,7 +1741,7 @@ Usage of the custom lookup
 ```angular2html
 expensive_products = Product.objects.filter(price__gt=100.00)
 ```
-In this example, we define a custom lookup called GreaterThanLookup that performs a greater-than comparison (>) for IntegerField fields. We subclass django.db.models.Lookup and override the as_sql() method to define the SQL representation of the lookup.
+In this example, we define a custom lookup called **GreaterThanLookup** that performs a greater-than comparison (>) for IntegerField fields. We subclass **django.db.models.Lookup** and override the **as_sql()** method to define the SQL representation of the lookup.
 The usage of the custom lookup is demonstrated, where we filter the Product objects based on the price field using the gt lookup.
 
 ### Django Filterset
@@ -1756,7 +1760,7 @@ class ProductFilter(django_filters.FilterSet):
         fields = ['name', 'price']
 ```
 
-This defines a filterset class that filters on the name and price fields of the Product model. You can then use this filterset class to filter a queryset:
+This defines a filterset class that filters on the **name** and **price** fields of the Product model. You can then use this filterset class to filter a queryset:
 
 ```angular2html
 from .filters import ProductFilter
@@ -1785,7 +1789,8 @@ class ProductFilter(django_filters.FilterSet):
         fields = ['name', 'min_price', 'max_price']
 ```
 
-This defines custom filters that filter on the price field of the Product model. The min_price filter filters on products with a price greater than or equal to the provided value, and the max_price filter filters on products with a price less than or equal to the provided value.
+This defines custom filters that filter on the **price** field of the Product model. The **min_price** filter filters on products with a price greater than or equal to the provided value, and the max_price filter filters on products with a price less than or equal to the provided value.
+Instead of using FilterSets, you can directly use the Django ORM filters to perform filtering on your querysets. Django ORM provides a wide range of filter options such as exact match, case-insensitive match, range filters, and more. You can chain multiple filters together to create complex queries.
 
 
 
@@ -1793,7 +1798,7 @@ This defines custom filters that filter on the price field of the Product model.
 ### Context managers
 The context manager is responsible for setting up the context, running the block of code, and then cleaning up the context when the block is exited, regardless of whether the block raised an exception or not. In Django, context managers can be used to control signals, transactions, and caching.
 Here are some simple examples of context managers in Django:
-- Database transactions: 
+- **Database transactions**: 
 In Django, context managers can be used to control database transactions. For example:
 ```angular2html
 from django.db import transaction
@@ -1802,7 +1807,7 @@ with transaction.atomic():
     # code that requires a transaction
 ```
 
-- Caching: 
+- **Caching**: 
 Context managers can be used to control caching in Django. For example:
 ```angular2html
 from django.core.cache import cache
@@ -1823,10 +1828,12 @@ with CacheContext('my_key', 'my_value'):
 ```
 
 In summary, context managers in Django provide a simple and intuitive API for a powerful construct. They allow you to allocate and release resources precisely when you want to, and they make it easier to write safe and readable code.
+Overall, context managers provide a robust and efficient way to manage resources and ensure proper cleanup in Django applications. They contribute to cleaner code, improved error handling, and better resource utilization.
 
 ### Django Channels
 Django Channels is a package that allows Django to handle WebSockets and other non-HTTP protocols. It extends the built-in capabilities of Django, allowing Django projects to handle not only HTTP but also protocols that require long-running connections, such as WebSockets, MQTT (IoT), chatbots, radios, and other real-time applications.
 Here are some differences between Django Channels and Django's built-in HTTP capabilities:
+
 Django Channels:
 
 - Allows Django projects to handle protocols other than HTTP, such as WebSockets, MQTT, and chatbots
@@ -1843,8 +1850,8 @@ In summary, Django Channels extends Django's built-in capabilities to handle pro
 
 ### HTTP methods in Django
 Django provides built-in support for handling HTTP requests and responses using request and response objects Here are some examples of how to use HTTP methods in Django:
-- GET: 
-To handle a GET request in a class-based view, you can define a method called get() in your view class. For example:
+- **GET**: 
+To handle a GET request in a class-based view, you can define a method called **get()** in your view class. For example:
 
 ```angular2html
 from django.views import View
@@ -1855,8 +1862,8 @@ class HelloView(View):
         return HttpResponse('Hello, World!')
 ```
 
-- POST: 
-To handle a POST request in a class-based view, you can define a method called post() in your view class. For example:
+- **POST**: 
+To handle a POST request in a class-based view, you can define a method called **post()** in your view class. For example:
 
 ```angular2html
 from django.views import View
@@ -1870,8 +1877,8 @@ class LoginView(View):
         return HttpResponse('Logged in successfully')
 ```
 
-- PUT and DELETE: 
-Django's class-based views do not have built-in support for handling PUT and DELETE requests. However, you can use mixins or third-party packages like Django REST framework to handle these requests. For example, using Django REST framework, you can define a class-based view that inherits from APIView and override the appropriate methods for PUT and DELETE requests:
+- **PUT** and **DELETE**: 
+Django's class-based views do not have built-in support for handling PUT and DELETE requests. However, you can use mixins or third-party packages like Django REST framework to handle these requests. For example, using Django REST framework, you can define a class-based view that inherits from **APIView** and override the appropriate methods for PUT and DELETE requests:
 
 ```angular2html
 from rest_framework.views import APIView
@@ -1887,9 +1894,9 @@ class UserDetailView(APIView):
         return Response({'message': 'User deleted'})
 ```
 
-In Django, the difference between PUT and PATCH methods is similar to their difference in general HTTP terms.
+In Django, the difference between **PUT** and **PATCH** methods is similar to their difference in general HTTP terms.
 
-- PUT is used to modify an entire resource on the server. When a client sends a PUT request in Django, it updates the entire resource with the new data provided. If the resource does not exist, PUT creates a new resource. PUT is idempotent, meaning that calling it once or multiple times successively has the same effect.
+- **PUT** is used to modify an entire resource on the server. When a client sends a PUT request in Django, it updates the entire resource with the new data provided. If the resource does not exist, PUT creates a new resource. PUT is idempotent, meaning that calling it once or multiple times successively has the same effect.
 - PATCH is used to modify a part of a resource on the server. When a client sends a PATCH request in Django, it updates only the specified part of the resource with the new data provided. PATCH is not idempotent, meaning that successive identical PATCH requests may have additional effects. PATCH allows partial updates and side-effects on other resources.
 
 Here's an example of how to handle PUT and PATCH requests in Django using Django REST Framework:
@@ -1928,7 +1935,11 @@ class MyResourceView(APIView):
 In the above example, the put method is used to handle PUT requests and update the entire resource with the new name and age. The patch method is used to handle PATCH requests and update only the specified part of the resource. The request.data attribute is used to access the data sent in the request body.
 
 ### annotate and aggregate in Django
-In Django, annotate() and aggregate() are used to perform SQL group by operations. annotate() calculates summary values for each item in the queryset, while aggregate() calculates values for the entire queryset.
+**annotate()** is typically used when you want to add additional information or calculated fields to each object in the queryset. For example, you can annotate a queryset of books with the number of authors for each book
+On the other hand, **aggregate()** is used when you want to perform calculations on the entire queryset, such as calculating the sum, average, or count of a specific field across all objects in the queryset.
+
+The output of **annotate()** is a QuerySet, which means it returns a modified queryset with the annotated values. On the other hand, **aggregate()** returns a dictionary containing the calculated aggregate values
+
 Here is a simple example of using annotate() and aggregate() in Django:
 
 ```angular2html
@@ -1942,13 +1953,12 @@ authors = Author.objects.annotate(num_books=Count('book'))
 total_books = Book.objects.aggregate(total=Count('id'))
 
 ```
-In the above example, annotate() is used to count the number of books for each author. The Count() function is used to count the number of related books for each author. The resulting queryset will have an additional attribute num_books for each author object.
-aggregate() is used to count the total number of books. The Count() function is used to count the number of books in the Book model. The resulting dictionary will have a single key total with the total number of books as its value.
-It is important to note that annotate() returns a queryset, while aggregate() returns a dictionary.
-Overall, annotate() and aggregate() are powerful tools in Django for performing group by operations and calculating summary values.
+In the above example, **annotate()** is used to count the number of books for each author. The **Count()** function is used to count the number of related books for each author. The resulting queryset will have an additional attribute num_books for each author object.
+**aggregate()** is used to count the total number of books. The **Count()** function is used to count the number of books in the Book model. The resulting dictionary will have a single key total with the total number of books as its value.
+It is important to note that **annotate()** returns a queryset, while **aggregate()** returns a dictionary.
 
 ### Mixin in Django
-In Django, a mixin is a class that provides additional functionality to other classes through inheritance. Mixins are used to add common or reusable functionality to multiple classes without the need for duplicating code.
+In Django, a **mixin** is a class that provides additional functionality to other classes through **inheritance**. Mixins are used to add common or reusable functionality to multiple classes without the need for duplicating code.
  Here's a simple example to demonstrate how mixins work in Django: 
 
 ```angular2html
@@ -1976,7 +1986,7 @@ class MyView(TimestampMixin, View):
         pass
 
 ```
- In this example, we have defined a mixin class called TimestampMixin. It adds two fields, created_at and updated_at, to any class that inherits from it. The Meta class with abstract = True ensures that the mixin itself is not treated as a model.
+ In this example, we have defined a mixin class called **TimestampMixin**. It adds two fields, **created_at** and **updated_at**, to any class that inherits from it. The Meta class with **abstract = True** ensures that the mixin itself is not treated as a model.
  By using mixins, you can easily add common functionality to multiple classes without duplicating code. This promotes code reuse, improves maintainability, and keeps your codebase organized.
  
 ### Cache in Django
@@ -1996,7 +2006,7 @@ CACHES = {
 
 ```
 
-2- Use the cache_page decorator to cache the result of a view:
+2- Use the **cache_page** decorator to cache the result of a view:
 
 ```angular2html
 from django.views.decorators.cache import cache_page
@@ -2008,7 +2018,7 @@ def my_view(request):
     return HttpResponse('Hello, World!')
 
 ```
-We then use the cache_page decorator to cache the result of the my_view function for 15 minutes. This means that the first time the view is accessed, the result will be computed and stored in the cache. For subsequent requests within the next 15 minutes, the cached result will be returned directly without executing the view function again.
+We then use the **cache_page** decorator to cache the result of the **my_view** function for 15 minutes. This means that the first time the view is accessed, the result will be computed and stored in the cache. For subsequent requests within the next 15 minutes, the cached result will be returned directly without executing the view function again.
 
 ### Django constraint
 In Django, a constraint refers to a rule or condition that can be applied to a database table to enforce data integrity. Constraints ensure that the data stored in the table follows certain rules and meets specific requirements.
@@ -2025,82 +2035,99 @@ class Person(models.Model):
             models.CheckConstraint(check=models.Q(age__gte=18), name='age_gte_18')
         ]
 ```
-In this example, we define a Person model with two fields: name and age. We want to enforce a constraint that ensures the age field is greater than or equal to 18.
+In this example, we define a **Person** model with two fields: **name** and **age**. We want to enforce a constraint that ensures the age field is greater than or equal to 18.
 By defining this constraint, Django will automatically create the necessary SQL statements to enforce the constraint when creating or modifying the database table for the Person model. Constraints help maintain data integrity and ensure that the data stored in the database follows the defined rules. They can be particularly useful in scenarios where you want to enforce specific conditions or relationships between fields in your models.
+
+#### Django constraints and model validators differences
+
+Django constraints and model validators are two different mechanisms for ensuring data integrity in Django applications.
+Constraints are used to enforce data integrity rules at the database level, while validators are used to enforce data integrity rules at the application leve.
+During exceptions in Django Constraints raise database-level errors such as IntegrityError, while validators raise application-level errors such as ValidationError
+
 
 ### bulk creation in Django
 In Django, bulk creation refers to the process of creating multiple model instances in a single database query, rather than creating them one by one. This can significantly improve the performance of creating large numbers of objects.  This method takes a list of model instances as an argument and inserts them into the database efficiently.
- Here's a simple example of using bulk_create() in Django: 
+ Here's a simple example of using **bulk_create()** in Django: 
 
 ```angular2html
 from django.db import models
+
 class Book(models.Model):
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=100)
     publication_year = models.IntegerField()
+
+
 # Create a list of Book instances
 books = [
     Book(title='Book 1', author='Author 1', publication_year=2020),
     Book(title='Book 2', author='Author 2', publication_year=2021),
     Book(title='Book 3', author='Author 3', publication_year=2022),
 ]
+
 # Bulk create the books
 Book.objects.bulk_create(books)
 ```
 
-In this example, we define a Book model with three fields: title, author, and publication_year. We then create a list of Book instances with different values. To perform bulk creation, we use the bulk_create() method of the Book.objects manager. We pass the list of Book instances as an argument to bulk_create(), and Django will efficiently insert them into the database in a single query.
- Overall, bulk_create() is a useful feature in Django for efficiently creating multiple model instances in a single database query.
+In this example, we define a **Book** model with three fields: title, author, and publication_year. We then create a list of Book instances with different values. To perform bulk creation, we use the **bulk_create()** method of the Book.objects manager. We pass the list of Book instances as an argument to **bulk_create()**, and Django will efficiently insert them into the database in a single query.
+ Overall, **bulk_create()** is a useful feature in Django for efficiently creating multiple model instances in a single database query.
 
 ### prefetch_related and select_related in Django
-In Django, prefetch_related and select_related are query optimization techniques that allow you to reduce the number of database queries when retrieving related objects.
+In Django, **prefetch_related** and **select_related** are query optimization techniques that allow you to reduce the number of database queries when retrieving related objects.
 
-1- select_related
+1- **select_related**
 
-It works for ForeignKey and OneToOneField relationships. By using select_related, you can avoid the overhead of multiple database queries when accessing related objects.
+It works for **ForeignKey** and **OneToOneField** relationships. By using **select_related**, you can avoid the overhead of multiple database queries when accessing related objects.
  Here's a simple example: 
 
 ```angular2html
 from django.db import models
+
 class Author(models.Model):
     name = models.CharField(max_length=100)
+
 class Book(models.Model):
     title = models.CharField(max_length=100)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
 ```
 
- Suppose we have a Book model with a ForeignKey relationship to the Author model. If we want to retrieve all books and their corresponding authors, we can use select_related to fetch the related authors in a single query: 
+ Suppose we have a **Book** model with a **ForeignKey** relationship to the **Author** model. If we want to retrieve all books and their corresponding authors, we can use **select_related** to fetch the related authors in a single query: 
 
 ```angular2html
 books = Book.objects.select_related('author').all()
+
 for book in books:
     print(f"Book: {book.title}, Author: {book.author.name}")
 ```
 
- In this example, select_related('author') is used to fetch the related Author objects along with the Book objects in a single query. This avoids the need for an additional query for each book's author.
+ In this example, **select_related('author')** is used to fetch the related Author objects along with the Book objects in a single query. This avoids the need for an additional query for each book's author.
 
-2- prefetch_related
+2- **prefetch_related**
 
-It works for ManyToManyField and reverse ForeignKey relationships. By using prefetch_related, you can reduce the number of queries when accessing related objects. Here's a simple example:
+It works for **ManyToManyField** and **reverse ForeignKey** relationships. By using **prefetch_related**, you can reduce the number of queries when accessing related objects. Here's a simple example:
 
 ```angular2html
 from django.db import models
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
+
 class Product(models.Model):
     name = models.CharField(max_length=100)
     categories = models.ManyToManyField(Category)
 ```
 
- Suppose we have a Product model with a ManyToManyField relationship to the Category model. If we want to retrieve all products and their corresponding categories, we can use prefetch_related to fetch the related categories efficiently: 
+ Suppose we have a **Product** model with a **ManyToManyField** relationship to the **Category** model. If we want to retrieve all products and their corresponding categories, we can use **prefetch_related** to fetch the related categories efficiently: 
 
 ```angular2html
 products = Product.objects.prefetch_related('categories').all()
+
 for product in products:
     print(f"Product: {product.name}")
     for category in product.categories.all():
         print(f"Category: {category.name}")
 ```
- To retrieve all authors along with their books efficiently, we can use prefetch_related as follows: 
+ To retrieve all authors along with their books efficiently, we can use **prefetch_related** as follows: 
 
 ```angular2html
 authors = Author.objects.prefetch_related('books').all()
@@ -2110,19 +2137,20 @@ for author in authors:
         print(f"Book: {book.title}")
 ```
 
- In this example, prefetch_related('books') is used to fetch all the related Book objects efficiently for each author. It reduces the number of queries by fetching all the related books in a separate query, rather than fetching them individually for each author.
+ In this example, **prefetch_related('books')** is used to fetch all the related Book objects efficiently for each author. It reduces the number of queries by fetching all the related books in a separate query, rather than fetching them individually for each author.
 
- In this example, prefetch_related('categories') is used to fetch the related Category objects efficiently. It reduces the number of queries by fetching all the related categories in a separate query, rather than fetching them individually for each product.
- Using select_related and prefetch_related can significantly improve the performance of your Django queries by reducing the number of database queries. It is especially useful when dealing with large datasets or complex relationships between models.
+ In this example, **prefetch_related('categories')** is used to fetch the related Category objects efficiently. It reduces the number of queries by fetching all the related categories in a separate query, rather than fetching them individually for each product.
+ Using **select_related** and **prefetch_related** can significantly improve the performance of your Django queries by reducing the number of database queries. It is especially useful when dealing with large datasets or complex relationships between models.
 
 ### Third-party packages in Django
 There are several third-party packages that can greatly enhance your development experience and provide additional functionality. Here is a list of must-have third-party packages that are commonly used in Django projects:
-- Django REST framework: A powerful and flexible toolkit for building Web APIs.
-- Django Crispy Forms: Easily manage Django forms' layout using bootstrap styles.
-- Django Debug Toolbar: Provides a set of panels displaying various debug information about the current request/response.
-- Django Celery: Distributed task queue system for asynchronous processing.
-- Django Allauth: User registration, authentication, and account management.
-- Django Rest Auth: Provides a set of REST API endpoints for user registration, authentication, and account management.
-- Django Filter: Simplifies the process of filtering querysets dynamically.
-- Django Rest Framework Swagger: Generates interactive API documentation using the OpenAPI standard.
-- Django Environ: Allows you to define environment variables for your Django project.
+- **Django REST framework**: A powerful and flexible toolkit for building Web APIs.
+- **Django Crispy Forms**: Easily manage Django forms' layout using bootstrap styles.
+- **Django Debug Toolbar**: Provides a set of panels displaying various debug information about the current request/response.
+- **Django Celery**: Distributed task queue system for asynchronous processing.
+- **Django allauth**: User registration, authentication, and account management.
+- **Django Rest Auth**: Provides a set of REST API endpoints for user registration, authentication, and account management.
+- **Django Filter**: Simplifies the process of filtering querysets dynamically.
+- **Django Rest Framework Swagger**: Generates interactive API documentation using the OpenAPI standard.
+- **Django Environ**: Allows you to define environment variables for your Django project.
+
