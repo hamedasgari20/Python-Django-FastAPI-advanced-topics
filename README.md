@@ -74,6 +74,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
       * [Model managers](#model-managers)
       * [Model inheritance](#model-inheritance)
     * [Class-based views methods](#class-based-views-methods)
+    * [Django optimization](#django-optimization)
 <!-- TOC -->
 
 ## Python related topics:
@@ -2458,10 +2459,99 @@ These methods are called when a form is submitted and validated. They perform th
 By understanding these methods, you can customize the behavior of Django class-based views to suit your specific requirements and optimize the performance of your Django applications.
 
 
+### Django optimization
+To optimize your Django application for scalability, there are several techniques you can implement:
+
+- **Database Optimization:**
+
+Django's database layer provides various ways to improve performance, such as using database indexes, optimizing queries, and reducing database round trips
+Suppose you have a Django model called **Book** with a field called **title**. To optimize the database query, you can add an index to the title field by adding **db_index=True** to the field definition in the model:
+
+```angular2html
+class Book(models.Model):
+    title = models.CharField(max_length=100, db_index=True)
+    author = models.CharField(max_length=50)
+    
+```
+this index will speed up queries that filter or order by the title field, as the database can use the index to quickly find the relevant rows
+
+- **Caching:** 
+
+Implementing caching can significantly improve the performance of your Django application. You can use tools like Django's built-in caching framework. For example, to cache the result of a query for 5 minutes, you can use the **cache_page** decorator:
+
+```angular2html
+from django.views.decorators.cache import cache_page
+
+@cache_page(60 * 5)
+def my_view(request):
+    # perform database query
+    books = Book.objects.all()
+    
+```
+
+- **Code Optimization:** 
+
+Optimizing your code can help improve the overall performance of your application. This includes writing efficient algorithms, reducing unnecessary database queries, and optimizing resource-intensive operations.
+
+Suppose you have a Django view that returns a list of all **Book** objects in the database. To optimize the code, you can use the **prefetch_related** method to fetch related objects in a single query:
+
+code example:
+
+```angular2html
+def book_list(request):
+    # perform database query for all books
+    books = Book.objects.all()
+    # perform database query for each author of each book
+    for book in books:
+        authors = book.author_set.all()
+        ...
+```
+
+Optimized version: 
+
+```angular2html
+def book_list(request):
+    # fetch related authors in a single query
+    books = Book.objects.prefetch_related('author_set').all()
+    for book in books:
+        authors = book.author_set.all()
+        ...
+```
+
+In the first example, the code performs a separate database query for each author of each book, resulting in a large number of queries. In the second example, the **prefetch_related** method fetches all related authors in a single query, reducing the number of queries and improving performance.
+
+- **Distributed Task Queues:** 
+
+Using distributed task queues, such as **Celery**, can help offload time-consuming tasks to separate worker processes, allowing your application to handle more concurrent requests.
+Suppose you have a view that performs a time-consuming task, such as sending an email. To offload the task to a separate worker process, you can use **Celery** such as below:
+
+```angular2html
+from celery import shared_task
+
+@shared_task
+def send_email_task(email):
+    # send email
+    ...
+
+def my_view(request):
+    # offload task to Celery worker
+    send_email_task.delay(email)
+    ...
 
 
+```
+
+- **Scaling Horizontally:**
+
+To handle increased traffic and user load, you can scale your Django application horizontally by splitting it into individual services (SOA) and scaling them independently. This approach allows you to distribute the load and optimize each service individually.
+Suppose you have a Django application that handles both user authentication and payment processing. To scale the application horizontally, you can split it into two separate services:
+1- Authentication service: Handles user authentication and authorization. 
+2- Payment service: Handles payment processing and billing.
 
 
+- **Benchmarking:** 
+
+Regularly benchmarking and profiling your application can help identify performance bottlenecks and areas for improvement. Tools like **Django Debug Toolbar** and **Django Silk** can assist in analyzing and optimizing your code.
 
 
 
