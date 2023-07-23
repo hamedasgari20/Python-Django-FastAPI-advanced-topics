@@ -96,6 +96,8 @@ Inheritance is a mechanism that allows a class to inherit properties and methods
 inherits from another class is called a subclass or derived class, while the class that is being inherited from is
 called a superclass or base class.
 
+
+
 ```
 class Animal:
     def __init__(self, name):
