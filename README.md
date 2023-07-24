@@ -457,7 +457,8 @@ are a few examples of how you can use **lambda functions in Django**:
   You can use a lambda function as a condition for filtering objects in a Django queryset. For instance:
 
 ```
-filtered_queryset = MyModel.objects.filter(lambda obj: obj.field_name == 'some_value')
+filtered_queryset = MyModel.objects.all() 
+filtered_objects = filter(lambda obj: obj.field_name == 'some_value', objects)
 ```
 
 ### Exception Handling
