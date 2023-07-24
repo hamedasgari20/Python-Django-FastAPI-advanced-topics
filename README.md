@@ -352,6 +352,14 @@ usernames = list(map(lambda user: user.username, users))
 
 # Output: ['user1', 'user2', 'user3', ...]
 ```
+The best practice of last example is :
+
+```
+usernames = User.objects.all().values_list('username', flat=True)
+
+# Output: ['user1', 'user2', 'user3', ...]
+
+```
 
 ### Itertools
 
@@ -450,16 +458,7 @@ squared_numbers = list(map(lambda x: x ** 2, numbers))
 print(squared_numbers)  # Output: [1, 4, 9, 16, 25]
 ```
 
-For more complex or reusable functions, it's often better to define a regular named function using the **def** keyword. Here
-are a few examples of how you can use **lambda functions in Django**:
-
-- Filtering objects in a queryset:
-  You can use a lambda function as a condition for filtering objects in a Django queryset. For instance:
-
-```
-filtered_queryset = MyModel.objects.all() 
-filtered_objects = filter(lambda obj: obj.field_name == 'some_value', objects)
-```
+For more complex or reusable functions, it's often better to define a regular named function using the **def** keyword. 
 
 ### Exception Handling
 
