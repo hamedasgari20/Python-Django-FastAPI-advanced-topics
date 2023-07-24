@@ -990,10 +990,10 @@ class MyClass:
         return cls.class_attribute + x + y
 
 result1 = MyClass.my_class_method(3, 4)
-print(result1)  # Output: 2 + 3 + 4 = 9
+print(result1)  # Output: 1 + 3 + 4 = 8
 
 result2 = MyClass.my_class_method(1, 2)
-print(result2)  # Output: 3 + 1 + 2 = 6
+print(result2)  # Output: 2 + 1 + 2 = 5
 ```
 
 3. **Static Methods:**
