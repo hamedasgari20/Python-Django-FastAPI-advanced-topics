@@ -1013,6 +1013,7 @@ print(result)  # Output: 7
 
 ### Data serialization
 Data serialization is the process of converting structured data into a format that allows sharing or storage of the data in a form that allows recovery of its original structure. In Python, there are several built-in modules for data serialization, including **pickle**, **json**, and **marshal**.
+**Note** that the marshal module is not suitable for serializing data that needs to be exchanged between different programming languages or platforms, as the binary format is specific to Python. For that purpose, you may want to consider using a different serialization library such as JSON, pickle, or protobuf.
 
 Here's an example of using the **pickle** module to serialize and deserialize a Python object:
 
