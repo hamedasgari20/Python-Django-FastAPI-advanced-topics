@@ -352,6 +352,14 @@ usernames = list(map(lambda user: user.username, users))
 
 # Output: ['user1', 'user2', 'user3', ...]
 ```
+The best practice of last example is :
+
+```
+usernames = User.objects.all().values_list('username', flat=True)
+
+# Output: ['user1', 'user2', 'user3', ...]
+
+```
 
 ### Itertools
 
@@ -450,16 +458,7 @@ squared_numbers = list(map(lambda x: x ** 2, numbers))
 print(squared_numbers)  # Output: [1, 4, 9, 16, 25]
 ```
 
-For more complex or reusable functions, it's often better to define a regular named function using the **def** keyword. Here
-are a few examples of how you can use **lambda functions in Django**:
-
-- Filtering objects in a queryset:
-  You can use a lambda function as a condition for filtering objects in a Django queryset. For instance:
-
-```
-filtered_queryset = MyModel.objects.all() 
-filtered_objects = filter(lambda obj: obj.field_name == 'some_value', objects)
-```
+For more complex or reusable functions, it's often better to define a regular named function using the **def** keyword. 
 
 ### Exception Handling
 
@@ -1014,6 +1013,7 @@ print(result)  # Output: 7
 
 ### Data serialization
 Data serialization is the process of converting structured data into a format that allows sharing or storage of the data in a form that allows recovery of its original structure. In Python, there are several built-in modules for data serialization, including **pickle**, **json**, and **marshal**.
+**Note** that the marshal module is not suitable for serializing data that needs to be exchanged between different programming languages or platforms, as the binary format is specific to Python. For that purpose, you may want to consider using a different serialization library such as JSON, pickle, or protobuf.
 
 Here's an example of using the **pickle** module to serialize and deserialize a Python object:
 
