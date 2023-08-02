@@ -1059,6 +1059,22 @@ class Person:
 
 In the above example, the **@dataclass** decorator is used to create a data class called **Person**. The class has two attributes, name and age, which are defined using type annotations. The dataclass decorator automatically generates several special methods such as __init__(), __repr__(), and __eq__() for the class.
 
+To add custom validation to the example using dataclasses, you can define a custom **__post_init__** method that runs after the object is initialized. Within this method, you can perform your custom validation logic. Here's how you can do it:
+
+```
+from dataclasses import dataclass
+
+@dataclass
+class Person:
+    name: str
+    age: int
+
+    def __post_init__(self):
+        if self.age < 18:
+            raise ValueError("Age must be greater than or equal to 18")
+            
+```
+
 ### Shallow copy and deep copy
 In Python, there are two types of copying: **shallow copy** and **deep copy**. A **shallow copy** creates a new object that stores references to the child objects of the original object. In contrast, a **deep copy** creates a new object that is completely independent of the original object.
 To create a shallow copy of an object, we can use the copy method provided by the copy module in Python. The copy method returns a shallow copy of the object. For example:
@@ -1176,6 +1192,28 @@ print(person)
 
 
 ```
+To add custom validation to the example using Pydantic, you can use Pydantic's validation decorators like @validator. These decorators allow you to define custom validation functions that run when the model is being initialized. Here's how you can add custom validation to the Person model to ensure that the age is greater than or equal to 18:
+
+```
+from pydantic import BaseModel, validator
+
+class Person(BaseModel):
+    name: str
+    age: int
+
+    @validator("age")
+    def validate_age(cls, value):
+        if value < 18:
+            raise ValueError("Age must be greater than or equal to 18")
+        return value
+
+person_data = {
+    "name": "John Doe",
+    "age": 30
+}
+
+```
+In this example, we define a custom validation function **validate_age** using the **@validator** decorator. This function checks if the age value is less than 18, and if so, raises a **ValueError** with a custom error message. If the validation passes, the function returns the value as it is. 
 
 In this example, we define a Pydantic data model Person that has two fields: name of type str and age of type int. 
 Pydantic automatically validates the input data against the data model and raises a **ValueError** if the data is invalid. If the data is valid, Pydantic creates a new Person object with the validated data and assigns it to the person variable. We then print the person object to verify that it was created correctly.
