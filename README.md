@@ -13,8 +13,8 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
 
 <!-- TOC -->
   * [Introduction](#introduction)
-  * [Python related topics:](#python-related-topics)
-    * [object-oriented programming (OOP)](#object-oriented-programming-oop)
+  * [Python related topics:](#python-related-topics-)
+    * [object-oriented programming (OOP)](#object-oriented-programming--oop-)
       * [Inheritance](#inheritance)
       * [Polymorphism](#polymorphism)
       * [Encapsulation](#encapsulation)
@@ -34,13 +34,13 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Data serialization](#data-serialization)
     * [Data class in python](#data-class-in-python)
     * [Shallow copy and deep copy](#shallow-copy-and-deep-copy)
-    * [Local and global variables](#local-and-global-variables-)
+    * [Local and global variables](#local-and-global-variables)
     * [Comprehension](#comprehension)
     * [Pydantic](#pydantic)
     * [Args and Kwargs in Python](#args-and-kwargs-in-python)
     * [Operator overloading](#operator-overloading)
     * [Recursive function](#recursive-function)
-  * [Django related topics:](#django-related-topics)
+  * [Django related topics:](#django-related-topics-)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
     * [Django custom template tags](#django-custom-template-tags)
@@ -61,14 +61,14 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Django constraint](#django-constraint)
       * [Django constraints and model validators differences](#django-constraints-and-model-validators-differences)
     * [bulk creation in Django](#bulk-creation-in-django)
-    * [prefetch_related and select_related in Django](#prefetchrelated-and-selectrelated-in-django)
+    * [prefetch_related and select_related in Django](#prefetch_related-and-select_related-in-django)
     * [Third-party packages in Django](#third-party-packages-in-django)
     * [Property decorators](#property-decorators)
     * [WSGI and ASGI](#wsgi-and-asgi)
-      * [WSGI (Web Server Gateway Interface):](#wsgi-web-server-gateway-interface)
-      * [ASGI (Asynchronous Server Gateway Interface):](#asgi-asynchronous-server-gateway-interface)
+      * [WSGI (Web Server Gateway Interface):](#wsgi--web-server-gateway-interface--)
+      * [ASGI (Asynchronous Server Gateway Interface):](#asgi--asynchronous-server-gateway-interface--)
     * [Advanced features in ORM](#advanced-features-in-orm)
-      * [Q objects:](#q-objects)
+      * [Q objects:](#q-objects-)
       * [F expressions:](#f-expressions-)
       * [QuerySet methods](#queryset-methods)
       * [Model managers](#model-managers)
@@ -76,11 +76,12 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Class-based views methods](#class-based-views-methods)
     * [Django optimization](#django-optimization)
       * [**Database Optimization:**](#database-optimization)
-      * [**Caching:**](#caching-)
-      * [**Code Optimization:**](#code-optimization-)
-      * [**Distributed Task Queues:**](#distributed-task-queues-)
+      * [**Caching:**](#caching)
+      * [**Code Optimization:**](#code-optimization)
+      * [**Distributed Task Queues:**](#distributed-task-queues)
       * [**Scaling Horizontally:**](#scaling-horizontally)
-      * [**Benchmarking:**](#benchmarking-)
+      * [**Benchmarking:**](#benchmarking)
+    * [Generic Foreign Key in Django](#generic-foreign-key-in-django)
 <!-- TOC -->
 
 ## Python related topics:
@@ -2601,6 +2602,56 @@ Suppose you have a Django application that handles both user authentication and 
 Regularly benchmarking and profiling your application can help identify performance bottlenecks and areas for improvement. Tools like **Django Debug Toolbar** and **Django Silk** can assist in analyzing and optimizing your code.
 
 
+### Generic Foreign Key in Django
+In Django, a Generic Foreign Key is a feature that allows you to create a relationship between a model and any other model in the database without directly specifying the related model. This is useful when you have a model that needs to be related to multiple other models. Instead of creating separate foreign keys for each related model, you can use a generic foreign key to achieve this flexibility.
 
+In this example, we will create a model called **Vote**, which can be used to represent votes on different types of content, such as **posts**, **comments**, or **images**.
 
+1- Define the models in **models.py**:
 
+```angular2html
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.db import models
+
+class Vote(models.Model):
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    voter_name = models.CharField(max_length=100)
+    vote_type = models.CharField(max_length=10)  # e.g., 'upvote', 'downvote'
+
+    def __str__(self):
+        return f"{self.voter_name} voted on {self.content_object} ({self.vote_type})"
+
+```
+
+2- Create instances of the models:
+Now, you can create instances of the **Vote** model and associate them with any other models in the database. For example:
+
+```angular2html
+from django.contrib.contenttypes.models import ContentType
+
+# Create a post instance (just an example, you can have other models)
+post = Post.objects.create(title="My Post", content="This is my post content")
+
+# Create a comment instance (just an example, you can have other models)
+comment = Comment.objects.create(text="Nice post!")
+
+# Create a vote for the post
+post_vote = Vote.objects.create(
+    content_object=post,
+    voter_name="John Doe",
+    vote_type="upvote"
+)
+
+# Create a vote for the comment
+comment_vote = Vote.objects.create(
+    content_object=comment,
+    voter_name="Alice",
+    vote_type="downvote"
+)
+```
+In this example, we have created a Vote model with a generic foreign key, allowing it to be associated with different types of content (posts, comments, etc.). 
+You can now use the **Vote** model to track votes on various content types throughout your Django project.
