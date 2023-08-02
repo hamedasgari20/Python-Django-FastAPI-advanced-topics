@@ -82,6 +82,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
       * [**Scaling Horizontally:**](#scaling-horizontally)
       * [**Benchmarking:**](#benchmarking)
     * [Generic Foreign Key in Django](#generic-foreign-key-in-django)
+    * [Django custom exceptions](#django-custom-exceptions)
 <!-- TOC -->
 
 ## Python related topics:
@@ -2655,3 +2656,44 @@ comment_vote = Vote.objects.create(
 ```
 In this example, we have created a Vote model with a generic foreign key, allowing it to be associated with different types of content (posts, comments, etc.). 
 You can now use the **Vote** model to track votes on various content types throughout your Django project.
+
+### Django custom exceptions
+
+In Django, you can create custom exceptions to handle specific error scenarios in your application. Custom exceptions allow you to define your own exception classes that inherit from Python's built-in **Exception** class or any other existing exception class. By doing so, you can raise and catch these custom exceptions in your code to handle different types of errors more effectively.
+Here's a simple example of how to create and use custom exceptions in Django:
+
+1- Define the custom exception in a **exceptions.py** file (you can create this file in your app directory):
+
+```angular2html
+class InvalidDataError(Exception):
+    def __init__(self, message="Invalid data provided."):
+        self.message = message
+        super().__init__(self.message)
+
+```
+
+2- Raise the custom exception in your views or other parts of the code:
+
+```angular2html
+from django.shortcuts import render
+from .exceptions import InvalidDataError
+
+def custom_exception_view(request):
+    try:
+        # Some logic to validate data
+        data = request.POST.get('data')
+        if not data:
+            raise InvalidDataError("Data is missing!")
+
+        # Rest of the code for processing valid data
+        return render(request, 'success.html', {'data': data})
+
+    except InvalidDataError as e:
+        # Handle the custom exception
+        error_message = str(e)
+        return render(request, 'error.html', {'error_message': error_message})
+
+
+```
+
+In this example, we create a view function called **custom_exception_view**. Inside the view, we perform some validation on the data received in the POST request. If the data is missing or invalid, we raise the **InvalidDataError** custom exception with a specific error message.
