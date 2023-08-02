@@ -83,6 +83,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
       * [**Benchmarking:**](#benchmarking)
     * [Generic Foreign Key in Django](#generic-foreign-key-in-django)
     * [Django custom exceptions](#django-custom-exceptions)
+    * [select_for_update in Django](#select_for_update-in-django)
 <!-- TOC -->
 
 ## Python related topics:
@@ -2697,3 +2698,51 @@ def custom_exception_view(request):
 ```
 
 In this example, we create a view function called **custom_exception_view**. Inside the view, we perform some validation on the data received in the POST request. If the data is missing or invalid, we raise the **InvalidDataError** custom exception with a specific error message.
+
+### select_for_update in Django
+In Django, **select_for_update** is a method that allows you to lock database rows for update during a database query.  This is useful in scenarios where you want to prevent multiple transactions from simultaneously modifying the same rows, thus avoiding potential conflicts and ensuring data consistency.
+When you use **select_for_update**, it places a "select for update" lock on the selected rows in the database. Other transactions attempting to modify the same rows will have to wait until the lock is released. This feature is particularly important in situations where concurrent updates could lead to incorrect results or data integrity issues.
+
+Assume we have a model called **Book** that represents books in a library. We want to ensure that when a user borrows a book, the book's availability status is updated, and during this process, no other user can borrow the same book until the update is complete.
+
+1- Define the model in **models.py**:
+
+```angular2html
+from django.db import models
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    is_available = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title
+
+```
+
+2- Borrow the book using **select_for_update**:
+In your view or business logic, use **select_for_update** to borrow the book and update its availability status:
+
+```angular2html
+from django.db import transaction
+from .models import Book
+
+def borrow_book(book_id):
+    try:
+        with transaction.atomic():
+            book = Book.objects.select_for_update().get(pk=book_id)
+            if book.is_available:
+                book.is_available = False
+                book.save()
+                return f"Successfully borrowed {book.title}."
+            else:
+                return f"Sorry, {book.title} is not available for borrowing."
+
+    except Book.DoesNotExist:
+        return "Book not found."
+
+
+```
+
+In this example, we use a context manager (**with transaction.atomic()**) to ensure that the update operation is atomic and handled within a single database transaction. The **select_for_update()** method is called on the **Book.objects** queryset to obtain a lock on the selected row for update.
+
+This example demonstrates how to use **select_for_update** to lock a specific row in the database during an update operation to maintain data integrity and consistency in a concurrent environment.
