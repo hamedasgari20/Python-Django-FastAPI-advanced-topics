@@ -44,6 +44,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [More decorators in Python](#more-decorators-in-python)
     * [frozenset in Python](#frozenset-in-python)
     * [Python 3.11 over previous versions](#python-311-over-previous-versions)
+    * [Semaphores and Mutexes](#semaphores-and-mutexes)
   * [Django related topics:](#django-related-topics)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
@@ -1555,6 +1556,78 @@ Python 3.11 is faster than previous versions, which means that your Python progr
 Python 3.11 includes a new built-in library for working with TOML files, which is a popular configuration file format. For example, you can use the "toml" module to read and write TOML files in your Python programs.
 
 These are just a few simple examples of the advantages of using Python 3.11 over previous versions
+
+### Semaphores and Mutexes
+Semaphores and Mutexes are synchronization mechanisms used in concurrent programming to control access to shared resources and avoid race conditions. Here, I'll explain the concepts of Semaphore and Mutex in Python
+
+- Mutex (Mutual Exclusion):
+A Mutex is a synchronization primitive that allows only one thread to access a shared resource at a time. It ensures that only one thread can acquire the mutex and access the protected resource, while other threads must wait until the mutex is released.
+
+Here's a simple Python example using the **threading** module:
+
+```
+import threading
+
+# Create a mutex
+mutex = threading.Lock()
+
+shared_variable = 0
+
+def increment_shared_variable():
+    global shared_variable
+    with mutex:
+        shared_variable += 1
+
+# Create multiple threads to increment the shared variable
+threads = []
+for _ in range(5):
+    thread = threading.Thread(target=increment_shared_variable)
+    threads.append(thread)
+    thread.start()
+
+for thread in threads:
+    thread.join()
+
+print("Shared variable:", shared_variable)
+
+```
+In this example, the **mutex** ensures that only one thread can execute the critical section (incrementing **shared_variable**) at a time, preventing **race conditions**.
+
+- Semaphore:
+A Semaphore is a synchronization primitive that allows a fixed number of threads to access a resource simultaneously. It maintains a count, and threads can acquire or release the semaphore based on this count.
+
+Here's a simple Python example using the **threading** module:
+
+```angular2html
+import threading
+
+# Create a semaphore with a maximum of 2 permits
+semaphore = threading.Semaphore(2)
+
+def access_shared_resource(thread_id):
+    semaphore.acquire()
+    print(f"Thread {thread_id} is accessing the shared resource.")
+    # Simulate some work
+    threading.Event().wait()
+    print(f"Thread {thread_id} is releasing the shared resource.")
+    semaphore.release()
+
+# Create multiple threads to access the shared resource
+threads = []
+for i in range(5):
+    thread = threading.Thread(target=access_shared_resource, args=(i,))
+    threads.append(thread)
+    thread.start()
+
+for thread in threads:
+    thread.join()
+
+```
+In this example, the semaphore allows up to 2 threads to access the shared resource concurrently, while other threads will wait until a permit is released.
+
+
+
+
 
 
 
