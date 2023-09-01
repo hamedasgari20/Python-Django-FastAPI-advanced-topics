@@ -42,6 +42,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Recursive function](#recursive-function)
     * [Context manager](#context-manager)
     * [More decorators in Python](#more-decorators-in-python)
+    * [frozenset in Python](#frozenset-in-python)
   * [Django related topics:](#django-related-topics)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
@@ -1504,7 +1505,37 @@ print(my_square.area)  # Output: 25 (Cached result, no recalculation)
 ```
 In this example, we apply the **@cached_property** decorator to the **area** method. The decorator caches the result of the method on the instance, so subsequent accesses to area return the cached value without recalculating it.
 
+### frozenset in Python
+In Python, a **frozenset** is an immutable (unchangeable) version of the built-in set type. It is an unordered collection of unique elements, just like a regular set, but it cannot be modified once created. This means you cannot add, remove, or modify elements in a frozenset after it is created.
+Here's an example of creating and utilizing a frozenset:
 
+```angular2html
+# Create a frozenset
+numbers = frozenset([1, 2, 3, 4, 5])
+
+# Accessing elements
+for number in numbers:
+    print(number)
+
+# Frozenset operations
+other_numbers = frozenset([4, 5, 6, 7, 8])
+
+# Union
+union = numbers.union(other_numbers)
+print(union)  # Output: frozenset({1, 2, 3, 4, 5, 6, 7, 8})
+
+# Intersection
+intersection = numbers.intersection(other_numbers)
+print(intersection)  # Output: frozenset({4, 5})
+
+# Difference
+difference = numbers.difference(other_numbers)
+print(difference)  # Output: frozenset({1, 2, 3})
+
+# Subset check
+is_subset = numbers.issubset(other_numbers)
+print(is_subset)  # Output: False
+```
 
 
 
