@@ -3032,3 +3032,32 @@ Returns a QuerySet containing all objects of the model from the database
 
 - ```filter()```:
 Is used to retrieve a subset of objects from the database based on specified criteria
+
+
+### Parametric unit tests
+In Django, parametric unit tests refer to the practice of executing the same test logic with different input parameters or test data. This allows you to write more concise and reusable tests by avoiding code duplication.
+Here's a simple example of a parametric unit test in Django:
+
+```angular2html
+from django.test import TestCase
+
+def multiply_numbers(a, b):
+    return a * b
+
+class MathTestCase(TestCase):
+    def test_multiply_numbers(self):
+        test_cases = [
+            (2, 3, 6),  # (a, b, expected_result)
+            (0, 5, 0),
+            (-4, 2, -8),
+            (10, -3, -30),
+        ]
+
+        for a, b, expected_result in test_cases:
+            result = multiply_numbers(a, b)
+            self.assertEqual(result, expected_result)
+```
+
+When running the test, Django's test runner will execute the **test_multiply_numbers** method for each test case, providing detailed feedback for each iteration.
+
+Using parametric unit tests like this helps to reduce code duplication and makes it easier to add, modify, or remove test cases. It also provides a clear overview of which test cases pass or fail and enables you to test your code against a variety of scenarios.
