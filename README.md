@@ -43,6 +43,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Context manager](#context-manager)
     * [More decorators in Python](#more-decorators-in-python)
     * [frozenset in Python](#frozenset-in-python)
+    * [Python 3.11 over previous versions](#python-311-over-previous-versions)
   * [Django related topics:](#django-related-topics)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
@@ -88,6 +89,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Django custom exceptions](#django-custom-exceptions)
     * [select_for_update in Django](#selectforupdate-in-django)
     * [Django model methods](#django-model-methods)
+    * [Parametric unit tests](#parametric-unit-tests)
 <!-- TOC -->
 
 ## Python related topics:
@@ -1537,8 +1539,22 @@ is_subset = numbers.issubset(other_numbers)
 print(is_subset)  # Output: False
 ```
 
+### Python 3.11 over previous versions
+Here are some simple examples of the advantages of using Python 3.11 over previous versions:
 
+- Fine-grained error locations in tracebacks: 
+When an error occurs, Python 3.11 will point to the exact expression that caused the error, instead of just the line. For example, if you have a syntax error in a long line of code, Python 3.11 will point to the exact part of the line that caused the error, making it easier to debug.
 
+- Task and exception groups that simplify working with asynchronous code: 
+Task groups provide a cleaner syntax for running and monitoring asynchronous tasks. For example, you can use task groups to run multiple tasks concurrently and wait for them to complete before continuing.
+
+- Faster code execution: 
+Python 3.11 is faster than previous versions, which means that your Python programs will run faster. For example, if you have a program that performs a lot of computations, you will notice a significant speed improvement in Python 3.11.
+
+- A new built-in library for working with TOML files: 
+Python 3.11 includes a new built-in library for working with TOML files, which is a popular configuration file format. For example, you can use the "toml" module to read and write TOML files in your Python programs.
+
+These are just a few simple examples of the advantages of using Python 3.11 over previous versions
 
 
 
