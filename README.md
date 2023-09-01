@@ -1346,7 +1346,8 @@ The **__exit__** method is responsible for closing the file when exiting the con
 In Python, class decorators are functions or callable objects that are used to modify or enhance the behavior of a class. They are applied to the class definition itself and can add or modify class-level attributes, methods, or perform other operations on the class.
 Here are a few examples of class decorators:
 
-1- classmethod
+ - classmethod
+
 The **classmethod** decorator is a built-in decorator that transforms a method into a class method. Class methods can be called on the class itself, rather than on instances of the class.
 Here's a simple example of a class method in Python
 
@@ -1375,7 +1376,8 @@ print(Car.get_total_cars())  # Output: 3
 ```
 In this example, we have a **Car** class with a class variable **total_cars**, which keeps track of the total number of car objects created. The **__init__** method increments **total_cars** by 1 whenever a new car object is created.
 
-2- staticmethod
+- staticmethod
+
 The **staticmethod** decorator is another built-in decorator that transforms a method into a static method. Static methods are similar to regular functions and do not have access to the class or instance.
 Here's a simple example of a static method in Python:
 
@@ -1401,7 +1403,8 @@ Static methods are defined using the **@staticmethod** decorator. They don't rec
 
 
 
-3- property
+- property
+
 The **property** decorator allows you to define methods that can be accessed like attributes, providing a way to implement computed or dynamic properties.
 
 ```angular2html
@@ -1426,7 +1429,8 @@ print(my_circle.area)  # Output: 78.5
 In this example, we use the **property** decorator to define the **diameter** and **area** methods.
 
 
-4- abstractmethod
+- abstractmethod
+
 The **abstractmethod** decorator is used in combination with the **ABC** module to define abstract methods in abstract base classes
 The **abstractmethod** decorator ensures that any subclass of super class must implement this method.
 
@@ -1453,7 +1457,8 @@ print(my_rectangle.calculate_area())  # Output: 50
 ```
 The **abstractmethod** decorator ensures that any subclass of **Shape** must implement this method.
 
-5- dataclass 
+- dataclass 
+
 The **dataclass** decorator is available in the **dataclasses** module (introduced in Python 3.7) and provides a concise way to define classes that are primarily used to store data.
 
 ```angular2html
@@ -1474,7 +1479,8 @@ In this example, we apply the **@dataclass** decorator to the **Person** class. 
 The **dataclass** decorator simplifies the process of defining classes that are primarily used for holding data, reducing the amount of boilerplate code required.
 
 
-7- cached_property 
+- cached_property 
+
 The **cached_property** decorator is available in third-party libraries such as **django.utils.functional** and **cachetools** and provides a way to cache the result of a method as a property, improving performance when the method is called multiple times.
 
 ```angular2html
