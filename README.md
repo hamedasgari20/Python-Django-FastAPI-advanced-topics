@@ -86,6 +86,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Generic Foreign Key in Django](#generic-foreign-key-in-django)
     * [Django custom exceptions](#django-custom-exceptions)
     * [select_for_update in Django](#selectforupdate-in-django)
+    * [Django model methods](#django-model-methods)
 <!-- TOC -->
 
 ## Python related topics:
@@ -2939,3 +2940,64 @@ def borrow_book(book_id):
 In this example, we use a context manager (**with transaction.atomic()**) to ensure that the update operation is atomic and handled within a single database transaction. The **select_for_update()** method is called on the **Book.objects** queryset to obtain a lock on the selected row for update.
 
 This example demonstrates how to use **select_for_update** to lock a specific row in the database during an update operation to maintain data integrity and consistency in a concurrent environment.
+
+### Django model methods
+To list all the methods available for models in Django, we can refer to the methods provided by the base Model class and other related classes.
+Here are some common methods available for models in Django:
+
+- ```save():``` :
+Saves the model instance to the database.
+
+- ```delete():``` 
+Deletes the model instance from the database.
+
+- ```full_clean():``` 
+Performs model validation, including field validation, and raises any validation errors.
+
+- ```clean_fields(): ```
+Performs field validation and raises any validation errors.
+
+- ```clean():``` 
+Performs model-specific validation and raises any validation errors.
+
+- ```validate_unique():``` 
+Validates the uniqueness of fields and raises any validation errors.
+
+- ```refresh_from_db():``` 
+Reloads the model instance's fields from the database.
+
+- ```get_FOO_display(): ```
+Returns the display value of a choices field, where FOO is the name of the field.
+
+- ```get_absolute_url():``` 
+Returns the URL for displaying the model instance.
+
+- ```get_field_name():``` 
+Returns the name of the field associated with a given database column name.
+
+- ```get_next_by_FOO():``` 
+Returns the next model instance by a specified field, where FOO is the name of the field.
+
+- ```get_previous_by_FOO():``` 
+Returns the previous model instance by a specified field, where FOO is the name of the field.
+
+- ```serializable_value():``` 
+Returns the value of a field as a serializable object.
+
+- ```to_json():``` 
+Returns a JSON representation of the model instance.
+
+- ```to_dict():``` 
+Returns a dictionary representation of the model instance.
+
+- ```queryset():```
+Is used to customize the initial queryset used in a model's manager
+
+- ```pre_save()``` and ```post_save()```:
+Are signals that are emitted before and after saving a model instance
+
+- ```all()```:
+Returns a QuerySet containing all objects of the model from the database
+
+- ```filter()```:
+Is used to retrieve a subset of objects from the database based on specified criteria
