@@ -13,8 +13,8 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
 
 <!-- TOC -->
   * [Introduction](#introduction)
-  * [Python related topics:](#python-related-topics-)
-    * [object-oriented programming (OOP)](#object-oriented-programming--oop-)
+  * [Python related topics:](#python-related-topics)
+    * [object-oriented programming (OOP)](#object-oriented-programming-oop)
       * [Inheritance](#inheritance)
       * [Polymorphism](#polymorphism)
       * [Encapsulation](#encapsulation)
@@ -34,13 +34,14 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Data serialization](#data-serialization)
     * [Data class in python](#data-class-in-python)
     * [Shallow copy and deep copy](#shallow-copy-and-deep-copy)
-    * [Local and global variables](#local-and-global-variables)
+    * [Local and global variables](#local-and-global-variables-)
     * [Comprehension](#comprehension)
     * [Pydantic](#pydantic)
     * [Args and Kwargs in Python](#args-and-kwargs-in-python)
     * [Operator overloading](#operator-overloading)
     * [Recursive function](#recursive-function)
-  * [Django related topics:](#django-related-topics-)
+    * [Context manager](#context-manager)
+  * [Django related topics:](#django-related-topics)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
     * [Django custom template tags](#django-custom-template-tags)
@@ -61,14 +62,14 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Django constraint](#django-constraint)
       * [Django constraints and model validators differences](#django-constraints-and-model-validators-differences)
     * [bulk creation in Django](#bulk-creation-in-django)
-    * [prefetch_related and select_related in Django](#prefetch_related-and-select_related-in-django)
+    * [prefetch_related and select_related in Django](#prefetchrelated-and-selectrelated-in-django)
     * [Third-party packages in Django](#third-party-packages-in-django)
     * [Property decorators](#property-decorators)
     * [WSGI and ASGI](#wsgi-and-asgi)
-      * [WSGI (Web Server Gateway Interface):](#wsgi--web-server-gateway-interface--)
-      * [ASGI (Asynchronous Server Gateway Interface):](#asgi--asynchronous-server-gateway-interface--)
+      * [WSGI (Web Server Gateway Interface):](#wsgi-web-server-gateway-interface)
+      * [ASGI (Asynchronous Server Gateway Interface):](#asgi-asynchronous-server-gateway-interface)
     * [Advanced features in ORM](#advanced-features-in-orm)
-      * [Q objects:](#q-objects-)
+      * [Q objects:](#q-objects)
       * [F expressions:](#f-expressions-)
       * [QuerySet methods](#queryset-methods)
       * [Model managers](#model-managers)
@@ -76,14 +77,14 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Class-based views methods](#class-based-views-methods)
     * [Django optimization](#django-optimization)
       * [**Database Optimization:**](#database-optimization)
-      * [**Caching:**](#caching)
-      * [**Code Optimization:**](#code-optimization)
-      * [**Distributed Task Queues:**](#distributed-task-queues)
+      * [**Caching:**](#caching-)
+      * [**Code Optimization:**](#code-optimization-)
+      * [**Distributed Task Queues:**](#distributed-task-queues-)
       * [**Scaling Horizontally:**](#scaling-horizontally)
-      * [**Benchmarking:**](#benchmarking)
+      * [**Benchmarking:**](#benchmarking-)
     * [Generic Foreign Key in Django](#generic-foreign-key-in-django)
     * [Django custom exceptions](#django-custom-exceptions)
-    * [select_for_update in Django](#select_for_update-in-django)
+    * [select_for_update in Django](#selectforupdate-in-django)
 <!-- TOC -->
 
 ## Python related topics:
@@ -808,6 +809,8 @@ Magic methods, also known as dunder methods, are special methods in Python that 
 They are not meant to be invoked directly by the user, but are called internally by the class on certain actions.
 Here are some examples of commonly used magic methods in Python:
 
+`__new__(self)`: It is a static method that is called before the **__init__** method when creating an object. The primary purpose of **__new__** is to handle the object construction process and return an instance of the class.
+
 `__init__(self, ...)` : This method is called when an object is created and initialized. It takes arguments that are
 used to initialize the object's attributes.
 
@@ -1304,11 +1307,38 @@ print(result)  # Output: 120
 Recursive functions are particularly useful when solving problems that can be divided into smaller subproblems of the same nature. They provide an elegant and concise way to express repetitive computations and can simplify complex algorithms.
 However, it's important to ensure that recursive functions have proper termination conditions to avoid infinite recursion. Recursive functions can consume more memory and may have performance implications compared to iterative solutions, so they should be used judiciously based on the problem at hand.
 
+### Context manager
+In Python, a context manager is an object that defines the methods **__enter__** and **__exit__**.
+It allows you to manage resources, such as files or database connections, in a structured and efficient manner. The **with** statement is used to create a context, and the context manager ensures that the resources are properly set up and cleaned up, even if an exception occurs.
+When you use the context manager with the **with** statement, the **__enter__** method is called at the beginning of the block, and the **__exit__** method is called at the end, regardless of whether an exception occurred or not. This ensures that resources are properly managed and cleaned up.
 
+Let's consider a practical example of a context manager for working with files. We'll create a context manager that opens a file, performs some operations, and automatically closes the file when exiting the context.
 
+```
+class FileManager:
+    def __init__(self, filename, mode):
+        self.filename = filename
+        self.mode = mode
+        self.file = None
 
+    def __enter__(self):
+        self.file = open(self.filename, self.mode)
+        return self.file
 
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.file.close()
 
+# Using the file manager context manager with the 'with' statement
+with FileManager("example.txt", "w") as file:
+    file.write("Hello, World!")
+
+# File is automatically closed outside the context
+
+```
+
+In this example, the **FileManager** class is a context manager that takes a **filename** and a **mode** (such as 'r', 'w', or 'a') as parameters. In the **__enter__** method, it opens the file in the specified mode and returns the file object. This allows us to work with the file within the with block.
+
+The **__exit__** method is responsible for closing the file when exiting the context. Regardless of whether an exception occurs or not, the **__exit__** method will be called, ensuring that the file is closed properly.
 
 
 
