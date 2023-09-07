@@ -1719,14 +1719,74 @@ The Factory Method design pattern is useful when we want to create objects with 
 3. [ ] creating different types of documents (PDF, Word, etc.)
 
 
+- **Abstract Factory Pattern:**
+# todo
 
 
-
-
-
-- **Abstract Factory Pattern:** 
 - **Builder Pattern:**
+The Builder Pattern is a creational design pattern used in software engineering to construct complex objects step by step. It allows you to create an object with various configurations and options without requiring a complex constructor with numerous parameters.
+Let's consider an simple example of the **Builder Pattern** for creating a **Computer** object with various optional components:
+- Define the Product (Computer) Class:
+```
+class Computer:
+    def __init__(self):
+        self.cpu = ""
+        self.memory = ""
+        self.storage = ""
+        self.graphics_card = ""
+
+    def __str__(self):
+        return f"Computer with CPU: {self.cpu}, Memory: {self.memory}, Storage: {self.storage}, Graphics Card: {self.graphics_card}"
+
+```
+- Create the **Builder** Class for the Computer:
+```
+class ComputerBuilder:
+    def __init__(self, cpu, memory, storage):
+        self.computer = Computer()
+        self.computer.cpu = cpu
+        self.computer.memory = memory
+        self.computer.storage = storage
+
+    def add_graphics_card(self, graphics_card):
+        self.computer.graphics_card = graphics_card
+        return self
+
+    def build(self):
+        return self.computer
+
+```
+
+- Use the **Builder** to Create Custom Computers:
+```angular2html
+
+# Create a basic computer with CPU, memory, and storage
+basic_computer = ComputerBuilder("Intel i5", "8GB RAM", "256GB SSD").build()
+print("Basic Computer:", basic_computer)
+
+# Create a gaming computer with CPU, memory, storage, and a dedicated graphics card
+gaming_computer = (
+    ComputerBuilder("AMD Ryzen 7", "16GB RAM", "512GB NVMe SSD")
+    .add_graphics_card("NVIDIA GeForce RTX 3060")
+    .build()
+)
+print("Gaming Computer:", gaming_computer)
+
+```
+This pattern makes it easy to create different computer configurations without having to provide a long list of constructor parameters
+
+**Use Cases:**
+
+**Building Configurable Objects:** When you have objects with many optional parameters or configurations, such as creating a document with various formatting options or configuring a complex database query.
+**Complex Object Creation:** When the process of object creation involves multiple steps, dependencies, or conditional logic, the Builder Pattern can simplify this process by breaking it down into manageable parts.
+**Configuration Objects:** Creating configuration objects for applications or libraries, allowing users to customize behavior or settings.
+
+Overall, the Builder Pattern is a versatile design pattern that helps make object construction more flexible, readable, and maintainable, especially in cases where objects have complex configurations or initialization requirements.
+
+
 - **Prototype Pattern:**
+
+
 
 #### Structural Design Patterns:
 - **Adapter Pattern**
