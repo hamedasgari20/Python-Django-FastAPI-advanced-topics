@@ -143,6 +143,7 @@ print(cat.speak())  # Output: Meow!
 
 In this example, Animal is the superclass, and Dog and Cat are subclasses that inherit from it. The speak method is an
 abstract method in the Animal class that is implemented in the subclasses.
+We import the **ABC** (Abstract Base Class) class from the **abc** module and use the **@abstractmethod** decorator to mark the **speak** method as an abstract method in the **Animal** class. This enforces that subclasses of **Animal** must provide an implementation for the speak method.
 
 #### Polymorphism
 
