@@ -113,13 +113,15 @@ called a superclass or base class.
 
 
 ```
-class Animal:
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
     def __init__(self, name):
         self.name = name
 
+    @abstractmethod
     def speak(self):
-        raise NotImplementedError("Subclass must implement abstract method")
-
+        pass
 
 class Dog(Animal):
     def speak(self):
@@ -135,6 +137,8 @@ print(dog.speak())  # Output: Woof!
 
 cat = Cat("Whiskers")
 print(cat.name)  # Output: Whiskers
+print(cat.speak())  # Output: Meow!
+
 ```
 
 In this example, Animal is the superclass, and Dog and Cat are subclasses that inherit from it. The speak method is an
