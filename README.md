@@ -325,28 +325,8 @@ print(list(squared))
 # Output: [1, 4, 9, 16, 25]
 ```
 
-The **map()** function can be useful in various scenarios when working with Django. In the following gives an example of
-mapping a function to a query set:
 
-```
-from django.contrib.auth.models import User
 
-# Get a queryset of all users
-users = User.objects.all()
-
-# Get a list of usernames using map() and a lambda function
-usernames = list(map(lambda user: user.username, users))
-
-# Output: ['user1', 'user2', 'user3', ...]
-```
-The best practice of last example is :
-
-```
-usernames = User.objects.all().values_list('username', flat=True)
-
-# Output: ['user1', 'user2', 'user3', ...]
-
-```
 
 ### Itertools
 
