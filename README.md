@@ -453,6 +453,7 @@ The SOLID principles are a set of design principles that help in creating mainta
 systems.
 
 - **Single Responsibility Principle (SRP):** 
+
 This principle states that a class should have only one responsibility. Let's say we have a **User** class that handles both user authentication and user data management.
   Instead, we can separate these responsibilities into two classes: **Authenticator** and **UserManager**. Here's a Python
   example:
@@ -580,10 +581,11 @@ class Fish(Swimmer):
 
 ### Python collection
 
-Python provides several built-in collection types, such as lists, tuples, sets, and dictionaries. These collections can
+Python provides several built-in collection types, such as **lists, tuples, sets, and dictionaries**. These collections can
 be used to store and organize data efficiently.
 
 - **lists**:
+
   A list is a mutable collection that can store an ordered sequence of elements. It is defined using square
   brackets (**[]**). Here's an example:
 
@@ -609,6 +611,7 @@ print(fruits)  # Output: ['apple', 'orange', 'grape']
 ```
 
 - **Tuples**:
+
   A tuple is an immutable collection that can store an ordered sequence of elements. It is defined using
   parentheses (). Here's an example:
 
@@ -626,6 +629,7 @@ print(x, y)  # Output: 3 4
 ```
 
 - **Sets**:
+
   A set is an unordered collection that stores unique elements. It is defined using curly braces ({}) or the set()
   function. Here's an example:
 
@@ -644,7 +648,8 @@ print(numbers)  # Output: {1, 3, 4, 5}
 ```
 
 - **Dictionaries**:
-  A dictionary is a collection that stores key-value pairs. It is defined using curly braces ({}) and colons (:). Here's
+
+  A dictionary is a collection that stores **key-value** pairs. It is defined using curly braces ({}) and colons (:). Here's
   an example:
 
 ```
@@ -737,7 +742,7 @@ Magic methods, also known as dunder methods, are special methods in Python that 
 They are not meant to be invoked directly by the user, but are called internally by the class on certain actions.
 Here are some examples of commonly used magic methods in Python:
 
-`__new__(self)`: It is a static method that is called before the **__init__** method when creating an object. The primary purpose of **__new__** is to handle the object construction process and return an instance of the class.
+`__new__(self)`: It is a static method that is called before the `__init__` method when creating an object. The primary purpose of **__new__** is to handle the object construction process and return an instance of the class.
 
 `__init__(self, ...)` : This method is called when an object is created and initialized. It takes arguments that are
 used to initialize the object's attributes.
@@ -790,12 +795,12 @@ print(str(person))    # Output: Alice (30)
 print(repr(person))   # Output: Person(name='Alice', age=30)
 ```
 
-In this example, we define a Person class that has a name and an age attribute. We define both __str__ and __repr__ methods for the class. The __str__ method returns a string that is intended to be readable by humans, while the __repr__ method returns a string that is intended to be unambiguous and can be used to recreate the object.
+In this example, we define a Person class that has a **name** and an **age** attribute. We define both __str__ and __repr__ methods for the class. The __str__ method returns a string that is intended to be readable by humans, while the __repr__ method returns a string that is intended to be unambiguous and can be used to recreate the object.
 When we create a Person object and print it using the **str()** and **repr()** functions, we get different outputs. The **str()** function calls the __str__ method, which returns a user-friendly string representation of the object. The **repr()** function calls the __repr__ method, which returns a developer-friendly string representation of the object.
 
 
 ### GIL
-The **_Global Interpreter Lock_** is a mechanism in CPython (the most common implementation of Python) that serves to serialize access to Python objects, preventing multiple threads from executing Python bytecodes at once.
+The **_Global Interpreter Lock_** is a mechanism in _CPython_ (the most common implementation of Python) that serves to serialize access to Python objects, _preventing multiple threads from executing Python bytecodes at once_.
 In simple words, the GIL is a mutex (or a lock) that allows only one thread to hold the control of the Python interpreter.This means that _only one thread can be in a state of execution at any point in time_.
 
 
@@ -809,6 +814,7 @@ within a single process, while **asyncio** is a way to achieve concurrency by ru
 between multiple tasks.
 
 - **Threading**:
+
   The following code snippet demonstrates how to use threading to execute multiple tasks concurrently within a single
   process.
 
@@ -835,6 +841,7 @@ t2.join()
 ```
 
 - **Asyncio**:
+
   The following code snippet demonstrates how to use asyncio to execute multiple tasks concurrently within a single
   thread:
 
@@ -859,6 +866,7 @@ loop.close()
 ```
 
 - **Multiprocessing**:
+
   The following code snippet demonstrates how to use multiprocessing to execute multiple tasks in parallel across
   multiple processes:
 
@@ -1049,7 +1057,7 @@ print(list2)  # [1, 2, [5, 4]]
 In this example, we create a deep copy of **list1** using the deepcopy method. When we modify the nested list in **list2**, the change is not reflected in **list1** because both lists have independent copies of the nested list.
 
 ### Local and global variables 
-In summary, local variables are declared inside a function or method and can only be accessed within that specific block, while global variables are declared outside any function or method and can be accessed throughout the program and inside every function. To modify a global variable inside a function, we need to use the **global** keyword.
+In summary, _local variables_ are declared inside a function or method and can only be accessed within that specific block, while _global variables_ are declared outside any function or method and can be accessed throughout the program and inside every function. To modify a global variable inside a function, we need to use the **global** keyword.
 Here are some simple examples of local and global variables in Python:
 
 ```angular2html
@@ -1152,6 +1160,8 @@ In this example, we define a custom validation function **validate_age** using t
 In this example, we define a Pydantic data model Person that has two fields: name of type str and age of type int. 
 Pydantic automatically validates the input data against the data model and raises a **ValueError** if the data is invalid. If the data is valid, Pydantic creates a new Person object with the validated data and assigns it to the person variable. We then print the person object to verify that it was created correctly.
 
+- Pydantic vs Data Classes
+In summary, Pydantic is more suitable when you need robust data validation, type conversion, and serialization capabilities. It's often used in scenarios where data integrity and consistency are critical, such as in web APIs or data validation pipelines. On the other hand, data classes are a simpler and more lightweight choice for defining basic data structures or DTOs (Data Transfer Objects) where validation and serialization are not primary concerns. Your choice between the two depends on your specific requirements and the complexity of your data handling needs.
 
 ### Args and Kwargs in Python
 In Python, ***args** and ****kwargs** are used to pass a variable number of arguments to a function. They allow you to handle arbitrary numbers of positional and keyword arguments, respectively. 
