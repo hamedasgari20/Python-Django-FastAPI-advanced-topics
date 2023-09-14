@@ -151,10 +151,13 @@ Polymorphism is the ability of objects to take on different forms or perform dif
 In Python, polymorphism is achieved through **method overriding** and **method overloading**.
 
 ```
-class Shape:
-    def area(self):
-        raise NotImplementedError("Subclass must implement abstract method")
+from abc import ABC, abstractmethod
+import math
 
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
 
 class Rectangle(Shape):
     def __init__(self, width, height):
@@ -164,23 +167,25 @@ class Rectangle(Shape):
     def area(self):
         return self.width * self.height
 
-
 class Circle(Shape):
     def __init__(self, radius):
         self.radius = radius
 
     def area(self):
-        return 3.14 * self.radius ** 2
-
+        return math.pi * self.radius ** 2
 
 shapes = [Rectangle(5, 10), Circle(7)]
 for shape in shapes:
     print(shape.area())
+
 ```
 
 In this example, Shape is an abstract class that defines the area method as an abstract method. Rectangle and Circle are
 concrete subclasses that implement the area method. The shapes list contains instances of both Rectangle and Circle, and
 the area method is called on each instance, demonstrating polymorphism.
+
+In this code, we use the **ABC** class and the **@abstractmethod** decorator to define **Shape** as an abstract base class with an abstract area method. This ensures that subclasses of **Shape** must implement the area method. The **math.pi** constant is used for more accurate calculations of the circle's area.
+
 
 #### Encapsulation
 
