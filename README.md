@@ -190,7 +190,7 @@ In this code, we use the **ABC** class and the **@abstractmethod** decorator to 
 #### Encapsulation
 
 Encapsulation is the practice of hiding the internal details of an object and providing a public interface for
-interacting with it. In Python, encapsulation is achieved through the use of public and private methods and attributes.
+interacting with it. In Python, encapsulation is achieved through the use of _public and private methods and attributes_.
 
 ```
 class BankAccount:
@@ -216,9 +216,9 @@ account.withdraw(200)
 print(account.get_balance())  # Output: 1300
 ```
 
-In this example, BankAccount is a class that represents a bank account. The **_balance** attribute is marked as private
-by convention (using a single underscore), and can only be accessed through public methods such as deposit, withdraw,
-and get_balance.
+In this example, **BankAccount** is a class that represents a bank account. The **_balance** attribute is marked as _private_
+by convention (_using a single underscore_), and can only be accessed through public methods such as **deposit**, **withdraw**,
+and **get_balance**.
 
 #### Abstraction
 
