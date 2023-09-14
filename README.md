@@ -452,10 +452,9 @@ except ZeroDivisionError:
 The SOLID principles are a set of design principles that help in creating maintainable, scalable, and flexible software
 systems.
 
-- Single Responsibility Principle (SRP)
-  This principle states that a class should have only one
-  responsibility. Let's say we have a User class that handles both user authentication and user data management.
-  Instead, we can separate these responsibilities into two classes: Authenticator and UserManager. Here's a Python
+- **Single Responsibility Principle (SRP):** 
+This principle states that a class should have only one responsibility. Let's say we have a **User** class that handles both user authentication and user data management.
+  Instead, we can separate these responsibilities into two classes: **Authenticator** and **UserManager**. Here's a Python
   example:
 
 ```
@@ -471,11 +470,12 @@ class UserManager:
         # User deletion logic here
 ```
 
-- Open/Closed Principle (OCP)
+- **Open/Closed Principle (OCP):** 
+
   This principle states that software entities (classes, modules, functions) should be open for extension but closed for
   modification. In other words, you should be able to add new functionality without modifying existing code. Let's say
-  we have a Shape class with different subclasses such as Circle and Rectangle. Instead of modifying the Shape class
-  every time we want to add a new shape, we can use inheritance and polymorphism to extend the functionality:
+  we have a **Shape** class with different subclasses such as **Circle** and **Rectangle**. Instead of modifying the **Shape** class
+  every time we want to add a new shape, we can use **inheritance** and **polymorphism** to extend the functionality:
 
 ```
 class Shape:
@@ -498,12 +498,13 @@ class Rectangle(Shape):
         return self.width * self.height
 ```
 
-- Liskov Substitution Principle (LSP)
-  This principle states that objects of a superclass should be replaceable with objects of its subclasses without
-  affecting the correctness of the program. Let's say we have a function that expects a Shape object. According to LSP,
-  we should be able to pass any subclass of Shape without causing any issues. In simpler terms, it means that a subclass should be able to be used wherever its superclass is expected, without causing any issues or breaking the functionality of the program.
+- **Liskov Substitution Principle (LSP):**
 
-Here's a simple Python example to illustrate the Liskov Substitution Principle:
+  This principle states that objects of a superclass should be replaceable with objects of its subclasses without
+  affecting the correctness of the program. Let's say we have a function that expects a **Shape** object. According to LSP,
+  we should be able to pass any subclass of **Shape** without causing any issues. In simpler terms, it means that a subclass should be able to be used wherever its superclass is expected, without causing any issues or breaking the functionality of the program.
+
+Here's a simple Python example to illustrate the _Liskov Substitution Principle_:
 
 ```angular2html
 class Shape:
@@ -525,8 +526,8 @@ class Square(Shape):
     def area(self):
         return self.side * self.side
 ```
-In this example, we have a superclass called Shape with a method **area()** that calculates the area of a shape. We then have two subclasses, **Rectangle** and **Square**, that inherit from the **Shape** class and override the **area()** method to calculate the area specific to each shape.
-According to the Liskov Substitution Principle, we should be able to use objects of the Rectangle and Square classes interchangeably with objects of the Shape class. For example:
+In this example, we have a superclass called **Shape** with a method **area()** that calculates the area of a shape. We then have two subclasses, **Rectangle** and **Square**, that inherit from the **Shape** class and override the **area()** method to calculate the area specific to each shape.
+According to the _Liskov Substitution Principle_, we should be able to use objects of the **Rectangle** and **Square** classes interchangeably with objects of the Shape class. For example:
 
 ```angular2html
 def print_area(shape):
@@ -538,14 +539,14 @@ square = Square(4)
 print_area(rectangle)  # Output: The area is: 20
 print_area(square)  # Output: The area is: 16
 ```
-In this example, we can see that both the **Rectangle** and **Square** objects can be passed to the **print_area()** function, which expects an object of the **Shape** class. This demonstrates the Liskov Substitution Principle, as the subclasses can be used in place of the superclass without any issues or breaking the functionality of the program.
+In this example, we can see that both the **Rectangle** and **Square** objects can be passed to the **print_area()** function, which expects an object of the **Shape** class. This demonstrates the _Liskov Substitution Principle_, as the subclasses can be used in place of the superclass without any issues or breaking the functionality of the program.
 
 
-- Interface Segregation Principle (ISP)
+- **Interface Segregation Principle (ISP):**
 
 This principle states that clients should not be forced to depend on interfaces they do not use. It promotes the idea of
-having smaller, focused interfaces rather than large, general-purpose ones. Let's say we have an Animal interface with
-methods like walk(), swim(), and fly(). Instead of having a single interface, we can split it into smaller interfaces
+having smaller, focused interfaces rather than large, general-purpose ones. Let's say we have an **Animal** interface with
+methods like **walk(), swim(), and fly()**. Instead of having a single interface **Animal**, we can split it into smaller interfaces
 based on functionality:
 
 ```
@@ -571,7 +572,8 @@ class Fish(Swimmer):
 
 ```
 
-- Dependency Inversion Principle (DIP)
+- **Dependency Inversion Principle (DIP):**
+
   This principle states that high-level modules should not depend on low-level modules. Both should depend on
   abstractions. It encourages the use of interfaces or abstract classes to decouple dependencies. . This helps to decouple the high-level and low-level modules, making it easier to change the low-level ones without affecting the high-level ones
 
