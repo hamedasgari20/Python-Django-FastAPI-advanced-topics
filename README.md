@@ -1160,7 +1160,8 @@ In this example, we define a custom validation function **validate_age** using t
 In this example, we define a Pydantic data model Person that has two fields: name of type str and age of type int. 
 Pydantic automatically validates the input data against the data model and raises a **ValueError** if the data is invalid. If the data is valid, Pydantic creates a new Person object with the validated data and assigns it to the person variable. We then print the person object to verify that it was created correctly.
 
-- Pydantic vs Data Classes
+- Pydantic vs Data Classes:
+
 In summary, Pydantic is more suitable when you need robust data validation, type conversion, and serialization capabilities. It's often used in scenarios where data integrity and consistency are critical, such as in web APIs or data validation pipelines. On the other hand, data classes are a simpler and more lightweight choice for defining basic data structures or DTOs (Data Transfer Objects) where validation and serialization are not primary concerns. Your choice between the two depends on your specific requirements and the complexity of your data handling needs.
 
 ### Args and Kwargs in Python
