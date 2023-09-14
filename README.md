@@ -47,6 +47,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Semaphores and Mutexes](#semaphores-and-mutexes)
     * [Design patterns](#design-patterns)
       * [Creational Design Patterns:](#creational-design-patterns)
+* [todo](#todo)
       * [Structural Design Patterns:](#structural-design-patterns)
       * [Behavioral Design Patterns:](#behavioral-design-patterns)
   * [Django related topics:](#django-related-topics)
@@ -95,6 +96,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [select_for_update in Django](#selectforupdate-in-django)
     * [Django model methods](#django-model-methods)
     * [Parametric unit tests](#parametric-unit-tests)
+    * [Django decorator](#django-decorator)
 <!-- TOC -->
 
 ## Python related topics:
@@ -223,7 +225,7 @@ and **get_balance**.
 #### Abstraction
 
 Abstraction is the process of simplifying complex systems by breaking them down into smaller, more manageable parts. In
-Python, abstraction is achieved through the use of abstract classes and interfaces.
+Python, abstraction is achieved through the use of _abstract classes_ and interfaces.
 
 ```
 from abc import ABC, abstractmethod
@@ -248,8 +250,8 @@ for shape in shapes:
     print(shape.area())
 ```
 
-In this example, Shape is an abstract class that defines the area method as an abstract method. Rectangle is a concrete
-subclass that implements the area method. The shapes list contains an instance of Rectangle, demonstrating abstraction.
+In this example, **Shape** is an abstract class that defines the **area** method as an **abstract** method. **Rectangle** is a concrete
+subclass that implements the area method. The shapes list contains an instance of **Rectangle**, demonstrating abstraction.
 
 ### Decorators
 
@@ -298,48 +300,9 @@ def greet():
 greet()
 ```
 
-In this example, the DecoratorClass is a class-based decorator that takes the original function as an argument in its constructor. The __call__ method is used to define the behavior of the decorator when the decorated function is called.
+In this example, the **DecoratorClass** is a class-based decorator that takes the original function as an argument in its constructor. The **__call__** method is used to define the behavior of the decorator when the decorated function is called.
 
 
-
-Here are a few examples of decorators commonly used in Django:
-
--     @login_required
--     @permission_required
--     @csrf_exempt
--     @cache_page
--     @transaction.atomic
-
-Here is an example of creating a custom decorator in Django:
-
-In this example, the my_view function is decorated with the log_execution_time decorator, which will log the execution time of the view function every time it is called.
-
-```angular2html
-from django.shortcuts import render
-from .decorators import log_execution_time
-
-@log_execution_time
-def my_view(request):
-    # your view code here
-    return render(request, 'my_template.html', context)
-```
-here is the implementation of the custom decorator in previous code: 
-
-```angular2html
-import time
-
-def log_execution_time(view_func):
-    def wrapper(request, *args, **kwargs):
-        start_time = time.time()
-        response = view_func(request, *args, **kwargs)
-        end_time = time.time()
-        execution_time = end_time - start_time
-        print(f"Execution time: {execution_time:.2f} seconds")
-        return response
-    return wrapper
-
-```
-Overall, creating a custom decorator in Django is a simple process that can help you add reusable functionality to your views and improve the maintainability of your code.
 
 
 ### Map function
@@ -3435,3 +3398,45 @@ class MathTestCase(TestCase):
 When running the test, Django's test runner will execute the **test_multiply_numbers** method for each test case, providing detailed feedback for each iteration.
 
 Using parametric unit tests like this helps to reduce code duplication and makes it easier to add, modify, or remove test cases. It also provides a clear overview of which test cases pass or fail and enables you to test your code against a variety of scenarios.
+
+### Django decorator
+
+Here are a few examples of decorators commonly used in Django:
+
+-     @login_required
+-     @permission_required
+-     @csrf_exempt
+-     @cache_page
+-     @transaction.atomic
+
+Here is an example of creating a custom decorator in Django:
+
+In this example, the my_view function is decorated with the log_execution_time decorator, which will log the execution time of the view function every time it is called.
+
+```angular2html
+from django.shortcuts import render
+from .decorators import log_execution_time
+
+@log_execution_time
+def my_view(request):
+    # your view code here
+    return render(request, 'my_template.html', context)
+```
+here is the implementation of the custom decorator in previous code: 
+
+```angular2html
+import time
+
+def log_execution_time(view_func):
+    def wrapper(request, *args, **kwargs):
+        start_time = time.time()
+        response = view_func(request, *args, **kwargs)
+        end_time = time.time()
+        execution_time = end_time - start_time
+        print(f"Execution time: {execution_time:.2f} seconds")
+        return response
+    return wrapper
+
+```
+Overall, creating a custom decorator in Django is a simple process that can help you add reusable functionality to your views and improve the maintainability of your code.
+
