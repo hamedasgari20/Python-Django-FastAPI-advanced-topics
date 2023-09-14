@@ -47,7 +47,6 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Semaphores and Mutexes](#semaphores-and-mutexes)
     * [Design patterns](#design-patterns)
       * [Creational Design Patterns:](#creational-design-patterns)
-* [todo](#todo)
       * [Structural Design Patterns:](#structural-design-patterns)
       * [Behavioral Design Patterns:](#behavioral-design-patterns)
   * [Django related topics:](#django-related-topics)
@@ -446,43 +445,7 @@ except ZeroDivisionError:
 # Division by zero is not allowed.
 ```
 
-here are some examples of Exception Handling in Django:
 
-- Catching exceptions in views:
-
-```
-from django.http import HttpResponseServerError
-def my_view(request):
-    try:
-        # Code that may raise an exception
-        # ...
-    except SomeException as e:
-        # Code to handle SomeException
-        return HttpResponseServerError("An error occurred: {}".format(str(e)))
-```
-
-In this example, if SomeException is raised within the try block, the corresponding except block will be executed. It
-returns an HTTP 500 response with a custom error message.
-
-- Handling database-related exceptions:
-
-When working with Django's ORM (Object-Relational Mapping) and database operations, you may encounter exceptions related
-to database errors.
-
-```
-from django.db import DatabaseError
-
-def my_view(request):
-    try:
-        # Perform database operations
-        # ...
-    except DatabaseError as e:
-        # Handle database-related exception
-        return render(request, 'error.html', {'message': str(e)})
-```
-
-In this example, if a DatabaseError occurs during database operations, you can render an error template with the
-exception message.
 
 ### SOLID principles
 
@@ -1673,7 +1636,6 @@ The Factory Method design pattern is useful when we want to create objects with 
 
 
 - **Abstract Factory Pattern:**
-# todo
 
 
 - **Builder Pattern:**
@@ -3240,6 +3202,44 @@ def custom_exception_view(request):
 ```
 
 In this example, we create a view function called **custom_exception_view**. Inside the view, we perform some validation on the data received in the POST request. If the data is missing or invalid, we raise the **InvalidDataError** custom exception with a specific error message.
+
+here are some examples of Exception Handling in Django:
+
+- Catching exceptions in views:
+
+```
+from django.http import HttpResponseServerError
+def my_view(request):
+    try:
+        # Code that may raise an exception
+        # ...
+    except SomeException as e:
+        # Code to handle SomeException
+        return HttpResponseServerError("An error occurred: {}".format(str(e)))
+```
+
+In this example, if SomeException is raised within the try block, the corresponding except block will be executed. It
+returns an HTTP 500 response with a custom error message.
+
+- Handling database-related exceptions:
+
+When working with Django's ORM (Object-Relational Mapping) and database operations, you may encounter exceptions related
+to database errors.
+
+```
+from django.db import DatabaseError
+
+def my_view(request):
+    try:
+        # Perform database operations
+        # ...
+    except DatabaseError as e:
+        # Handle database-related exception
+        return render(request, 'error.html', {'message': str(e)})
+```
+
+In this example, if a DatabaseError occurs during database operations, you can render an error template with the
+exception message.
 
 ### select_for_update in Django
 In Django, **select_for_update** is a method that allows you to lock database rows for update during a database query.  This is useful in scenarios where you want to prevent multiple transactions from simultaneously modifying the same rows, thus avoiding potential conflicts and ensuring data consistency.
