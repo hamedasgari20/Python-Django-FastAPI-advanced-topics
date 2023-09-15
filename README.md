@@ -27,6 +27,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Exception Handling](#exception-handling)
     * [SOLID principles](#solid-principles)
     * [Python collection](#python-collection)
+    * [frozenset in Python](#frozenset-in-python)
     * [Generators and Iterators](#generators-and-iterators)
     * [Magic methods](#magic-methods)
     * [GIL](#gil)
@@ -42,7 +43,6 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Operator overloading](#operator-overloading)
     * [Recursive function](#recursive-function)
     * [Context manager](#context-manager)
-    * [frozenset in Python](#frozenset-in-python)
     * [Python 3.11 over previous versions](#python-311-over-previous-versions)
     * [Semaphores and Mutexes](#semaphores-and-mutexes)
     * [Design patterns](#design-patterns)
@@ -839,6 +839,40 @@ student.update({'age': 21})
 
 ```
 
+
+### frozenset in Python
+In Python, a **frozenset** is an immutable (unchangeable) version of the built-in set type. It is an unordered collection of unique elements, just like a regular set, but it cannot be modified once created. This means you cannot add, remove, or modify elements in a frozenset after it is created.
+Here's an example of creating and utilizing a frozenset:
+
+```angular2html
+# Create a frozenset
+numbers = frozenset([1, 2, 3, 4, 5])
+
+# Accessing elements
+for number in numbers:
+    print(number)
+
+# Frozenset operations
+other_numbers = frozenset([4, 5, 6, 7, 8])
+
+# Union
+union = numbers.union(other_numbers)
+print(union)  # Output: frozenset({1, 2, 3, 4, 5, 6, 7, 8})
+
+# Intersection
+intersection = numbers.intersection(other_numbers)
+print(intersection)  # Output: frozenset({4, 5})
+
+# Difference
+difference = numbers.difference(other_numbers)
+print(difference)  # Output: frozenset({1, 2, 3})
+
+# Subset check
+is_subset = numbers.issubset(other_numbers)
+print(is_subset)  # Output: False
+```
+
+
 ### Generators and Iterators
 
 Generators and iterators are powerful constructs in Python used for efficient iteration and lazy evaluation. They
@@ -1440,37 +1474,7 @@ The **__exit__** method is responsible for closing the file when exiting the con
 
 
 
-### frozenset in Python
-In Python, a **frozenset** is an immutable (unchangeable) version of the built-in set type. It is an unordered collection of unique elements, just like a regular set, but it cannot be modified once created. This means you cannot add, remove, or modify elements in a frozenset after it is created.
-Here's an example of creating and utilizing a frozenset:
 
-```angular2html
-# Create a frozenset
-numbers = frozenset([1, 2, 3, 4, 5])
-
-# Accessing elements
-for number in numbers:
-    print(number)
-
-# Frozenset operations
-other_numbers = frozenset([4, 5, 6, 7, 8])
-
-# Union
-union = numbers.union(other_numbers)
-print(union)  # Output: frozenset({1, 2, 3, 4, 5, 6, 7, 8})
-
-# Intersection
-intersection = numbers.intersection(other_numbers)
-print(intersection)  # Output: frozenset({4, 5})
-
-# Difference
-difference = numbers.difference(other_numbers)
-print(difference)  # Output: frozenset({1, 2, 3})
-
-# Subset check
-is_subset = numbers.issubset(other_numbers)
-print(is_subset)  # Output: False
-```
 
 ### Python 3.11 over previous versions
 Here are some simple examples of the advantages of using Python 3.11 over previous versions:
