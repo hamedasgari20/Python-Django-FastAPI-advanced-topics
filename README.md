@@ -2298,6 +2298,15 @@ validator to the title field of the Book model.
 Now when a user tries to create a book with a title that doesn't start with a capital letter, the validation will fail
 and an error message will be displayed.
 
+**Use cases**
+
+1. [x] **Password Strength Validation:** Ensure that user passwords meet certain complexity requirements, such as a minimum length, the presence of uppercase and lowercase characters, and special characters.
+2. [x] **Age Verification:** Validate that a user's age is above a certain threshold for age-restricted content or actions.
+3. [x] **URL or Domain Validation:** Verify that a URL or domain meets specific criteria, such as being a valid domain name or belonging to an allowed list of domains.
+4. [x] **File Type Validation:** Ensure that uploaded files have valid file extensions or meet specific criteria.
+5. [x] **Consistency Checks:** Ensure consistency between related fields in a model. For example, checking that start dates are earlier than end dates.
+
+
 
 
 ### Custom management commands
