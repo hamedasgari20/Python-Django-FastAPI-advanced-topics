@@ -20,6 +20,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
       * [Encapsulation](#encapsulation)
       * [Abstraction](#abstraction)
     * [Decorators](#decorators)
+    * [More decorators in Python](#more-decorators-in-python)
     * [Map function](#map-function)
     * [Itertools](#itertools)
     * [Lambda function](#lambda-function)
@@ -41,7 +42,6 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Operator overloading](#operator-overloading)
     * [Recursive function](#recursive-function)
     * [Context manager](#context-manager)
-    * [More decorators in Python](#more-decorators-in-python)
     * [frozenset in Python](#frozenset-in-python)
     * [Python 3.11 over previous versions](#python-311-over-previous-versions)
     * [Semaphores and Mutexes](#semaphores-and-mutexes)
@@ -302,7 +302,166 @@ greet()
 In this example, the **DecoratorClass** is a class-based decorator that takes the original function as an argument in its constructor. The **__call__** method is used to define the behavior of the decorator when the decorated function is called.
 
 
+### More decorators in Python
+In Python, class decorators are functions or callable objects that are used to modify or enhance the behavior of a class. They are applied to the class definition itself and can add or modify class-level attributes, methods, or perform other operations on the class.
+Here are a few examples of class decorators:
 
+ - classmethod
+
+The **classmethod** decorator is a built-in decorator that transforms a method into a class method. Class methods can be called on the class itself, rather than on instances of the class.
+Here's a simple example of a class method in Python
+
+```
+class Car:
+    total_cars = 0  # Class variable to keep track of the total number of cars
+
+    def __init__(self, name):
+        self.name = name
+        Car.total_cars += 1
+
+    def get_name(self):
+        return self.name
+
+    @classmethod
+    def get_total_cars(cls):
+        return cls.total_cars
+
+
+car1 = Car("Toyota")
+car2 = Car("Honda")
+car3 = Car("Ford")
+
+print(car1.get_name())  # Output: "Toyota"
+print(Car.get_total_cars())  # Output: 3
+```
+In this example, we have a **Car** class with a class variable **total_cars**, which keeps track of the total number of car objects created. The **__init__** method increments **total_cars** by 1 whenever a new car object is created.
+
+- staticmethod
+
+The **staticmethod** decorator is another built-in decorator that transforms a method into a static method. Static methods are similar to regular functions and do not have access to the class or instance.
+Here's a simple example of a static method in Python:
+
+```angular2html
+class MathUtils:
+    @staticmethod
+    def add_numbers(x, y):
+        return x + y
+
+    @staticmethod
+    def multiply_numbers(x, y):
+        return x * y
+
+
+sum_result = MathUtils.add_numbers(5, 3)
+print(sum_result)  # Output: 8
+
+product_result = MathUtils.multiply_numbers(4, 2)
+print(product_result)  # Output: 8
+```
+
+Static methods are defined using the **@staticmethod** decorator. They don't receive any special first parameter like instance methods or class methods. They behave like regular functions defined within the class.
+
+
+
+- property
+
+The **property** decorator allows you to define methods that can be accessed like attributes, providing a way to implement computed or dynamic properties.
+
+```angular2html
+class Circle:
+    def __init__(self, radius):
+        self.radius = radius
+
+    @property
+    def diameter(self):
+        return self.radius * 2
+
+    @property
+    def area(self):
+        return 3.14 * self.radius**2
+
+# Creating an instance of Circle
+my_circle = Circle(5)
+
+print(my_circle.diameter)  # Output: 10
+print(my_circle.area)  # Output: 78.5
+```
+In this example, we use the **property** decorator to define the **diameter** and **area** methods.
+
+
+- abstractmethod
+
+The **abstractmethod** decorator is used in combination with the **ABC** module to define abstract methods in abstract base classes
+The **abstractmethod** decorator ensures that any subclass of super class must implement this method.
+
+```
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def calculate_area(self):
+        pass
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def calculate_area(self):
+        return self.width * self.height
+
+# Creating an instance of Rectangle
+my_rectangle = Rectangle(5, 10)
+
+print(my_rectangle.calculate_area())  # Output: 50
+```
+The **abstractmethod** decorator ensures that any subclass of **Shape** must implement this method.
+
+- dataclass 
+
+The **dataclass** decorator is available in the **dataclasses** module (introduced in Python 3.7) and provides a concise way to define classes that are primarily used to store data.
+
+```angular2html
+from dataclasses import dataclass
+
+@dataclass
+class Person:
+    name: str
+    age: int
+
+# Creating an instance of Person
+person = Person("Alice", 25)
+
+print(person.name)  # Output: Alice
+print(person.age)   # Output: 25
+```
+In this example, we apply the **@dataclass** decorator to the **Person** class. The decorator automatically generates special methods like **__init__, __repr__, and __eq__** based on the class variables (name and age in this case).
+The **dataclass** decorator simplifies the process of defining classes that are primarily used for holding data, reducing the amount of boilerplate code required.
+
+
+- cached_property 
+
+The **cached_property** decorator is available in third-party libraries such as **django.utils.functional** and **cachetools** and provides a way to cache the result of a method as a property, improving performance when the method is called multiple times.
+
+```angular2html
+from django.utils.functional import cached_property
+
+class Square:
+    def __init__(self, side):
+        self.side = side
+
+    @cached_property
+    def area(self):
+        print("Calculating area...")
+        return self.side**2
+
+# Creating an instance of Square
+my_square = Square(5)
+
+print(my_square.area)  # Output: Calculating area... 25
+print(my_square.area)  # Output: 25 (Cached result, no recalculation)
+```
+In this example, we apply the **@cached_property** decorator to the **area** method. The decorator caches the result of the method on the instance, so subsequent accesses to area return the cached value without recalculating it.
 
 ### Map function
 
@@ -1280,166 +1439,6 @@ In this example, the **FileManager** class is a context manager that takes a **f
 The **__exit__** method is responsible for closing the file when exiting the context. Regardless of whether an exception occurs or not, the **__exit__** method will be called, ensuring that the file is closed properly.
 
 
-### More decorators in Python
-In Python, class decorators are functions or callable objects that are used to modify or enhance the behavior of a class. They are applied to the class definition itself and can add or modify class-level attributes, methods, or perform other operations on the class.
-Here are a few examples of class decorators:
-
- - classmethod
-
-The **classmethod** decorator is a built-in decorator that transforms a method into a class method. Class methods can be called on the class itself, rather than on instances of the class.
-Here's a simple example of a class method in Python
-
-```
-class Car:
-    total_cars = 0  # Class variable to keep track of the total number of cars
-
-    def __init__(self, name):
-        self.name = name
-        Car.total_cars += 1
-
-    def get_name(self):
-        return self.name
-
-    @classmethod
-    def get_total_cars(cls):
-        return cls.total_cars
-
-
-car1 = Car("Toyota")
-car2 = Car("Honda")
-car3 = Car("Ford")
-
-print(car1.get_name())  # Output: "Toyota"
-print(Car.get_total_cars())  # Output: 3
-```
-In this example, we have a **Car** class with a class variable **total_cars**, which keeps track of the total number of car objects created. The **__init__** method increments **total_cars** by 1 whenever a new car object is created.
-
-- staticmethod
-
-The **staticmethod** decorator is another built-in decorator that transforms a method into a static method. Static methods are similar to regular functions and do not have access to the class or instance.
-Here's a simple example of a static method in Python:
-
-```angular2html
-class MathUtils:
-    @staticmethod
-    def add_numbers(x, y):
-        return x + y
-
-    @staticmethod
-    def multiply_numbers(x, y):
-        return x * y
-
-
-sum_result = MathUtils.add_numbers(5, 3)
-print(sum_result)  # Output: 8
-
-product_result = MathUtils.multiply_numbers(4, 2)
-print(product_result)  # Output: 8
-```
-
-Static methods are defined using the **@staticmethod** decorator. They don't receive any special first parameter like instance methods or class methods. They behave like regular functions defined within the class.
-
-
-
-- property
-
-The **property** decorator allows you to define methods that can be accessed like attributes, providing a way to implement computed or dynamic properties.
-
-```angular2html
-class Circle:
-    def __init__(self, radius):
-        self.radius = radius
-
-    @property
-    def diameter(self):
-        return self.radius * 2
-
-    @property
-    def area(self):
-        return 3.14 * self.radius**2
-
-# Creating an instance of Circle
-my_circle = Circle(5)
-
-print(my_circle.diameter)  # Output: 10
-print(my_circle.area)  # Output: 78.5
-```
-In this example, we use the **property** decorator to define the **diameter** and **area** methods.
-
-
-- abstractmethod
-
-The **abstractmethod** decorator is used in combination with the **ABC** module to define abstract methods in abstract base classes
-The **abstractmethod** decorator ensures that any subclass of super class must implement this method.
-
-```
-from abc import ABC, abstractmethod
-
-class Shape(ABC):
-    @abstractmethod
-    def calculate_area(self):
-        pass
-
-class Rectangle(Shape):
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
-
-    def calculate_area(self):
-        return self.width * self.height
-
-# Creating an instance of Rectangle
-my_rectangle = Rectangle(5, 10)
-
-print(my_rectangle.calculate_area())  # Output: 50
-```
-The **abstractmethod** decorator ensures that any subclass of **Shape** must implement this method.
-
-- dataclass 
-
-The **dataclass** decorator is available in the **dataclasses** module (introduced in Python 3.7) and provides a concise way to define classes that are primarily used to store data.
-
-```angular2html
-from dataclasses import dataclass
-
-@dataclass
-class Person:
-    name: str
-    age: int
-
-# Creating an instance of Person
-person = Person("Alice", 25)
-
-print(person.name)  # Output: Alice
-print(person.age)   # Output: 25
-```
-In this example, we apply the **@dataclass** decorator to the **Person** class. The decorator automatically generates special methods like **__init__, __repr__, and __eq__** based on the class variables (name and age in this case).
-The **dataclass** decorator simplifies the process of defining classes that are primarily used for holding data, reducing the amount of boilerplate code required.
-
-
-- cached_property 
-
-The **cached_property** decorator is available in third-party libraries such as **django.utils.functional** and **cachetools** and provides a way to cache the result of a method as a property, improving performance when the method is called multiple times.
-
-```angular2html
-from django.utils.functional import cached_property
-
-class Square:
-    def __init__(self, side):
-        self.side = side
-
-    @cached_property
-    def area(self):
-        print("Calculating area...")
-        return self.side**2
-
-# Creating an instance of Square
-my_square = Square(5)
-
-print(my_square.area)  # Output: Calculating area... 25
-print(my_square.area)  # Output: 25 (Cached result, no recalculation)
-```
-In this example, we apply the **@cached_property** decorator to the **area** method. The decorator caches the result of the method on the instance, so subsequent accesses to area return the cached value without recalculating it.
 
 ### frozenset in Python
 In Python, a **frozenset** is an immutable (unchangeable) version of the built-in set type. It is an unordered collection of unique elements, just like a regular set, but it cannot be modified once created. This means you cannot add, remove, or modify elements in a frozenset after it is created.
