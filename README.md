@@ -2160,15 +2160,9 @@ exception will be raised.
 
 **Use cases:**
 
-- **Access Control for Views and URLs:** For example, allow only authenticated users to access their profile page, while allowing administrators to access an admin dashboard.
-- **Admin Panel Permissions:** Define who can create, modify, or delete records in the admin interface for specific models.
-- **API Access Control:** Implement role-based access control (RBAC) for APIs, allowing different levels of access for different user roles.
-
-
-
-
-
-
+1. [x] **Access Control for Views and URLs:** For example, allow only authenticated users to access their profile page, while allowing administrators to access an admin dashboard.
+2. [x] **Admin Panel Permissions:** Define who can create, modify, or delete records in the admin interface for specific models.
+3. [x] **API Access Control:** Implement role-based access control (RBAC) for APIs, allowing different levels of access for different user roles.
 
 
 
@@ -2268,6 +2262,15 @@ def available_books(request):
 In this example, we're using the **available_books** manager to get all the books that are currently available for
 borrowing, and passing them to the **available_books.html** template.
 
+
+**Use cases:**
+1. [x] **Filtering and Query Optimization:** For example, you can create a manager that filters out inactive or deleted records by default.
+2. [x] **Data Validation and Preprocessing:** For instance, you can create a manager that ensures all data entered is in uppercase.
+3. [x] **Complex Query Construction:** For example, you can create a manager that fetches the top-rated products based on user reviews.
+4. [x] **Pagination and Result Limiting:** For example, Create a manager that retrieves a specified number of records per page.
+
+
+
 ### Django Custom validators
 
 Django provides a set of built-in validators that can be used to validate form data and model fields. However, sometimes
@@ -2294,6 +2297,8 @@ title is a capital letter. If the validation fails, a ValidationError is raised.
 validator to the title field of the Book model.
 Now when a user tries to create a book with a title that doesn't start with a capital letter, the validation will fail
 and an error message will be displayed.
+
+
 
 ### Custom management commands
 
