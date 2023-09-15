@@ -1975,7 +1975,15 @@ class YourAppConfig(AppConfig):
 ```
 Now, whenever a new user is registered in your Django application, the **send_registration_email** function will be triggered, sending a welcome email to the user.
 
+**Use cases:**
 
+- **User Authentication:** Use signals to perform custom actions when a user is registered or when a user logs in. or Send a welcome email to a user upon registration.
+- **Database Changes:** Notify users or perform other actions when a certain condition is met, like a low stock alert for an e-commerce application.
+- **Signals for Models:** Trigger actions when a model is created, updated, or deleted. 
+- **File Uploads:** Perform post-processing tasks on uploaded files. For example, generating thumbnails after an image is uploaded.
+- **Notification Systems:** Send notifications to users or administrators when certain events occur, such as a new comment on a post.
+- **Django Middleware:** For instance, you can create a signal that fires before or after middleware processes a request, allowing you to perform custom actions at different points in the request/response cycle.
+- **Internationalization (i18n) and Localization (l10n):** Use signals to switch the language or locale dynamically based on user preferences or specific events within your application
 
 
 ### Django middleware
