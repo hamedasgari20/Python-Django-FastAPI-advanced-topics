@@ -1980,7 +1980,7 @@ Now, whenever a new user is registered in your Django application, the **send_re
 
 ### Django middleware
 
-Django middleware provides a way to process requests and responses globally in your application. Middleware can be used
+Django middleware provides a way to process **requests** and **responses** globally in your application. Middleware can be used
 to perform authentication, logging, modifying headers, and more.
 Let's say we have a Django application that needs to add a custom header to every HTTP response. We can use Django
 middleware to accomplish this.
@@ -2056,6 +2056,24 @@ In this example, we're using the **@register.simple_tag** decorator to register 
 ```
 
 In this example, we're using the **first_item** tag to output the first item in each list item in a loop.
+
+Here are some common use cases for template tags in Django:
+
+1. [ ] **Displaying Data from the Database:** Template tags are often used to fetch and display data from the database. You can use **{% for %}** loops to iterate through querysets and display records, or use **{% if %}** tags to conditionally show content based on database values.
+2. [ ] **Including Other Templates:** You can use the **{% include %}** tag to include other templates within your template. This is useful for reusing common components across multiple pages.
+3. [ ] **Conditional Rendering:** Template tags like **{% if %}** and **{% else %}** are used for conditional rendering. You can show different content based on certain conditions.
+4. [ ] **Loading External Scripts and Styles:** You can use the **{% load %}** tag to load custom template tags or template libraries that provide additional functionality.
+5. [ ] **Extending Base Templates:** Template inheritance allows you to create a base template and extend it in other templates. This is useful for maintaining a consistent layout across your site.
+6. [ ] **Setting Variables:** The **{% with %}** tag allows you to set variables within a template, making it easier to reuse values.
+7. [ ] **Handling Forms:** Template tags like **{% csrf_token %}** are used for including CSRF tokens in forms to ensure security. Additionally, you can use tags like **{% forloop %}** to iterate through form fields.
+
+
+These are just a few examples of how template tags can be used in Django templates to add dynamic behavior and logic to your web pages.
+
+
+
+
+
 
 ### Django permissions
 
