@@ -1977,13 +1977,13 @@ Now, whenever a new user is registered in your Django application, the **send_re
 
 **Use cases:**
 
-- **User Authentication:** Use signals to perform custom actions when a user is registered or when a user logs in. or Send a welcome email to a user upon registration.
-- **Database Changes:** Notify users or perform other actions when a certain condition is met, like a low stock alert for an e-commerce application.
-- **Signals for Models:** Trigger actions when a model is created, updated, or deleted. 
-- **File Uploads:** Perform post-processing tasks on uploaded files. For example, generating thumbnails after an image is uploaded.
-- **Notification Systems:** Send notifications to users or administrators when certain events occur, such as a new comment on a post.
-- **Django Middleware:** For instance, you can create a signal that fires before or after middleware processes a request, allowing you to perform custom actions at different points in the request/response cycle.
-- **Internationalization (i18n) and Localization (l10n):** Use signals to switch the language or locale dynamically based on user preferences or specific events within your application
+1. [x] **User Authentication:** Use signals to perform custom actions when a user is registered or when a user logs in. or Send a welcome email to a user upon registration.
+2. [x] **Database Changes:** Notify users or perform other actions when a certain condition is met, like a low stock alert for an e-commerce application.
+3. [x] **Signals for Models:** Trigger actions when a model is created, updated, or deleted.
+4. [x] **File Uploads:** Perform post-processing tasks on uploaded files. For example, generating thumbnails after an image is uploaded.
+5. [x] **Notification Systems:** Send notifications to users or administrators when certain events occur, such as a new comment on a post.
+6. [x] **Django Middleware:** For instance, you can create a signal that fires before or after middleware processes a request, allowing you to perform custom actions at different points in the request/response cycle.
+7. [x] **Internationalization (i18n) and Localization (l10n):** Use signals to switch the language or locale dynamically based on user preferences or specific events within your application
 
 
 ### Django middleware
@@ -2021,6 +2021,17 @@ MIDDLEWARE = [
 
 Now, whenever an HTTP response is returned by our application, the **CustomHeaderMiddleware** class will modify the response
 by adding a custom header.
+
+**Use cases:**
+
+1. [x] **Authentication and Authorization:** Middleware can check if a user is authenticated and has the required permissions to access a particular view.
+2. [x] **Security Measures:** Implement security-related tasks such as preventing Cross-Site Request Forgery (CSRF) attacks by adding CSRF tokens to forms or setting security headers like HTTP Strict Transport Security (HSTS) headers.
+3. [x] **Request Transformation:** Modify the request data before it reaches the view. For example, parsing JSON data from the request body and making it available to the view as a Python dictionary.
+4. [x] **Throttling and Rate Limiting:** Implement rate limiting to prevent abuse or overuse of your API or services by limiting the number of requests a client can make within a certain time frame.
+5. [x] **CORS (Cross-Origin Resource Sharing):** Enforce security policies for allowing or denying cross-origin requests to your application's resources.
+6. [x] **Content Compression:** Compress responses to reduce bandwidth usage and improve page load times, especially for resources like HTML, CSS, and JavaScript files.
+
+
 
 ### Django custom template tags
 
