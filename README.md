@@ -2158,6 +2158,20 @@ In this example, we're using the **permission_required** decorator to check if t
 permission before allowing them to edit the book. If the user does not have the necessary permission, a **PermissionDenied**
 exception will be raised.
 
+**Use cases:**
+
+- **Access Control for Views and URLs:** For example, allow only authenticated users to access their profile page, while allowing administrators to access an admin dashboard.
+- **Admin Panel Permissions:** Define who can create, modify, or delete records in the admin interface for specific models.
+- **API Access Control:** Implement role-based access control (RBAC) for APIs, allowing different levels of access for different user roles.
+
+
+
+
+
+
+
+
+
 ### Django custom user models
 
 Django's built-in **User** model provides a lot of functionality for authentication and authorization, but sometimes you may
