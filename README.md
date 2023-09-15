@@ -1655,6 +1655,7 @@ The Factory Method design pattern is useful when we want to create objects with 
 
 
 - **Builder Pattern:**
+
 The Builder Pattern is a creational design pattern used in software engineering to construct complex objects step by step. It allows you to create an object with various configurations and options without requiring a complex constructor with numerous parameters.
 Let's consider an simple example of the **Builder Pattern** for creating a **Computer** object with various optional components:
 - Define the Product (Computer) Class:
@@ -1708,9 +1709,9 @@ This pattern makes it easy to create different computer configurations without h
 
 **Use Cases:**
 
-**Building Configurable Objects:** When you have objects with many optional parameters or configurations, such as creating a document with various formatting options or configuring a complex database query.
-**Complex Object Creation:** When the process of object creation involves multiple steps, dependencies, or conditional logic, the Builder Pattern can simplify this process by breaking it down into manageable parts.
-**Configuration Objects:** Creating configuration objects for applications or libraries, allowing users to customize behavior or settings.
+1. [ ] **Building Configurable Objects:** When you have objects with many optional parameters or configurations, such as creating a document with various formatting options or configuring a complex database query.
+2. [ ] **Complex Object Creation:** When the process of object creation involves multiple steps, dependencies, or conditional logic, the Builder Pattern can simplify this process by breaking it down into manageable parts.
+3. [ ] **Configuration Objects:** Creating configuration objects for applications or libraries, allowing users to customize behavior or settings.
 
 Overall, the Builder Pattern is a versatile design pattern that helps make object construction more flexible, readable, and maintainable, especially in cases where objects have complex configurations or initialization requirements.
 
@@ -1929,55 +1930,53 @@ Django signals can be used to automate tasks and update data in your application
 those tasks or update the data.
 Let's say we have a Django application that allows users to place orders for products. We want to automatically update
 the product quantity in the database whenever an order is placed. We can use Django signals to accomplish this.
-Here are the steps to use Django signals for this example:
 
-1. Create a new file called **signals.py** in the same directory as your **models.p**y file.
-1. Import the **django.dispatch.Signal** class.
-1. Define a new signal using the **Signal** class.
-1. Define a function that will be called when the signal is triggered. This function should accept two arguments: **sender**
-   and **instance**.
-1. Connect the signal to the function using the receiver decorator.
+Let's say you want to send an email notification whenever a new user is registered in your Django application. You can use Django's built-in signals for this purpose.
 
-Here's an example implementation:
+- **Import necessary modules:**
 
-```
-from django.dispatch import Signal
-from myapp.models import Order, Product
-
-order_placed = Signal()
-
-def update_product_quantity(sender, instance, **kwargs):
-    # Get the product associated with the order
-    product = instance.product
-
-    # Calculate the new quantity
-    new_quantity = product.quantity - instance.quantity
-
-    # Update the product quantity in the database
-    Product.objects.filter(pk=product.pk).update(quantity=new_quantity)
-
-order_placed.connect(update_product_quantity, sender=Order)
-```
-
-In this example, we define a new signal called **order_placed** using the Signal class. We also define a function called
-**update_product_quantity** that will be called when the signal is triggered. This function gets the Product object
-associated with the Order object, calculates the new quantity, and updates the product quantity in the database.
-
-Finally, we connect the **order_placed** signal to the update_product_quantity function using the **connect** method. We also
-specify the sender argument to indicate that this signal should only be triggered when an Order object is saved.
-
-To trigger the signal, we simply need to create a new Order object:
+```angular2html
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.core.mail import send_mail
 
 ```
-from myapp.models import Order, Product
+- **Create a signal handler function to send an email:**
 
-product = Product.objects.get(pk=1)
-order = Order(product=product, quantity=3)
-order.save()  # This will trigger the order_placed signal
+```
+@receiver(post_save, sender=User)
+def send_registration_email(sender, instance, created, **kwargs):
+    if created:
+        subject = 'Welcome to My Website'
+        message = 'Thank you for registering on our website.'
+        from_email = 'noreply@example.com'
+        recipient_list = [instance.email]
+
+        send_mail(subject, message, from_email, recipient_list)
+
 ```
 
-When the save method is called on the **Order** object, the **order_placed** signal will be triggered, and the
-**update_product_quantity** function will be called, updating the product quantity in the database.
+- **Connect the signal handler:**
+
+You need to connect the signal handler to the **post_save** signal of the **User** model. You can do this in your Django app's **apps.py** or **models.py** file, or in a separate **signals.py** file:
+
+```angular2html
+from django.apps import AppConfig
+
+class YourAppConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'your_app'
+
+    def ready(self):
+        import your_app.signals  # Import the signals module where you defined your signal handler
+
+```
+Now, whenever a new user is registered in your Django application, the **send_registration_email** function will be triggered, sending a welcome email to the user.
+
+
+
 
 ### Django middleware
 
