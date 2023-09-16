@@ -2660,6 +2660,7 @@ In summary, Django Channels extends Django's built-in capabilities to handle pro
 ### HTTP methods in Django
 Django provides built-in support for handling HTTP requests and responses using request and response objects Here are some examples of how to use HTTP methods in Django:
 - **GET**: 
+
 To handle a GET request in a class-based view, you can define a method called **get()** in your view class. For example:
 
 ```angular2html
@@ -2672,6 +2673,7 @@ class HelloView(View):
 ```
 
 - **POST**: 
+
 To handle a POST request in a class-based view, you can define a method called **post()** in your view class. For example:
 
 ```angular2html
@@ -2687,6 +2689,7 @@ class LoginView(View):
 ```
 
 - **PUT** and **DELETE**: 
+
 Django's class-based views do not have built-in support for handling PUT and DELETE requests. However, you can use mixins or third-party packages like Django REST framework to handle these requests. For example, using Django REST framework, you can define a class-based view that inherits from **APIView** and override the appropriate methods for PUT and DELETE requests:
 
 ```angular2html
@@ -2706,7 +2709,7 @@ class UserDetailView(APIView):
 In Django, the difference between **PUT** and **PATCH** methods is similar to their difference in general HTTP terms.
 
 - **PUT** is used to modify an entire resource on the server. When a client sends a PUT request in Django, it updates the entire resource with the new data provided. If the resource does not exist, PUT creates a new resource. PUT is idempotent, meaning that calling it once or multiple times successively has the same effect.
-- PATCH is used to modify a part of a resource on the server. When a client sends a PATCH request in Django, it updates only the specified part of the resource with the new data provided. PATCH is not idempotent, meaning that successive identical PATCH requests may have additional effects. PATCH allows partial updates and side-effects on other resources.
+- **PATCH** is used to modify a part of a resource on the server. When a client sends a PATCH request in Django, it updates only the specified part of the resource with the new data provided. PATCH is not idempotent, meaning that successive identical PATCH requests may have additional effects. PATCH allows partial updates and side-effects on other resources.
 
 Here's an example of how to handle PUT and PATCH requests in Django using Django REST Framework:
 
@@ -2798,6 +2801,21 @@ class MyView(TimestampMixin, View):
  In this example, we have defined a mixin class called **TimestampMixin**. It adds two fields, **created_at** and **updated_at**, to any class that inherits from it. The Meta class with **abstract = True** ensures that the mixin itself is not treated as a model.
  By using mixins, you can easily add common functionality to multiple classes without duplicating code. This promotes code reuse, improves maintainability, and keeps your codebase organized.
  
+
+**Use Cases:**
+
+1. [x] **Authentication Mixin:** Add authentication checks to views, ensuring that only authenticated users can access specific views.
+2. [x] **Permission Mixin:** Check user permissions or roles before allowing access to certain views, ensuring that users have the required privileges.
+3. [x] **Pagination Mixin:** Implement pagination for list views, allowing users to navigate through large datasets.
+4. [x] **Timestamp Mixin:** Add timestamp fields (created_at, updated_at) to models for automatic tracking of creation and modification times.
+5. [x] **Geolocation Mixin:** Add latitude and longitude fields to models, enabling geospatial queries and location-based services.
+6. [x] **Captcha Mixin:** Integrate CAPTCHA validation with forms to prevent spam submissions.
+7. [x] **File Upload Mixin:** Add file upload functionality to forms, allowing users to upload files like images or documents.
+8. [x] **User Tracking Mixin:** Implement middleware to track user activity, such as page views or interactions, and log them for analytics.
+
+These are just a few examples of how mixins can enhance Django applications by promoting code reuse and modularity. They allow you to easily add and extend functionality across various components of your Django project, making your code more maintainable and efficient.
+
+
 ### Cache in Django
  By using caching in Django, you can significantly improve the performance of your application by reducing the load on the database and serving cached results faster. It is an essential technique for optimizing web applications and improving user experience.
  Django provides built-in support for caching through its caching framework. The caching framework allows you to cache the results of views, template fragments, and even low-level database queries. It supports various cache backends and provides flexibility in configuring cache settings.
