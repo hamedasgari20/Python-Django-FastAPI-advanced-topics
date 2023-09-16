@@ -2847,6 +2847,19 @@ def my_view(request):
 ```
 We then use the **cache_page** decorator to cache the result of the **my_view** function for 15 minutes. This means that the first time the view is accessed, the result will be computed and stored in the cache. For subsequent requests within the next 15 minutes, the cached result will be returned directly without executing the view function again.
 
+**Use Cases:**
+
+1. [x] **Page Caching:** Cache the rendered HTML of frequently accessed pages to reduce the load on the database and speed up page rendering.
+2. [x] **Queryset Caching:** Cache the results of database queries, especially for complex or frequently used queries. This reduces the need to hit the database repeatedly.
+3. [x] **Template Fragment Caching:** Cache specific portions of templates, such as navigation menus or sidebars, to minimize rendering time for frequently used components.
+4. [x] **Computed Values Caching:** Cache the results of expensive computations or data transformations to avoid recomputation for the same input.
+5. [x] **Third-Party API Responses:** Cache responses from third-party APIs to reduce the number of requests made to external services and improve the application's reliability.
+6. [x] **Rate Limiting:** Implement rate limiting by caching user request information to control the number of requests allowed within a specific time period.
+
+Django provides a flexible caching framework that supports various caching backends, including in-memory caching, file-based caching, and distributed cache systems like Memcached and Redis. By strategically implementing caching in your Django application, you can significantly improve its performance and scalability.
+
+
+
 ### Django constraint
 In Django, a constraint refers to a rule or condition that can be applied to a database table to enforce data integrity. Constraints ensure that the data stored in the table follows certain rules and meets specific requirements.
 Django provides a way to define constraints on model fields using the constraints attribute. This attribute allows you to specify one or more constraints for a model, such as unique constraints, check constraints, foreign key constraints, and more.
