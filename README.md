@@ -68,7 +68,6 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Mixin in Django](#mixin-in-django)
     * [Cache in Django](#cache-in-django)
     * [Django constraint](#django-constraint)
-      * [Django constraints and model validators differences](#django-constraints-and-model-validators-differences)
     * [bulk creation in Django](#bulk-creation-in-django)
     * [prefetch_related and select_related in Django](#prefetchrelated-and-selectrelated-in-django)
     * [Third-party packages in Django](#third-party-packages-in-django)
@@ -77,25 +76,13 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
       * [WSGI (Web Server Gateway Interface):](#wsgi-web-server-gateway-interface)
       * [ASGI (Asynchronous Server Gateway Interface):](#asgi-asynchronous-server-gateway-interface)
     * [Advanced features in ORM](#advanced-features-in-orm)
-      * [Q objects:](#q-objects)
-      * [F expressions:](#f-expressions-)
-      * [QuerySet methods](#queryset-methods)
-      * [Model managers](#model-managers)
-      * [Model inheritance](#model-inheritance)
     * [Class-based views methods](#class-based-views-methods)
     * [Django optimization](#django-optimization)
-      * [**Database Optimization:**](#database-optimization)
-      * [**Caching:**](#caching-)
-      * [**Code Optimization:**](#code-optimization-)
-      * [**Distributed Task Queues:**](#distributed-task-queues-)
-      * [**Scaling Horizontally:**](#scaling-horizontally)
-      * [**Benchmarking:**](#benchmarking-)
     * [Generic Foreign Key in Django](#generic-foreign-key-in-django)
     * [Django custom exceptions](#django-custom-exceptions)
     * [select_for_update in Django](#selectforupdate-in-django)
     * [Django model methods](#django-model-methods)
     * [Parametric unit tests](#parametric-unit-tests)
-    * [Django decorator](#django-decorator)
 <!-- TOC -->
 
 ## Python related topics:
@@ -3075,7 +3062,8 @@ In summary, **WSGI** is a synchronous interface for handling web requests and re
 ### Advanced features in ORM
 Django ORM (Object-Relational Mapping) provides several advanced features that allow for more complex and powerful database queries and data manipulation. Here are some of the advanced features of Django ORM:
 
-#### Q objects:
+- **Q objects:**
+
 Q objects allow for complex queries by combining multiple filters using logical operators like AND (&) and OR (|). They encapsulate keyword arguments for filtering and provide more flexibility in query construction
 
 ```angular2html
@@ -3085,7 +3073,8 @@ from django.db.models import Q
 books = Book.objects.filter(Q(genre='fiction') | Q(genre='mystery'))
 ```
 
-#### F expressions: 
+- **F expressions:** 
+
 F expressions allow you to perform database operations using field values without pulling the values from the database. They enable calculations and comparisons directly within the database query, improving performance and reducing round trips to the database
 
 ```angular2html
@@ -3095,7 +3084,8 @@ from django.db.models import F
 Book.objects.all().update(price=F('price') * 1.1)
 ```
 
-#### QuerySet methods
+- **QuerySet methods**
+
 Django provides a comprehensive set of QuerySet methods for retrieving, filtering, and manipulating data from the database. These methods include **annotate()**, **aggregate()**, **values()**, **distinct()**, **order_by()**, **reverse()**, and many more
 
 ```angular2html
@@ -3109,7 +3099,8 @@ authors = Book.objects.values('author').distinct()
 genres = Book.objects.values('genre').annotate(avg_price=Avg('price'))
 ```
 
-#### Model managers
+- **Model managers**
+
 Model managers allow you to customize the default QuerySet behavior by defining custom methods on the manager class. Managers provide a way to encapsulate common query logic and make it easily accessible across multiple models
 
 ```angular2html
@@ -3129,7 +3120,8 @@ class Book(models.Model):
 best_sellers = Book.objects.get_best_sellers()
 
 ```
-#### Model inheritance
+- **Model inheritance**
+
 Django supports model inheritance, allowing you to create more complex data models by building relationships between models. You can use abstract base classes, multi-table inheritance, and proxy models to implement different types of model inheritance
 
 ```angular2html
@@ -3187,7 +3179,7 @@ By understanding these methods, you can customize the behavior of Django class-b
 ### Django optimization
 To optimize your Django application for scalability, there are several techniques you can implement:
 
-#### **Database Optimization:**
+- **Database Optimization:**
 
 Django's database layer provides various ways to improve performance, such as using database indexes, optimizing queries, and reducing database round trips
 Suppose you have a Django model called **Book** with a field called **title**. To optimize the database query, you can add an index to the title field by adding **db_index=True** to the field definition in the model:
@@ -3200,7 +3192,7 @@ class Book(models.Model):
 ```
 this index will speed up queries that filter or order by the title field, as the database can use the index to quickly find the relevant rows
 
-#### **Caching:** 
+- **Caching:** 
 
 Implementing caching can significantly improve the performance of your Django application. You can use tools like Django's built-in caching framework. For example, to cache the result of a query for 5 minutes, you can use the **cache_page** decorator:
 
@@ -3214,7 +3206,7 @@ def my_view(request):
     
 ```
 
-#### **Code Optimization:** 
+- **Code Optimization:** 
 
 Optimizing your code can help improve the overall performance of your application. This includes writing efficient algorithms, reducing unnecessary database queries, and optimizing resource-intensive operations.
 
@@ -3245,7 +3237,7 @@ def book_list(request):
 
 In the first example, the code performs a separate database query for each author of each book, resulting in a large number of queries. In the second example, the **prefetch_related** method fetches all related authors in a single query, reducing the number of queries and improving performance.
 
-#### **Distributed Task Queues:** 
+- **Distributed Task Queues:** 
 
 Using distributed task queues, such as **Celery**, can help offload time-consuming tasks to separate worker processes, allowing your application to handle more concurrent requests.
 Suppose you have a view that performs a time-consuming task, such as sending an email. To offload the task to a separate worker process, you can use **Celery** such as below:
@@ -3266,7 +3258,7 @@ def my_view(request):
 
 ```
 
-#### **Scaling Horizontally:**
+- **Scaling Horizontally:**
 
 To handle increased traffic and user load, you can scale your Django application horizontally by splitting it into individual services (SOA) and scaling them independently. This approach allows you to distribute the load and optimize each service individually.
 Suppose you have a Django application that handles both user authentication and payment processing. To scale the application horizontally, you can split it into two separate services:
@@ -3274,7 +3266,7 @@ Suppose you have a Django application that handles both user authentication and 
 2- Payment service: Handles payment processing and billing.
 
 
-#### **Benchmarking:** 
+- **Benchmarking:** 
 
 Regularly benchmarking and profiling your application can help identify performance bottlenecks and areas for improvement. Tools like **Django Debug Toolbar** and **Django Silk** can assist in analyzing and optimizing your code.
 
@@ -3549,45 +3541,3 @@ class MathTestCase(TestCase):
 When running the test, Django's test runner will execute the **test_multiply_numbers** method for each test case, providing detailed feedback for each iteration.
 
 Using parametric unit tests like this helps to reduce code duplication and makes it easier to add, modify, or remove test cases. It also provides a clear overview of which test cases pass or fail and enables you to test your code against a variety of scenarios.
-
-### Django decorator
-
-Here are a few examples of decorators commonly used in Django:
-
--     @login_required
--     @permission_required
--     @csrf_exempt
--     @cache_page
--     @transaction.atomic
-
-Here is an example of creating a custom decorator in Django:
-
-In this example, the my_view function is decorated with the log_execution_time decorator, which will log the execution time of the view function every time it is called.
-
-```angular2html
-from django.shortcuts import render
-from .decorators import log_execution_time
-
-@log_execution_time
-def my_view(request):
-    # your view code here
-    return render(request, 'my_template.html', context)
-```
-here is the implementation of the custom decorator in previous code: 
-
-```angular2html
-import time
-
-def log_execution_time(view_func):
-    def wrapper(request, *args, **kwargs):
-        start_time = time.time()
-        response = view_func(request, *args, **kwargs)
-        end_time = time.time()
-        execution_time = end_time - start_time
-        print(f"Execution time: {execution_time:.2f} seconds")
-        return response
-    return wrapper
-
-```
-Overall, creating a custom decorator in Django is a simple process that can help you add reusable functionality to your views and improve the maintainability of your code.
-
