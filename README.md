@@ -2886,20 +2886,10 @@ During exceptions in Django Constraints raise database-level errors such as Inte
 
 **Use Cases:**
 
-- **Unique Constraints:** Ensure that a specific field or combination of fields contains unique values across records. Commonly used for unique usernames, email addresses, or product codes.
-- **Check Constraints:** Specify custom validation rules for data in one or more fields. For example, ensure that a price field is always positive, or that a date falls within a certain range.
-- **Unique Together Constraints:** Ensure that a combination of fields contains unique values. Useful when you want to enforce uniqueness based on multiple fields, such as a combination of username and email.
-- **Table-Level Constraints:** Enforce constraints that involve multiple fields or records at the table level. For instance, ensuring that the start date is always earlier than the end date for date ranges.
-- 
-
-
-
-
-
-
-
-
-
+1. [x] **Unique Constraints:** Ensure that a specific field or combination of fields contains unique values across records. Commonly used for unique usernames, email addresses, or product codes.
+2. [x] **Check Constraints:** Specify custom validation rules for data in one or more fields. For example, ensure that a price field is always positive, or that a date falls within a certain range.
+3. [x] **Unique Together Constraints:** Ensure that a combination of fields contains unique values. Useful when you want to enforce uniqueness based on multiple fields, such as a combination of username and email.
+4. [x] **Table-Level Constraints:** Enforce constraints that involve multiple fields or records at the table level. For instance, ensuring that the start date is always earlier than the end date for date ranges.
 
 
 
