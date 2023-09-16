@@ -2878,11 +2878,29 @@ class Person(models.Model):
 In this example, we define a **Person** model with two fields: **name** and **age**. We want to enforce a constraint that ensures the age field is greater than or equal to 18.
 By defining this constraint, Django will automatically create the necessary SQL statements to enforce the constraint when creating or modifying the database table for the Person model. Constraints help maintain data integrity and ensure that the data stored in the database follows the defined rules. They can be particularly useful in scenarios where you want to enforce specific conditions or relationships between fields in your models.
 
-#### Django constraints and model validators differences
+- **Django constraints vs model validators differences**
 
 Django constraints and model validators are two different mechanisms for ensuring data integrity in Django applications.
 Constraints are used to enforce data integrity rules at the database level, while validators are used to enforce data integrity rules at the application leve.
 During exceptions in Django Constraints raise database-level errors such as IntegrityError, while validators raise application-level errors such as ValidationError
+
+**Use Cases:**
+
+- **Unique Constraints:** Ensure that a specific field or combination of fields contains unique values across records. Commonly used for unique usernames, email addresses, or product codes.
+- **Check Constraints:** Specify custom validation rules for data in one or more fields. For example, ensure that a price field is always positive, or that a date falls within a certain range.
+- **Unique Together Constraints:** Ensure that a combination of fields contains unique values. Useful when you want to enforce uniqueness based on multiple fields, such as a combination of username and email.
+- **Table-Level Constraints:** Enforce constraints that involve multiple fields or records at the table level. For instance, ensuring that the start date is always earlier than the end date for date ranges.
+- 
+
+
+
+
+
+
+
+
+
+
 
 
 ### bulk creation in Django
