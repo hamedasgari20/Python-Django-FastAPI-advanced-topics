@@ -49,6 +49,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
       * [Creational Design Patterns:](#creational-design-patterns)
       * [Structural Design Patterns:](#structural-design-patterns)
       * [Behavioral Design Patterns:](#behavioral-design-patterns)
+    * [Python built-in functions](#python-built-in-functions)
   * [Django related topics:](#django-related-topics)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
@@ -1829,6 +1830,199 @@ When we create a **Subject** instance and an **Observer** instance, we can **att
 - **Command Pattern**
 - **State Pattern**
 - **Chain of Responsibility Pattern**
+
+
+### Python built-in functions
+Here are some advanced Python built-in functions with simple examples:
+
+- `abs()` - returns the absolute value of a number
+```angular2html
+print(abs(-5)) # Output: 5
+```
+
+- `all()` - returns True if all elements in an iterable are true
+```angular2html
+print(all([True, True, False])) # Output: False
+```
+
+- `any()` - returns True if any element in an iterable is true
+```angular2html
+print(any([True, True, False])) # Output: True
+```
+
+- `bin()` - converts an integer to a binary string
+```angular2html
+print(bin(10)) # Output: 0b1010
+```
+
+- `enumerate()` - returns an iterator that generates tuples containing indices and values from an iterable
+```angular2html
+fruits = ['apple', 'banana', 'cherry']
+for index, value in enumerate(fruits):
+    print(index, value)
+# Output:
+# 0 apple
+# 1 banana
+# 2 cherry
+```
+
+- `map()` - returns an iterator that generates the results of applying a function to the elements of an iterable
+```angular2html
+def square(num):
+    return num ** 2
+
+numbers = [1, 2, 3, 4, 5]
+squared_numbers = list(map(square, numbers))
+print(squared_numbers) # Output: [1, 4, 9, 16, 25]
+```
+
+- `max()` - returns the largest element in an iterable or the largest of two or more arguments
+```angular2html
+print(max([1, 2, 3])) # Output: 3
+```
+
+- `pow()` - returns the result of raising a number to a power
+```
+print(pow(2, 3)) # Output: 8
+```
+
+- `reversed()` - returns an iterator that generates the elements of a sequence in reverse order
+```
+fruits = ['apple', 'banana', 'cherry']
+for fruit in reversed(fruits):
+    print(fruit)
+# Output:
+# cherry
+# banana
+# apple
+```
+
+- `round()` - rounds a number to a specified number of decimal places
+```
+print(round(3.14159, 2)) # Output: 3.14
+```
+
+- `zip()` - returns an iterator that generates tuples by aggregating the elements of several iterables
+```
+fruits = ['apple', 'banana', 'cherry']
+prices = [1.0, 2.0, 3.0]
+for fruit, price in zip(fruits, prices):
+    print(fruit, price)
+# Output:
+# apple 1.0
+# banana 2.0
+# cherry 3.0
+```
+
+- `format()` - formats a string using replacement fields
+```
+name = 'Alice'
+age = 30
+print('My name is {0} and I am {1} years old.'.format(name, age))
+# Output: My name is Alice and I am 30 years old.
+```
+
+- `frozenset()` - returns an immutable frozenset object initialized with elements from the given iterable
+```angular2html
+vowels = ('a', 'e', 'i', 'o', 'u')
+f_set = frozenset(vowels)
+print(f_set) # Output: frozenset({'a', 'e', 'i', 'o', 'u'})
+```
+
+- `getattr()` - returns the value of a named attribute of an object
+```
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+person = Person('Alice', 30)
+print(getattr(person, 'name')) # Output: 'Alice'
+```
+
+- `hash()` - returns the hash value of an object
+```angular2html
+print(hash('hello')) # Output: -3557965013271865832
+```
+
+- `isinstance()` - returns True if an object is an instance of a specified class
+```angular2html
+class Person:
+    pass
+
+person = Person()
+print(isinstance(person, Person)) # Output: True
+```
+
+- `issubclass()` - returns True if a class is a subclass of a specified class
+```angular2html
+class Animal:
+    pass
+
+class Dog(Animal):
+    pass
+
+print(issubclass(Dog, Animal)) # Output: True
+```
+
+- `setattr()` - sets the value of a named attribute of an object
+```
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+person = Person('Alice', 30)
+setattr(person, 'age', 31)
+print(person.age) # Output: 31
+```
+
+- `delattr()` - deletes a named attribute from an object
+```
+class Person:
+    name = 'Alice'
+
+person = Person()
+delattr(person, 'name')
+print(hasattr(person, 'name')) # Output: False
+```
+
+- `open()` - opens a file and returns a file object
+```
+file = open('example.txt', 'r')
+print(file.read()) # Output: This is an example file.
+file.close()
+```
+
+- `slice()` - returns a slice object
+```
+my_list = [1, 2, 3, 4, 5]
+my_slice = slice(1, 4)
+print(my_list[my_slice]) # Output: [2, 3, 4]
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
