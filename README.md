@@ -45,31 +45,6 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Context manager](#context-manager)
     * [Python 3.11 over previous versions](#python-311-over-previous-versions)
     * [Semaphores and Mutexes](#semaphores-and-mutexes)
-    * [Design patterns](#design-patterns)
-      * [Creational Design Patterns:](#creational-design-patterns)
-        * [Singleton pattern](#singleton-pattern)
-        * [Factory Method Pattern](#factory-method-pattern)
-        * [Builder Pattern](#builder-pattern)
-        * [Abstract Factory pattern](#abstract-factory-pattern)
-        * [Prototype pattern](#prototype-pattern)
-      * [Structural Design Patterns:](#structural-design-patterns)
-        * [Decorator Pattern](#decorator-pattern)
-        * [Adapter Pattern](#adapter-pattern)
-        * [Bridge Pattern](#bridge-pattern)
-        * [Composite Pattern](#composite-pattern)
-        * [Facade Pattern](#facade-pattern)
-        * [Flyweight Pattern](#flyweight-pattern)
-        * [Proxy Pattern](#proxy-pattern)
-      * [Behavioral Design Patterns:](#behavioral-design-patterns)
-        * [Observer Pattern](#observer-pattern)
-        * [Chain of responsibility Pattern](#chain-of-responsibility-pattern)
-        * [Command Pattern](#command-pattern)
-        * [Iterator Pattern](#iterator-pattern)
-        * [Mediator Pattern](#mediator-pattern)
-        * [Memento Pattern](#memento-pattern)
-        * [State Pattern](#state-pattern)
-        * [Strategy Pattern](#strategy-pattern)
-        * [Visitor Pattern](#visitor-pattern)
     * [Python built-in functions](#python-built-in-functions)
   * [Django related topics:](#django-related-topics)
     * [Django signals](#django-signals)
@@ -105,6 +80,31 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [select_for_update in Django](#selectforupdate-in-django)
     * [Django model methods](#django-model-methods)
     * [Parametric unit tests](#parametric-unit-tests)
+    * [Design patterns in Django](#design-patterns-in-django)
+      * [Creational Design Patterns in Django:](#creational-design-patterns-in-django)
+        * [Singleton pattern](#singleton-pattern)
+        * [Factory Method Pattern](#factory-method-pattern)
+        * [Builder Pattern](#builder-pattern)
+        * [Abstract Factory pattern](#abstract-factory-pattern)
+        * [Prototype pattern](#prototype-pattern)
+      * [Structural Design Patterns in Django:](#structural-design-patterns-in-django)
+        * [Decorator Pattern](#decorator-pattern)
+        * [Adapter Pattern](#adapter-pattern)
+        * [Bridge Pattern](#bridge-pattern)
+        * [Composite Pattern](#composite-pattern)
+        * [Facade Pattern](#facade-pattern)
+        * [Flyweight Pattern](#flyweight-pattern)
+        * [Proxy Pattern](#proxy-pattern)
+      * [Behavioral Design Patterns in Django:](#behavioral-design-patterns-in-django)
+        * [Observer Pattern](#observer-pattern)
+        * [Chain of responsibility Pattern](#chain-of-responsibility-pattern)
+        * [Command Pattern](#command-pattern)
+        * [Iterator Pattern](#iterator-pattern)
+        * [Mediator Pattern](#mediator-pattern)
+        * [Memento Pattern](#memento-pattern)
+        * [State Pattern](#state-pattern)
+        * [Strategy Pattern](#strategy-pattern)
+        * [Visitor Pattern](#visitor-pattern)
 <!-- TOC -->
 
 ## Python related topics:
@@ -1569,337 +1569,6 @@ for thread in threads:
 
 ```
 In this example, the semaphore allows up to 2 threads to access the shared resource concurrently, while other threads will wait until a permit is released.
-
-
-### Design patterns
-Design patterns are reusable solutions to common problems in software design. They help make your code more maintainable, flexible, and scalable.
-Here, I'll introduce some popular design patterns with simple examples in Python. These design patterns are categorized into three main types: **Creational**, **Structural**, and **Behavioral**. 
-
-
-#### Creational Design Patterns:
-These patterns provide various object creation mechanisms, which increase flexibility and reuse of existing code. here is the list of creational patterns
-
-- **Singleton pattern:** 
-- **Factory method pattern:**
-- **Builder pattern:**
-- **Abstract Factory pattern:**
-- **Prototype pattern:**
-
-
-##### Singleton pattern
-The Singleton pattern ensures that a class has only one instance and provides a global point of access to that instance.
-
-```angular2html
-class Singleton:
-    _instance = None
-
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super(Singleton, cls).__new__(cls)
-            cls._instance.value = 0
-        return cls._instance
-
-# Usage
-singleton1 = Singleton()
-singleton1.value = 10
-
-singleton2 = Singleton()
-print(singleton2.value)  # Output: 10
-
-```
-When you create two **Singleton** objects (**singleton1** and **singleton2**), you'll notice that they both refer to the same instance. This demonstrates the core idea of the **Singleton** pattern: ensuring there's only one instance of the class.
-
-**Use Cases:**
-
-1. [ ] **Database connection pools:** Ensuring that multiple parts of your application share a single database connection pool instance.
-2. [ ] **Caching:** Ensuring that there's only one cache instance to avoid duplication of data.
-3. [ ] **Logging:** Having a single logger instance to manage application-wide logging.
-
-Remember that the Singleton pattern can be useful in scenarios where you want to control the creation of a single instance of a class throughout your application. However, it should be used judiciously, as it can introduce global state, which may make your code less modular and harder to test.
-
-##### Factory Method Pattern
-
-The Factory Method pattern defines an interface for creating an object but allows subclasses to alter the type of objects that will be created.
-
-```angular2html
-from abc import ABC, abstractmethod
-
-class Vehicle(ABC):
-    @abstractmethod
-    def drive(self):
-        pass
-
-class Car(Vehicle):
-    def drive(self):
-        print("Driving a car")
-
-class Truck(Vehicle):
-    def drive(self):
-        print("Driving a truck")
-
-class VehicleFactory:
-    def get_vehicle(self, vehicle_type):
-        if vehicle_type == 'car':
-            return Car()
-        elif vehicle_type == 'truck':
-            return truck()
-
-factory = VehicleFactory()
-car = factory.get_vehicle("car")
-car.drive()
-# Driving a car
-
-truck = factory.get_vehicle("truck")
-truck.drive()
-# Driving a truck
-```
-
-In this example, we have an abstract **Vehicle** class with a **drive** method, and two concrete subclasses, **Car** and **Truck**, that implement the **drive** method differently. We also have a **VehicleFactory** class that has a **get_vehicle** method that takes a string argument **vehicle_type** and returns an instance of either **Car** or **Truck** depending on the value of **vehicle_type**.
-The Factory Method design pattern is useful when we want to create objects with a common interface, but we don't know ahead of time which specific class we need to instantiate.
-
-**Use Cases:**
-
-1. [ ] creating different types of vehicles (cars, trucks, etc.)
-2. [ ] creating different types of databases (MySQL, Oracle, etc.)
-3. [ ] creating different types of documents (PDF, Word, etc.)
-
-##### Builder Pattern
-
-The Builder Pattern is a creational design pattern used in software engineering to construct complex objects step by step. It allows you to create an object with various configurations and options without requiring a complex constructor with numerous parameters.
-Let's consider an simple example of the **Builder Pattern** for creating a **Computer** object with various optional components:
-- Define the Product (Computer) Class:
-```
-class Computer:
-    def __init__(self):
-        self.cpu = ""
-        self.memory = ""
-        self.storage = ""
-        self.graphics_card = ""
-
-    def __str__(self):
-        return f"Computer with CPU: {self.cpu}, Memory: {self.memory}, Storage: {self.storage}, Graphics Card: {self.graphics_card}"
-
-```
-- Create the **Builder** Class for the Computer:
-```
-class ComputerBuilder:
-    def __init__(self, cpu, memory, storage):
-        self.computer = Computer()
-        self.computer.cpu = cpu
-        self.computer.memory = memory
-        self.computer.storage = storage
-
-    def add_graphics_card(self, graphics_card):
-        self.computer.graphics_card = graphics_card
-        return self
-
-    def build(self):
-        return self.computer
-
-```
-
-- Use the **Builder** to Create Custom Computers:
-```angular2html
-
-# Create a basic computer with CPU, memory, and storage
-basic_computer = ComputerBuilder("Intel i5", "8GB RAM", "256GB SSD").build()
-print("Basic Computer:", basic_computer)
-
-# Create a gaming computer with CPU, memory, storage, and a dedicated graphics card
-gaming_computer = (
-    ComputerBuilder("AMD Ryzen 7", "16GB RAM", "512GB NVMe SSD")
-    .add_graphics_card("NVIDIA GeForce RTX 3060")
-    .build()
-)
-print("Gaming Computer:", gaming_computer)
-
-```
-This pattern makes it easy to create different computer configurations without having to provide a long list of constructor parameters
-
-**Use Cases:**
-
-1. [ ] **Building Configurable Objects:** When you have objects with many optional parameters or configurations, such as creating a document with various formatting options or configuring a complex database query.
-2. [ ] **Complex Object Creation:** When the process of object creation involves multiple steps, dependencies, or conditional logic, the Builder Pattern can simplify this process by breaking it down into manageable parts.
-3. [ ] **Configuration Objects:** Creating configuration objects for applications or libraries, allowing users to customize behavior or settings.
-
-Overall, the Builder Pattern is a versatile design pattern that helps make object construction more flexible, readable, and maintainable, especially in cases where objects have complex configurations or initialization requirements.
-
-##### Abstract Factory pattern
-
-##### Prototype pattern
-
-
-
-
-
-#### Structural Design Patterns:
-These patterns explain how to assemble objects and classes into larger structures while keeping these structures flexible and efficient.
-
-- **Decorator Pattern**
-- **Adapter Pattern**
-- **Bridge Pattern**
-- **Composite Pattern**
-- **Facade Pattern**
-- **Flyweight Pattern**
-- **Proxy Pattern**
-
-
-##### Decorator Pattern
-The Decorator Pattern is a structural design pattern that allows behavior and functionality to be dynamically added to an object without affecting the behavior of other objects in the same class.
-
-```angular2html
-# The component interface
-class Coffee:
-    def cost(self):
-        return 5
-
-# Concrete component
-class SimpleCoffee(Coffee):
-    pass
-
-# Decorator
-class MilkDecorator(Coffee):
-    def __init__(self, coffee):
-        self._coffee = coffee
-
-    def cost(self):
-        return self._coffee.cost() + 2
-
-# Usage
-coffee = SimpleCoffee()
-print(f"Cost of simple coffee: ${coffee.cost()}")
-
-coffee_with_milk = MilkDecorator(coffee)
-print(f"Cost of coffee with milk: ${coffee_with_milk.cost()}")
-
-```
-We create a **SimpleCoffee** object and then wrap it with a **MilkDecorator**. The cost method of the **MilkDecorator** adds the cost of milk to the base coffee cost. This is a basic illustration of the **Decorator pattern**, where you can dynamically add responsibilities (in this case, cost modification) to an object.
-
-**Use Cases:**
-
-The Decorator pattern's flexibility makes it a valuable tool for building extensible, maintainable, and modular software systems. It allows you to add or modify behavior in a reusable and composable way, reducing the need for complex class hierarchies and promoting open-closed principles.
-Here are several use cases where the Decorator pattern can be applied:
-
-1. [ ] **Logging and Debugging:** Decorators can log method calls, input, and output data to aid in debugging or performance analysis.
-2. [ ] **Authentication and Authorization:** In web applications, decorators can be used to check user roles and permissions before executing certain actions or accessing specific resources.
-3. [ ] **Caching:** Decorators can cache the results of expensive function calls and return cached results if the same inputs occur again.
-4. [ ] **Validation:** Data validation can be implemented using decorators to ensure that input data meets specific criteria.
-5. [ ] **Dynamic Role-based Access Control (RBAC):** Decorators can dynamically check a user's role or permissions and restrict access to certain parts of an application.
-6. [ ] **Dynamic Configuration:** Decorators can modify configuration settings at runtime, allowing for fine-tuning of application behavior without code changes.
-7. [ ] **Performance Monitoring:** Decorators can collect performance data, such as execution time, memory usage, or resource consumption, for specific functions or methods.
-8. [ ] **Internationalization and Localization:** Decorators can be used to change the language or format of data and user interfaces based on user preferences.
-9. [ ] **Security Enhancements:** Decorators can add security checks, such as input validation, authentication, and authorization, to protect against security vulnerabilities.
-10. [ ] **Resource Management:** Decorators can be used to manage resources like database connections or file handles by acquiring and releasing them as needed.
-11. [ ] **Notification Systems:** Decorators can be used to add notification mechanisms, such as sending email notifications or generating alerts, when specific events occur.
-12. [ ] **Error Handling and Logging:** Decorators can be used to catch and handle exceptions, log errors, and gracefully handle failures.
-
-##### Adapter Pattern
-
-##### Bridge Pattern
-
-##### Composite Pattern
-
-##### Facade Pattern
-
-##### Flyweight Pattern
-
-##### Proxy Pattern
-
-
-#### Behavioral Design Patterns:
-These patterns are concerned with algorithms and the assignment of responsibilities between objects.
-
-- **Observer Pattern**
-- **Chain of responsibility Pattern**
-- **Command Pattern**
-- **Iterator Pattern**
-- **Mediator Pattern**
-- **Memento Pattern**
-- **State Pattern**
-- **Strategy Pattern**
-- **Visitor Pattern**
-
-
-##### Observer Pattern
-
-The **Observer** pattern defines a **one-to-many** relationship between objects. When one object (**Subject**) changes state, all its dependents (**observers**) are notified and updated automatically.
-
-```
-from abc import ABC, abstractmethod
-
-class Subject:
-    def __init__(self):
-        self._observers = []
-
-    def attach(self, observer):
-        self._observers.append(observer)
-
-    def detach(self, observer):
-        self._observers.remove(observer)
-
-    def notify(self):
-        for observer in self._observers:
-            observer.update()
-
-class Observer(ABC):
-    @abstractmethod
-    def update(self):
-        pass
-
-class ConcreteObserver(Observer):
-    def update(self):
-        print("ConcreteObserver has been notified")
-
-
-subject = Subject()
-observer1 = ConcreteObserver()
-observer2 = ConcreteObserver()
-observer3 = ConcreteObserver()
-
-
-subject.attach(observer1)
-subject.attach(observer2)
-subject.attach(observer3)
-
-subject.notify()
-```
-When we create a **Subject** instance and an **Observer** instance, we can **attach** the **observer** to the subject using the **attach** method. When we call the **notify** method on the **subject**, the observer's update method is called. We can also **detach** the observer from the subject using the detach method.
-
-**Use Cases:**
-
-1. [ ] **Event Handling:** Many event-driven programming environments and frameworks implement the Observer pattern to handle events and notifications. When an event occurs (e.g., mouse click, keyboard press), registered event listeners are notified to respond accordingly.
-2. [ ] **Publish-Subscribe Systems:** In messaging systems, the Observer pattern is used to implement publish-subscribe mechanisms. Publishers (or producers) send messages, and subscribers (or consumers) receive and process those messages. Subscribers can subscribe to specific types of messages or topics of interest.
-3. [ ] **Model-View-Controller (MVC) Architecture:** MVC is a design pattern that often incorporates the Observer pattern. The model represents the application's data and logic. Views represent the presentation of the data, and controllers handle user input. Views register themselves as observers of the model. When the model changes, it notifies the registered views to update their displays.
-4. [ ] **Chat Applications:** In chat applications, when one user sends a message, all other users in the chat room receive that message as an update. Each user is an observer, and the chat room or message broker is the subject.
-5. [ ] **Stock Market and Financial Systems:** In financial applications, stock prices and market data change frequently. Investors and analysts subscribe to specific stocks or market data feeds. When a change occurs, subscribers are notified in real-time.
-6. [ ] **Monitoring and Logging:** Monitoring tools and log aggregators use the Observer pattern to watch for events, errors, or log entries in various parts of a system. When an event of interest occurs, the monitoring tool notifies observers to take specific actions.
-7. [ ] **Distributed Systems:** In distributed systems and microservices architectures, components may need to subscribe to updates from other components. This can be used for coordination, load balancing, and synchronization between services.
-8. [ ] **Game Development:** In video game development, the Observer pattern can be used to handle events like player input, collisions, and game state changes. Game objects (e.g., characters, enemies) can subscribe to these events.
-9. [ ] **Sensor Networks and IoT:** In sensor networks and Internet of Things (IoT) applications, sensors collect data from the physical world. Observers can subscribe to sensor data, and when readings change, observers are notified for processing and analysis.
-
-
-
-- **Strategy Pattern**
-- **Command Pattern**
-- **State Pattern**
-- **Chain of Responsibility Pattern**
-
-##### Chain of responsibility Pattern
-
-##### Command Pattern
-
-##### Iterator Pattern
-
-##### Mediator Pattern
-
-##### Memento Pattern
-
-##### State Pattern
-
-##### Strategy Pattern
-
-##### Visitor Pattern
-
 
 
 
@@ -3806,3 +3475,111 @@ class MathTestCase(TestCase):
 When running the test, Django's test runner will execute the **test_multiply_numbers** method for each test case, providing detailed feedback for each iteration.
 
 Using parametric unit tests like this helps to reduce code duplication and makes it easier to add, modify, or remove test cases. It also provides a clear overview of which test cases pass or fail and enables you to test your code against a variety of scenarios.
+
+
+### Design patterns in Django
+Design patterns are reusable solutions to common problems in software design. They help make your code more maintainable, flexible, and scalable.
+Here, I'll introduce some popular design patterns with simple examples in Python. These design patterns are categorized into three main types: **Creational**, **Structural**, and **Behavioral**. 
+
+
+#### Creational Design Patterns in Django:
+These patterns provide various object creation mechanisms, which increase flexibility and reuse of existing code. here is the list of creational patterns
+
+- **Singleton pattern:** 
+- **Factory method pattern:**
+- **Builder pattern:**
+- **Abstract Factory pattern:**
+- **Prototype pattern:**
+
+
+##### Singleton pattern
+Will be added soon .....
+
+##### Factory Method Pattern
+Will be added soon .....
+
+##### Builder Pattern
+Will be added soon .....
+
+##### Abstract Factory pattern
+Will be added soon .....
+
+##### Prototype pattern
+Will be added soon .....
+
+
+#### Structural Design Patterns in Django:
+These patterns explain how to assemble objects and classes into larger structures while keeping these structures flexible and efficient.
+
+- **Decorator Pattern**
+- **Adapter Pattern**
+- **Bridge Pattern**
+- **Composite Pattern**
+- **Facade Pattern**
+- **Flyweight Pattern**
+- **Proxy Pattern**
+
+
+##### Decorator Pattern
+Will be added soon .....
+
+##### Adapter Pattern
+Will be added soon .....
+
+##### Bridge Pattern
+Will be added soon .....
+
+##### Composite Pattern
+Will be added soon .....
+
+##### Facade Pattern
+Will be added soon .....
+
+##### Flyweight Pattern
+Will be added soon .....
+
+##### Proxy Pattern
+Will be added soon .....
+
+
+#### Behavioral Design Patterns in Django:
+These patterns are concerned with algorithms and the assignment of responsibilities between objects.
+
+- **Observer Pattern**
+- **Chain of responsibility Pattern**
+- **Command Pattern**
+- **Iterator Pattern**
+- **Mediator Pattern**
+- **Memento Pattern**
+- **State Pattern**
+- **Strategy Pattern**
+- **Visitor Pattern**
+
+
+##### Observer Pattern
+Will be added soon .....
+
+##### Chain of responsibility Pattern
+Will be added soon .....
+
+##### Command Pattern
+Will be added soon .....
+
+##### Iterator Pattern
+Will be added soon .....
+
+##### Mediator Pattern
+Will be added soon .....
+
+##### Memento Pattern
+Will be added soon .....
+
+##### State Pattern
+Will be added soon .....
+
+##### Strategy Pattern
+Will be added soon .....
+
+##### Visitor Pattern
+Will be added soon .....
+
