@@ -83,28 +83,91 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Design patterns in Django](#design-patterns-in-django)
       * [Creational Design Patterns in Django:](#creational-design-patterns-in-django)
         * [Singleton pattern](#singleton-pattern)
+          * [Definition](#definition)
+          * [Simple example in Django](#simple-example-in-django)
+          * [Other use cases in Django](#other-use-cases-in-django)
         * [Factory Method Pattern](#factory-method-pattern)
+          * [Definition](#definition-1)
+          * [Simple example in Django](#simple-example-in-django-1)
+          * [Other use cases in Django](#other-use-cases-in-django-1)
         * [Builder Pattern](#builder-pattern)
+          * [Definition](#definition-2)
+          * [Simple example in Django](#simple-example-in-django-2)
+          * [Other use cases in Django](#other-use-cases-in-django-2)
         * [Abstract Factory pattern](#abstract-factory-pattern)
+          * [Definition](#definition-3)
+          * [Simple example in Django](#simple-example-in-django-3)
+          * [Other use cases in Django](#other-use-cases-in-django-3)
         * [Prototype pattern](#prototype-pattern)
+          * [Definition](#definition-4)
+          * [Simple example in Django](#simple-example-in-django-4)
+          * [Other use cases in Django](#other-use-cases-in-django-4)
       * [Structural Design Patterns in Django:](#structural-design-patterns-in-django)
         * [Decorator Pattern](#decorator-pattern)
+          * [Definition](#definition-5)
+          * [Simple example in Django](#simple-example-in-django-5)
+          * [Other use cases in Django](#other-use-cases-in-django-5)
         * [Adapter Pattern](#adapter-pattern)
+          * [Definition](#definition-6)
+          * [Simple example in Django](#simple-example-in-django-6)
+          * [Other use cases in Django](#other-use-cases-in-django-6)
         * [Bridge Pattern](#bridge-pattern)
+          * [Definition](#definition-7)
+          * [Simple example in Django](#simple-example-in-django-7)
+          * [Other use cases in Django](#other-use-cases-in-django-7)
         * [Composite Pattern](#composite-pattern)
+          * [Definition](#definition-8)
+          * [Simple example in Django](#simple-example-in-django-8)
+          * [Other use cases in Django](#other-use-cases-in-django-8)
         * [Facade Pattern](#facade-pattern)
+          * [Definition](#definition-9)
+          * [Simple example in Django](#simple-example-in-django-9)
+          * [Other use cases in Django](#other-use-cases-in-django-9)
         * [Flyweight Pattern](#flyweight-pattern)
+          * [Definition](#definition-10)
+          * [Simple example in Django](#simple-example-in-django-10)
+          * [Other use cases in Django](#other-use-cases-in-django-10)
         * [Proxy Pattern](#proxy-pattern)
+          * [Definition](#definition-11)
+          * [Simple example in Django](#simple-example-in-django-11)
+          * [Other use cases in Django](#other-use-cases-in-django-11)
       * [Behavioral Design Patterns in Django:](#behavioral-design-patterns-in-django)
         * [Observer Pattern](#observer-pattern)
+          * [Definition](#definition-12)
+          * [Simple example in Django](#simple-example-in-django-12)
+          * [Other use cases in Django](#other-use-cases-in-django-12)
         * [Chain of responsibility Pattern](#chain-of-responsibility-pattern)
+          * [Definition](#definition-13)
+          * [Simple example in Django](#simple-example-in-django-13)
+          * [Other use cases in Django](#other-use-cases-in-django-13)
         * [Command Pattern](#command-pattern)
+          * [Definition](#definition-14)
+          * [Simple example in Django](#simple-example-in-django-14)
+          * [Other use cases in Django](#other-use-cases-in-django-14)
         * [Iterator Pattern](#iterator-pattern)
+          * [Definition](#definition-15)
+          * [Simple example in Django](#simple-example-in-django-15)
+          * [Other use cases in Django](#other-use-cases-in-django-15)
         * [Mediator Pattern](#mediator-pattern)
+          * [Definition](#definition-16)
+          * [Simple example in Django](#simple-example-in-django-16)
+          * [Other use cases in Django](#other-use-cases-in-django-16)
         * [Memento Pattern](#memento-pattern)
+          * [Definition](#definition-17)
+          * [Simple example in Django](#simple-example-in-django-17)
+          * [Other use cases in Django](#other-use-cases-in-django-17)
         * [State Pattern](#state-pattern)
+          * [Definition](#definition-18)
+          * [Simple example in Django](#simple-example-in-django-18)
+          * [Other use cases in Django](#other-use-cases-in-django-18)
         * [Strategy Pattern](#strategy-pattern)
+          * [Definition](#definition-19)
+          * [Simple example in Django](#simple-example-in-django-19)
+          * [Other use cases in Django](#other-use-cases-in-django-19)
         * [Visitor Pattern](#visitor-pattern)
+          * [Definition](#definition-20)
+          * [Simple example in Django](#simple-example-in-django-20)
+          * [Other use cases in Django](#other-use-cases-in-django-20)
 <!-- TOC -->
 
 ## Python related topics:
@@ -3493,19 +3556,76 @@ These patterns provide various object creation mechanisms, which increase flexib
 
 
 ##### Singleton pattern
-Will be added soon .....
+###### Definition
+The singleton design pattern is a software design pattern that restricts the instantiation of a class to one object. This is useful when exactly one object is needed to coordinate actions across the system.
+
+###### Simple example in Django
+A simple example of using the singleton design pattern in Django is to implement a global counter object. This object could be used to track the number of visitors to a website or the number of times a specific task has been performed.
+To implement a singleton counter object in Django, we can create a custom model that inherits from **models.Model** and add a **count** field:
+```angular2html
+class SingletonCounter(models.Model):
+    count = models.IntegerField(default=0)
+
+```
+We can then create a class that provides access to the singleton counter object:
+```
+class Counter:
+    @staticmethod
+    def get_singleton():
+        singleton, _ = SingletonCounter.objects.get_or_create()
+        return singleton
+
+    @staticmethod
+    def increment():
+        singleton = Counter.get_singleton()
+        singleton.count += 1
+        singleton.save()
+
+    @staticmethod
+    def get_count():
+        singleton = Counter.get_singleton()
+        return singleton.count
+
+```
+To use the singleton counter object, we can simply call the **get_singleton()** method to get an instance of the object. We can then call the **increment()** method to increment the counter and the **get_count()** method to get the current value of the counter.
+
+
+
+###### Other use cases in Django
+- **Caching:** A singleton cache object can be used to store frequently accessed data, such as database query results or rendered templates. This can improve the performance of the application by reducing the number of database queries and template rendering operations.
+- **Logging:** A singleton logger object can be used to log messages from different parts of the application. This can help to centralize logging and make it easier to troubleshoot problems.
+- **Session management:** A singleton session object can be used to store information about the current user, such as their login status and preferences. This information can be accessed from any view in the application.
+- **Database connection management:** A singleton database connection object can be used to manage the connection to the database. This can help to ensure that only one connection is open at a time and that the connection is properly closed when it is no longer needed.
 
 ##### Factory Method Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
 
 ##### Builder Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### Abstract Factory pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### Prototype pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
 
 
 #### Structural Design Patterns in Django:
@@ -3521,25 +3641,60 @@ These patterns explain how to assemble objects and classes into larger structure
 
 
 ##### Decorator Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### Adapter Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### Bridge Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### Composite Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### Facade Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### Flyweight Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### Proxy Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 
 #### Behavioral Design Patterns in Django:
@@ -3557,29 +3712,73 @@ These patterns are concerned with algorithms and the assignment of responsibilit
 
 
 ##### Observer Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### Chain of responsibility Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### Command Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### Iterator Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### Mediator Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### Memento Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### State Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### Strategy Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
+
 
 ##### Visitor Pattern
-Will be added soon .....
+###### Definition
+
+###### Simple example in Django
+
+###### Other use cases in Django
 
