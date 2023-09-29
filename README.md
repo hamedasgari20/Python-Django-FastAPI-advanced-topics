@@ -3729,14 +3729,12 @@ user = user_builder.build()
 
 The builder design pattern is a powerful tool that can be used to simplify the creation of complex objects. It is a good choice for any situation where you need to create objects with a lot of optional parameters, or where you need to create objects in different ways depending on the situation.
 
-
 ##### Abstract Factory pattern
 ###### Definition
 
 ###### Simple example in Django
 
 ###### Other use cases in Django
-
 
 ##### Prototype pattern
 ###### Definition
@@ -3799,10 +3797,52 @@ These patterns explain how to assemble objects and classes into larger structure
 
 ##### Decorator Pattern
 ###### Definition
+The decorator design pattern is a structural design pattern that allows you to attach new behaviors to objects without modifying their classes. This is useful when you need to add additional functionality to objects without changing their underlying implementation.
+
 
 ###### Simple example in Django
+One simple example of using the decorator design pattern in Django is to implement a decorator for logging the execution time of functions. This decorator could be used to log the execution time of any function, regardless of its class. 
+To implement a decorator for logging the execution time of functions, we can create a function that takes the target function as an argument and returns a wrapper function:
+
+```
+from functools import wraps
+
+def log_execution_time(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+
+        execution_time = end_time - start_time
+        print(f'{func.__name__} took {execution_time:.3f} seconds to execute.')
+
+        return result
+
+    return wrapper
+
+```
+
+We can then use the decorator to log the execution time of any function:
+
+```
+@log_execution_time
+def my_function():
+    # Do something
+    pass
+
+my_function()
+
+```
+When we call the **my_function()** function, the **log_execution_time()** decorator will be called first. The **log_execution_time()** decorator will then call the **my_function()** function and log the execution time.
 
 ###### Other use cases in Django
+- **Caching:** The decorator design pattern can be used to implement a decorator for caching the results of functions. This decorator could be used to cache the results of any function, regardless of its class.
+- **Authentication:** The decorator design pattern can be used to implement a decorator for authenticating users before they can access certain functions. This decorator could be used to authenticate users before they can access any function, regardless of its class.
+- **Authorization:** The decorator design pattern can be used to implement a decorator for authorizing users before they can access certain functions. This decorator could be used to authorize users before they can access any function, regardless of its class.
+
+The decorator design pattern is a powerful tool that can be used to add new behaviors to objects without modifying their classes. It is a good choice for any situation where you need to add additional functionality to objects without changing their underlying implementation.
+
 
 
 ##### Adapter Pattern
