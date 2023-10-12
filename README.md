@@ -3982,10 +3982,64 @@ By using the Observer Design Pattern, the **Blog** subject class and the **Subsc
 
 ##### Chain of responsibility Pattern
 ###### Definition
+The Chain of Responsibility Design Pattern is a behavioral design pattern that allows you to chain multiple handlers and pass a request along the chain until it is handled by an appropriate handler. Each handler has the ability to either handle the request or pass it to the next handler in the chain.
+
 
 ###### Simple example in Django
+Let's consider a scenario where you have an e-commerce application and you want to implement a discount system. The discount system applies different types of discounts based on certain conditions, such as the user's membership level or the total order amount. The Chain of Responsibility Design Pattern can be useful in this scenario to handle the discount calculation based on the order details.
+First, you define an abstract base class called **DiscountHandler** that represents the handlers in your discount system:
+
+```angular2html
+from abc import ABC, abstractmethod
+
+class DiscountHandler(ABC):
+    def __init__(self, next_handler=None):
+        self.next_handler = next_handler
+
+    def set_next_handler(self, next_handler):
+        self.next_handler = next_handler
+
+    @abstractmethod
+    def handle_discount(self, order):
+        pass
+```
+Next, you create concrete implementations of the **DiscountHandler** class for different types of discount handlers:
+
+```
+class MembershipDiscountHandler(DiscountHandler):
+    def handle_discount(self, order):
+        if order.user.membership_level == 'Gold':
+            order.apply_discount(0.2)  # Apply 20% discount
+        elif self.next_handler:
+            self.next_handler.handle_discount(order)
+
+
+class TotalAmountDiscountHandler(DiscountHandler):
+    def handle_discount(self, order):
+        if order.total_amount >= 1000:
+            order.apply_discount(0.1)  # Apply 10% discount
+        elif self.next_handler:
+            self.next_handler.handle_discount(order)
+```
+In this example, **MembershipDiscountHandler** represents a handler that applies a discount based on the user's membership level, and **TotalAmountDiscountHandler** represents a handler that applies a discount based on the total order amount. Each handler checks if it can handle the discount calculation based on the given conditions. If it can handle the discount, it applies the discount. Otherwise, it passes the request to the next handler in the chain.
+Now, you can create an **order** and pass it through the chain of discount handlers:
+
+```
+order = Order(user=user, total_amount=1500)
+membership_handler = MembershipDiscountHandler()
+amount_handler = TotalAmountDiscountHandler()
+
+membership_handler.set_next_handler(amount_handler)
+membership_handler.handle_discount(order)
+
+print(f"Discount applied: {order.discount}%")
+```
+By using the Chain of Responsibility Design Pattern, the discount handlers are linked together in a chain, and the order is passed through the chain until an appropriate handler handles the discount calculation.
 
 ###### Other use cases in Django
+- **Request processing:** If your Django application needs to handle incoming requests and process them based on different criteria, such as authentication, authorization, or validation, the Chain of Responsibility Design Pattern can be used to chain multiple request handlers and pass the request along until it is handled appropriately.
+- **Middleware processing:** If your Django application uses middleware components to process requests and responses, the Chain of Responsibility Design Pattern can be used to chain the middleware components together and pass the request and response through the chain, allowing each middleware component to perform specific tasks.
+- **Data transformation or filtering:** If your Django application needs to transform or filter data based on different rules or conditions, the Chain of Responsibility Design Pattern can be used to chain multiple data transformers or filters and pass the data through the chain until it is processed appropriately.
 
 
 ##### Command Pattern
