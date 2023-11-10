@@ -1215,7 +1215,7 @@ class Person:
     def __post_init__(self):
         if self.age < 18:
             raise ValueError("Age must be greater than or equal to 18")
-    
+  
 ```
 
 ### Shallow copy and deep copy
@@ -3424,6 +3424,34 @@ async def read_item(commons: str = Depends(get_query_parameter)):
 8. **Rate Limiting:** Implementing rate limiting is another use case. A dependency can check the rate limit for a user and prevent excessive requests.
 
 ### Dependency Ordering
+
+**Dependency ordering** in FastAPI refers to the order in which dependencies are executed. FastAPI executes dependencies in a top-down order, meaning that dependencies listed first are executed before those listed later. Understanding dependency ordering is crucial when you have dependencies that depend on the results of other dependencies.
+
+Here's an example to illustrate dependency ordering in FastAPI:
+
+```
+from fastapi import FastAPI, Depends
+
+app = FastAPI()
+
+# First dependency
+async def common_parameters(q: str = None, skip: int = 0, limit: int = 10):
+    return {"q": q, "skip": skip, "limit": limit}
+
+# Second dependency that depends on the result of the first one
+async def query_processing(params: dict = Depends(common_parameters)):
+    # Some processing using the result of the first dependency
+    processed_query = f"Processed query: {params['q']}, Skip: {params['skip']}, Limit: {params['limit']}"
+    return {"processed_query": processed_query}
+
+# Route using the dependencies
+@app.get("/items/")
+async def read_item(query_result: dict = Depends(query_processing)):
+    return query_result
+
+```
+
+**common_parameters** is the first dependency that provides common parameters like q, skip, and limit. **query_processing** is the second dependency that depends on the result of common_parameters. It performs some processing based on the parameters obtained from the first dependency. The route handler **read_item** depends on the result of **query_processing**. It uses the processed query result in the route response.
 
 ### Model methods in FastAPI
 
