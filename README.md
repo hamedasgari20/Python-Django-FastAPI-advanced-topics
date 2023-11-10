@@ -3453,7 +3453,48 @@ async def read_item(query_result: dict = Depends(query_processing)):
 
 **common_parameters** is the first dependency that provides common parameters like q, skip, and limit. **query_processing** is the second dependency that depends on the result of common_parameters. It performs some processing based on the parameters obtained from the first dependency. The route handler **read_item** depends on the result of **query_processing**. It uses the processed query result in the route response.
 
-### Model methods in FastAPI
+### Pydantic methods in FastAPI
+In FastAPI, models are typically defined using Pydantic, a data validation and parsing library. Pydantic models in FastAPI can utilize various methods to customize their behavior. These methods help in validating, parsing, and processing the data before it is used in your application. Let's explore some of these methods with examples and discuss their use cases in real-world applications.
+
+- @validator Decorator:
+You can use the @validator decorator to define custom validation logic for a specific field.
+
+```
+from typing import List
+from pydantic import BaseModel, validator
+
+class Item(BaseModel):
+    name: str
+    price: float
+
+    @validator("price")
+    def validate_price(cls, value):
+        if value < 0:
+            raise ValueError("Price must be non-negative")
+        return round(value, 2)
+
+```
+
+- @root_validator Decorator:
+Use Case: Use the @root_validator decorator to perform validation that involves multiple fields.
+
+```
+from pydantic import BaseModel, root_validator
+
+class Item(BaseModel):
+    name: str
+    price: float
+    quantity: int
+
+    @root_validator
+    def validate_total_price(cls, values):
+        total_price = values['price'] * values['quantity']
+        if total_price > 100:
+            raise ValueError("Total price cannot exceed 100")
+        return values
+
+```
+
 
 ### OAuth2 and JWT Authentication
 
