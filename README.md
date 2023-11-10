@@ -3555,7 +3555,6 @@ The **await websocket.receive_text()** line waits for incoming messages, and **a
 - **Financial Trading Platforms:** Developing financial trading platforms where real-time updates of stock prices, trades, and market data are crucial.
 - **Job Processing and Notifications:** Providing real-time updates on the progress of long-running tasks or job processing.
 
-
 ### Asynchronous File Uploads
 FastAPI supports asynchronous file uploads, allowing you to handle large file uploads efficiently. This is especially beneficial when dealing with web applications that need to process file uploads without blocking the server for other requests. 
 
@@ -3582,10 +3581,81 @@ The **UploadFile** class from FastAPI's **File** module is used to handle file u
 - **Document Processing:** Handling document uploads, such as PDFs or text files, and processing them asynchronously, such as extracting text, generating previews, or converting formats.
 - **Audio File Processing:** Uploading audio files for processing, such as extracting metadata, analyzing content, or converting formats.
 
-
 ### Security Headers
 
+Security headers play a crucial role in web applications to enhance security by preventing certain types of attacks. FastAPI allows you to set security headers easily, providing protection against common web vulnerabilities.
+Now, let's create a FastAPI application with custom security headers:
+
+```
+from fastapi import FastAPI
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+
+app = FastAPI()
+
+# Middleware for trusted hosts
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=["example.com", "sub.example.com"])
+
+# Middleware for security headers
+@app.middleware("http")
+async def add_security_headers(request, call_next):
+    response = await call_next(request)
+
+    # Set security headers
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    response.headers["Content-Security-Policy"] = "default-src 'self'"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Referrer-Policy"] = "no-referrer"
+
+    return response
+
+# Route to demonstrate security headers
+@app.get("/")
+async def read_root():
+    return {"message": "Welcome to the secure endpoint!"}
+
+```
+The **TrustedHostMiddleware** is used to enforce a list of allowed hostnames for better protection against HTTP Host header attacks.
+The **add_security_headers** function is a middleware that sets various security headers in the HTTP response.
+
+The security headers set include:
+
+- **Strict-Transport-Security (HSTS):** Enforces the use of HTTPS for a specified duration.
+- **Content-Security-Policy (CSP):** Defines content security policies to mitigate XSS attacks.
+- **X-Content-Type-Options:** Prevents browsers from MIME-sniffing a response.
+- **X-Frame-Options:** Prevents the browser from rendering a page in a frame.
+- **X-XSS-Protection:** Enables a browser's built-in XSS protection.
+- **Referrer-Policy:** Controls how much information is included in the Referer header.
+
+Implementing these security headers is an essential part of securing web applications and protecting against a wide range of common web vulnerabilities. They contribute to creating a robust and secure environment for your users and help in maintaining compliance with security standards and best practices.
+
 ### Background Tasks
+Background tasks in FastAPI allow you to execute functions asynchronously in the background, separate from the main request-response cycle. This is particularly useful for tasks that do not need an immediate response but can be performed in the background to improve the overall responsiveness of your application. 
+Now, let's create a FastAPI application with a background task:
+
+```angular2html
+from fastapi import FastAPI, BackgroundTasks
+import time
+
+app = FastAPI()
+
+# Background task
+def process_data(background_tasks: BackgroundTasks, data: str):
+    # Simulate a time-consuming task
+    time.sleep(5)
+    print(f"Processing data: {data}")
+
+# Route using the background task
+@app.post("/process_data/")
+async def create_process_data(data: str, background_tasks: BackgroundTasks):
+    background_tasks.add_task(process_data, data)
+    return {"message": "Data processing started in the background"}
+
+```
+The **process_data** function is a background task that simulates a time-consuming operation. In a real-world scenario, this could be a task like sending emails, processing images, updating records in a database, etc.
+
+The **create_process_data** route uses the **BackgroundTasks** dependency to add the **process_data** background task. The route returns a response immediately, and the background task runs asynchronously.
 
 ### Middleware in FastAPI
 
