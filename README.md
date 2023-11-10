@@ -3454,10 +3454,11 @@ async def read_item(query_result: dict = Depends(query_processing)):
 **common_parameters** is the first dependency that provides common parameters like q, skip, and limit. **query_processing** is the second dependency that depends on the result of common_parameters. It performs some processing based on the parameters obtained from the first dependency. The route handler **read_item** depends on the result of **query_processing**. It uses the processed query result in the route response.
 
 ### Pydantic methods in FastAPI
+
 In FastAPI, models are typically defined using Pydantic, a data validation and parsing library. Pydantic models in FastAPI can utilize various methods to customize their behavior. These methods help in validating, parsing, and processing the data before it is used in your application. Let's explore some of these methods with examples and discuss their use cases in real-world applications.
 
 - @validator Decorator:
-You can use the @validator decorator to define custom validation logic for a specific field.
+  You can use the @validator decorator to define custom validation logic for a specific field.
 
 ```
 from typing import List
@@ -3476,7 +3477,7 @@ class Item(BaseModel):
 ```
 
 - @root_validator Decorator:
-Use Case: Use the @root_validator decorator to perform validation that involves multiple fields.
+  Use Case: Use the @root_validator decorator to perform validation that involves multiple fields.
 
 ```
 from pydantic import BaseModel, root_validator
@@ -3495,12 +3496,38 @@ class Item(BaseModel):
 
 ```
 
-
-### API Versioning
-
-### ORM in FastAPI
-
 ### Decorators in FastAPI
+
+In FastAPI, decorators are used to modify the behavior of functions or class methods. They are functions that take another function as an argument and extend or modify the behavior of that function. Decorators in FastAPI are often used for creating reusable components, handling dependencies, and adding extra functionality to route handlers or other parts of your application.
+Let's start with a simple example of using decorators in FastAPI:
+
+```
+from fastapi import FastAPI, Depends
+
+app = FastAPI()
+
+# Decorator to log information before and after handling a request
+def log_request(func):
+    async def wrapper(*args, **kwargs):
+        print("Request received")
+        response = await func(*args, **kwargs)
+        print("Request handled")
+        return response
+    return wrapper
+
+# Using the decorator for a route
+@app.get("/items/", dependencies=[Depends(log_request)])
+async def read_items():
+    return {"message": "Items retrieved"}
+
+```
+
+#### Real-World Use Cases of decorators:
+
+- **Authentication and Authorization**: To check if a user is authenticated before allowing access to certain routes.
+- **Rate Limiting**: To limit the rate of requests to a specific route.
+- **Logging and Monitoring**: To log information about incoming requests and responses.
+- **Validation and Transformation**: To validate input data before processing it.
 
 ### WebSockets in FastAPI
 
