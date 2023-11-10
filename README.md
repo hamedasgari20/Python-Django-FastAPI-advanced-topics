@@ -3496,10 +3496,6 @@ class Item(BaseModel):
 ```
 
 
-### OAuth2 and JWT Authentication
-
-### Custom OAuth2 Flows
-
 ### API Versioning
 
 ### ORM in FastAPI
