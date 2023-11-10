@@ -3557,6 +3557,31 @@ The **await websocket.receive_text()** line waits for incoming messages, and **a
 
 
 ### Asynchronous File Uploads
+FastAPI supports asynchronous file uploads, allowing you to handle large file uploads efficiently. This is especially beneficial when dealing with web applications that need to process file uploads without blocking the server for other requests. 
+
+Now, let's create a FastAPI application with an asynchronous file upload endpoint:
+
+```angular2html
+from fastapi import FastAPI, File, UploadFile
+
+app = FastAPI()
+
+# Asynchronous file upload endpoint
+@app.post("/uploadfile/")
+async def create_upload_file(file: UploadFile = File(...)):
+    return {"filename": file.filename}
+
+```
+The **/uploadfile/** route is designated as an asynchronous file upload endpoint.
+The **create_upload_file** function is called when a POST request is made to **/uploadfile/** with a file attached.
+The **UploadFile** class from FastAPI's **File** module is used to handle file uploads asynchronously.
+
+#### Real-World Use Cases of Asynchronous File Uploads:
+- **Large File Uploads:** Allowing users to upload large files, such as images, videos, or documents, without causing timeouts or blocking other requests.
+- **Image and Video Processing:** Processing images or videos uploaded by users asynchronously, such as generating thumbnails, applying filters, or transcoding videos.
+- **Document Processing:** Handling document uploads, such as PDFs or text files, and processing them asynchronously, such as extracting text, generating previews, or converting formats.
+- **Audio File Processing:** Uploading audio files for processing, such as extracting metadata, analyzing content, or converting formats.
+
 
 ### Security Headers
 
