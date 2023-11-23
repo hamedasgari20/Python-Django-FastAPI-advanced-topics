@@ -97,18 +97,22 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Middleware in FastAPI](#middleware-in-fastapi)
       * [Real-World Use Cases of Middlewares:](#real-world-use-cases-of-middlewares)
     * [Permissions in FastAPI](#permissions-in-fastapi)
-    * [Queryset Manager in FastAPI](#queryset-manager-in-fastapi)
     * [Custom Validators in FastAPI](#custom-validators-in-fastapi)
-    * [FastAPI Settings](#fastapi-settings)
-    * [GraphQL Integration](#graphql-integration)
+      * [Use Cases in Real-World Applications](#use-cases-in-real-world-applications)
+    * [FastAPI BaseSettings](#fastapi-basesettings)
+      * [The use of **BaseSettings** in FastAPI has several real-world applications, including:](#the-use-of-basesettings-in-fastapi-has-several-real-world-applications-including)
     * [Dependency Caching](#dependency-caching)
+      * [Use Cases in Real-World Applications](#use-cases-in-real-world-applications-1)
     * [Rate Limiting](#rate-limiting)
-    * [Management commands in FastAPI](#management-commands-in-fastapi)
+      * [Use Cases in Real-World Applications](#use-cases-in-real-world-applications-2)
     * [Cache in FastAPI](#cache-in-fastapi)
-    * [Optimization in FastAPI](#optimization-in-fastapi)
+      * [Use Cases in Real-World Applications](#use-cases-in-real-world-applications-3)
     * [Custom Exceptions in FastAPI](#custom-exceptions-in-fastapi)
+      * [Use Cases in Real-World Applications](#use-cases-in-real-world-applications-4)
+    * [Optimization techniques in FastAPI](#optimization-techniques-in-fastapi)
     * [Unit tests with pytest](#unit-tests-with-pytest)
     * [Concurrency and Parallelism In FastAPI](#concurrency-and-parallelism-in-fastapi)
+    * [GraphQL Integration](#graphql-integration)
     * [Third party packages in FastAPI](#third-party-packages-in-fastapi)
 <!-- TOC -->
 
@@ -3689,32 +3693,265 @@ async def add_process_time_header(request: Request, call_next):
 In addition to built-in middleware, FastAPI allows the creation of custom middleware to extend its capabilities beyond the built-in options, offering a powerful way to enhance the functionality of APIs
 
 
-
-
 ### Permissions in FastAPI
+In FastAPI, permissions are used to control access to different parts of an application based on the user's role or other factors.
 
-### Queryset Manager in FastAPI
+Here's a simple example of using **permissions** in FastAPI to restrict access to a specific route based on the user's role:
+
+```
+
+from fastapi import FastAPI, Depends, HTTPException
+from fastapi.security import OAuth2PasswordBearer
+from typing import Optional
+
+app = FastAPI()
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+async def get_current_user(token: str = Depends(oauth2_scheme)):
+    # Implement logic to get user details from the token
+    # Example: decode the token and fetch user details from the database
+    # Return the user object if the token is valid, else raise an HTTPException
+    return {"username": "user1", "role": "admin"}
+
+def has_permission(user: dict = Depends(get_current_user), required_role: Optional[str] = None):
+    if required_role and user["role"] != required_role:
+        raise HTTPException(status_code=403, detail="Permission denied")
+    return user
+
+@app.get("/admin")
+async def admin_route(current_user: dict = Depends(has_permission)):
+    return {"message": "Welcome admin!"}
+
+```
+
+**Permissions** in FastAPI are crucial for implementing role-based access control (RBAC) and ensuring that users can only access the resources they are authorized to. Some real-world use cases include:
+
+- **Role-Based Access Control (RBAC):** Restricting access to certain routes or data based on the user's role, such as admin, user, or manager
+
+- **Row-Level Security:** Implementing fine-grained permissions based on the state or attributes of specific resources, such as allowing users to view, edit, or retract scientific papers based on the submission process state
+
+- **Custom Business Logic:** Enforcing custom business rules and access restrictions based on specific application requirements, such as allowing users to modify only their own items
+
+By using permissions, FastAPI applications can ensure that sensitive data and functionality are protected, and that users are granted appropriate access based on their roles and other contextual factors.
+
 
 ### Custom Validators in FastAPI
 
-### FastAPI Settings
+Custom validators in FastAPI can be implemented using **Pydantic**, which is used for data validation in FastAPI. Pydantic allows you to define custom validation rules for request data. Here's a simple example of using custom validators in FastAPI with Pydantic:
 
-### GraphQL Integration
+```
+from fastapi import FastAPI
+from pydantic import BaseModel, Field, ValidationError
+
+app = FastAPI()
+
+class Item(BaseModel):
+    name: str
+    price: float
+
+    @property
+    def price_must_be_positive(cls):
+        if cls.price <= 0:
+            raise ValueError('price must be positive')
+
+@app.post("/items/")
+async def create_item(item: Item):
+    try:
+        item.price_must_be_positive
+    except ValueError as e:
+        return {"error": str(e)}
+    return {"item_name": item.name, "item_price": item.price}
+    
+```
+In this example, a custom validator **price_must_be_positive** is defined within the **Item** class to ensure that the price of an item is positive. If the validation fails, a **ValueError** is raised, and an appropriate error message is returned.
+
+#### Use Cases in Real-World Applications
+
+Custom validators in FastAPI can be used in various real-world scenarios, such as:
+
+- **Data Integrity Checks:** Ensuring that the incoming data meets specific business rules or constraints, such as validating the format of user input, ensuring the correctness of submitted data, or enforcing specific conditions on the input data
+- **Complex Data Validation:** Implementing custom validation logic for complex data structures or interdependent fields, such as validating relationships between different fields or performing custom checks based on multiple input parameters
+- **Integration with External Services:** Validating data against external services or APIs, such as verifying the correctness of input data before making requests to external systems or services
+
+By using custom validators, FastAPI applications can enforce specific data validation rules tailored to their business requirements, ensuring the integrity and correctness of incoming data.
+
+
+### FastAPI BaseSettings
+In FastAPI, **BaseSettings** is a class provided by **Pydantic** for managing application settings and environment variables. It allows you to define a settings model with default values and data types, and then load and use these settings throughout your application. Here's a simple example of using **BaseSettings** in FastAPI:
+
+```
+from fastapi import FastAPI
+from pydantic import BaseSettings
+
+class Settings(BaseSettings):
+    app_name: str = "Awesome API"
+    admin_email: str
+    items_per_user: int = 50
+
+settings = Settings()
+
+app = FastAPI()
+
+@app.get("/info")
+async def info():
+    return {
+        "app_name": settings.app_name,
+        "admin_email": settings.admin_email,
+        "items_per_user": settings.items_per_user
+    }
+```
+In this example, the **Settings** class inherits from **BaseSettings** and defines the application settings, including default values and data types. These settings can then be used throughout the FastAPI application.
+
+#### The use of **BaseSettings** in FastAPI has several real-world applications, including:
+
+- **Centralized Settings Management:** Providing a centralized and structured way to manage application settings, including environment-specific configurations, database credentials, API keys, and other parameters
+- **Environment Variable Handling:** Facilitating the loading and management of environment variables, allowing for easy configuration of application behavior across different deployment environments such as development, testing, and production
+
+By using **BaseSettings**, FastAPI applications can maintain a clear and consistent approach to managing settings and configurations, ensuring that the application behaves predictably across different environments and deployment scenarios.
+
+
 
 ### Dependency Caching
+In FastAPI, dependency caching refers to the ability to cache the result of a dependency function so that it is not re-evaluated for each request. This can be useful for improving performance and reducing redundant computations. Here's a simple example of using dependency caching in FastAPI:
+
+```
+from fastapi import FastAPI, Depends
+from functools import lru_cache
+
+app = FastAPI()
+
+@lru_cache
+def expensive_operation():
+    # Simulate an expensive operation
+    return "result"
+
+async def get_cached_result(result: str = Depends(expensive_operation)):
+    return {"cached_result": result}
+
+@app.get("/cached")
+async def cached_endpoint(response: dict = Depends(get_cached_result)):
+    return response
+```
+
+In this example, the **@lru_cache** decorator is used to cache the result of the **expensive_operation** function. The **get_cached_result** function then depends on the cached result of **expensive_operation**, and the cached result is used in the **/cached** endpoint.
+
+#### Use Cases in Real-World Applications
+Dependency caching in FastAPI has several real-world applications, including:
+
+- **Performance Optimization:** Caching the result of computationally expensive operations, such as database queries, external API calls, or complex calculations, to improve response times and reduce server load
+- **Rate Limiting:** Using caching to enforce rate limits on certain operations or endpoints by storing and checking the frequency of requests within a specific time frame
+- **External Service Integration:** Caching the results of requests to external services or APIs to reduce latency and minimize the impact of service outages or slowdowns
+
+By leveraging dependency caching, FastAPI applications can efficiently manage the results of dependencies, reduce redundant computations, and enhance overall system performance.
+
 
 ### Rate Limiting
+**Rate limiting** in FastAPI allows you to restrict the number of requests a client can make to an API within a given time frame. This can be achieved using third-party packages such as **fastapi-limiter**. Here's a simple example of using rate limiting in FastAPI with fastapi-limiter:
 
-### Management commands in FastAPI
+```
+from fastapi import FastAPI
+from fastapi_limiter import FastAPILimiter
+from fastapi_limiter.depends import RateLimiter
+
+app = FastAPI()
+
+# Initialize the rate limiter
+FastAPILimiter.init()
+
+@app.get("/limited")
+@RateLimiter(times=5, seconds=60)
+async def limited_endpoint():
+    return {"message": "This endpoint is rate-limited"}
+    
+```
+
+In this example, the **fastapi-limiter** package is used to apply rate limiting to the **/limited** endpoint, allowing a maximum of 5 requests per 60 seconds.
+
+#### Use Cases in Real-World Applications
+
+Rate limiting in FastAPI has several real-world applications, including:
+- **Protection Against Abuse:** Preventing abuse and misuse of APIs by limiting the number of requests from a single client within a specific time period, safeguarding the API from excessive traffic and potential denial-of-service attacks
+- **Throttling:** Managing the flow of requests to ensure that the API server is not overwhelmed by a large number of requests, maintaining system stability and preventing performance degradation during peak usage periods
+
+By implementing rate limiting, FastAPI applications can effectively manage and control the volume of incoming requests, ensuring the stability, security, and fair usage of the API.
+
 
 ### Cache in FastAPI
+FastAPI provides various options for caching responses and function results, including third-party packages such as **fastapi-cache**. This tool allows you to cache FastAPI responses and function results, with support for backends like Redis, Memcached, and Amazon DynamoDB
+Here's a simple example of using **fastapi-cache** to cache a FastAPI response:
 
-### Optimization in FastAPI
+```
+from fastapi import FastAPI
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.decorator import cache
+import aioredis
+
+app = FastAPI()
+
+# Initialize the cache with Redis as the backend
+@app.on_event("startup")
+async def startup():
+    redis = await aioredis.create_redis_pool('redis://localhost')
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
+
+# Cache the response of the endpoint
+@app.get("/")
+@cache()
+async def cached_endpoint():
+    return {"message": "This response is cached"}
+
+```
+
+#### Use Cases in Real-World Applications
+Caching in FastAPI has several real-world applications, including:
+- **Performance Optimization:** Caching responses to reduce the computational load and improve the response time of frequently accessed endpoints, enhancing the overall performance of the API
+- **Database Query Results:** Caching the results of database queries to minimize the load on the database and improve the responsiveness of data retrieval operations
+- **External API Responses:** Caching responses from external APIs to reduce latency and minimize the impact of external service outages or slowdowns, ensuring a more reliable and responsive API
+
+By leveraging caching in FastAPI, applications can efficiently manage and optimize the handling of responses and data, leading to improved performance and a better user experience.
+
 
 ### Custom Exceptions in FastAPI
+
+Custom exceptions in FastAPI allow you to define and handle application-specific errors in a structured manner. You can create custom exception classes and handle them using FastAPI's exception handling mechanisms. Here's a simple example of using custom exceptions in FastAPI:
+
+```angular2html
+from fastapi import FastAPI, HTTPException
+
+app = FastAPI()
+
+class CustomException(Exception):
+    def __init__(self, detail: str):
+        self.detail = detail
+
+@app.get("/custom_exception")
+async def custom_exception_endpoint():
+    raise CustomException(detail="Custom exception message")
+
+```
+In this example, a custom exception class **CustomException** is defined, and it is raised within the **/custom_exception** endpoint. You can then handle this custom exception using FastAPI's exception handling mechanisms.
+
+#### Use Cases in Real-World Applications
+Custom exceptions in FastAPI have several real-world applications, including:
+
+- **Application-Specific Errors:** Defining custom exceptions to represent specific error conditions or business logic failures within the application, providing a structured way to handle and communicate these errors to clients
+
+- **Error Abstraction:** Abstracting and encapsulating complex error handling logic into custom exception classes, promoting code modularity and maintainability by centralizing error management
+
+- **Consistent Error Responses:** Standardizing error responses by using custom exceptions to represent different error scenarios, ensuring a consistent and predictable API behavior for clients
+
+By utilizing custom exceptions, FastAPI applications can effectively manage and communicate application-specific errors, enhancing the robustness and reliability of the API.
+
+
+### Optimization techniques in FastAPI
+
 
 ### Unit tests with pytest
 
 ### Concurrency and Parallelism In FastAPI
+
+### GraphQL Integration
 
 ### Third party packages in FastAPI
