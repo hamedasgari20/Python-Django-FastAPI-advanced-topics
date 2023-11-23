@@ -3946,6 +3946,48 @@ By utilizing custom exceptions, FastAPI applications can effectively manage and 
 
 
 ### Optimization techniques in FastAPI
+FastAPI is a high-performance web framework for building REST APIs in Python. It provides various optimization techniques to enhance the performance of applications.
+
+Some of the Optimization Techniques
+
+- **Asynchronous Programming:** Utilize asynchronous functions to handle heavy request payloads and I/O bound operations
+
+- **Use of Pydantic for Data Validation:** Leverage Pydantic models for data validation and conversion
+
+- **Dependency Caching:** Reuse dependencies and cache their results within a request's scope to avoid recalculating them
+
+- **BackgroundTasks:** Use BackgroundTasks for handling tasks that can be run in the background to improve response times
+
+- **Optimizing CPU Intensive Tasks:** Send CPU intensive tasks to workers in another process for optimization
+
+- **Caching Responses:** Implement response caching to store the results of expensive computations and serve them directly for subsequent identical requests
+
+- **Optimizing JSON Responses:** Utilize FastAPI's JSON response classes for efficient serialization and deserialization of JSON data
+
+- **Asynchronous Database Operations:** Use asynchronous database drivers and queries to optimize database interactions and improve overall request handling
+
+- **Project Structure:** Organize the project structure following best practices to enhance maintainability and performance
+
+- **Use of APIRouter:** Utilize APIRouter to modularize and organize route handling, especially for larger applications with multiple files
+
+- **Observability Tools:** Employ observability tools like New Relic to gain insights into performance issues and optimize FastAPI applications
+
+- **Custom Base Model:** Implement a custom base model from the beginning to ensure consistency and efficiency in data handling
+
+- **Use of Pydantic's BaseSettings for Configs:** Leverage Pydantic's BaseSettings for efficient management of application configurations
+
+- **Optimizing File Handling:** Save files in chunks to optimize file handling and improve overall performance
+
+- **Avoid Unnecessary Asynchronous Operations:** Do not make routes async if there are only blocking I/O operations, as unnecessary async operations can impact performance
+
+- **Careful Usage of Dynamic Pydantic Fields:** Exercise caution when using dynamic Pydantic fields to avoid potential performance impacts
+
+- **Dependency Calls Caching:** Cache dependency calls to improve performance by reusing previously calculated results
+
+- **Documentation:** Ensure comprehensive documentation to facilitate understanding and usage, contributing to efficient development and performance
+
+
+
 
 
 ### Unit tests with pytest
