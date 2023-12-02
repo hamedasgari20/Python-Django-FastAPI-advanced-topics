@@ -129,7 +129,7 @@ Inheritance is a mechanism that allows a class to inherit properties and methods
 inherits from another class is called a subclass or derived class, while the class that is being inherited from is
 called a superclass or base class.
 
-```
+```python
 from abc import ABC, abstractmethod
 
 class Animal(ABC):
@@ -167,7 +167,7 @@ We import the **ABC** (Abstract Base Class) class from the **abc** module and us
 Polymorphism is the ability of objects to take on different forms or perform different actions depending on the context.
 In Python, polymorphism is achieved through **method overriding** and **method overloading**.
 
-```
+```python
 from abc import ABC, abstractmethod
 import math
 
@@ -208,7 +208,7 @@ In this code, we use the **ABC** class and the **@abstractmethod** decorator to 
 Encapsulation is the practice of hiding the internal details of an object and providing a public interface for
 interacting with it. In Python, encapsulation is achieved through the use of _public and private methods and attributes_.
 
-```
+```python
 class BankAccount:
     def __init__(self, balance):
         self._balance = balance
@@ -241,7 +241,7 @@ and **get_balance**.
 Abstraction is the process of simplifying complex systems by breaking them down into smaller, more manageable parts. In
 Python, abstraction is achieved through the use of _abstract classes_ and interfaces.
 
-```
+```python
 from abc import ABC, abstractmethod
 
 class Shape(ABC):
@@ -272,7 +272,7 @@ subclass that implements the area method. The shapes list contains an instance o
 In Python, decorators are a way to modify the behavior of functions or classes by wrapping them with other functions.
 Here's a simple example to demonstrate the basic concept of decorators:
 
-```
+```python
 def decorator_function(original_function):
     def wrapper_function():
         print("Before the original function is called.")
@@ -298,6 +298,7 @@ After the original function is called.
 Here is an example of how to implement the previous decorator in a class-based way:
 
 ```angular2html
+```python
 class DecoratorClass:
     def __init__(self, original_function):
         self.original_function = original_function
@@ -326,7 +327,7 @@ Here are a few examples of class decorators:
 The **classmethod** decorator is a built-in decorator that transforms a method into a class method. Class methods can be called on the class itself, rather than on instances of the class.
 Here's a simple example of a class method in Python
 
-```
+```python
 class Car:
     total_cars = 0  # Class variable to keep track of the total number of cars
 
@@ -357,7 +358,7 @@ In this example, we have a **Car** class with a class variable **total_cars**, w
 The **staticmethod** decorator is another built-in decorator that transforms a method into a static method. Static methods are similar to regular functions and do not have access to the class or instance.
 Here's a simple example of a static method in Python:
 
-```angular2html
+```python
 class MathUtils:
     @staticmethod
     def add_numbers(x, y):
@@ -381,7 +382,7 @@ Static methods are defined using the **@staticmethod** decorator. They don't rec
 
 The **property** decorator allows you to define methods that can be accessed like attributes, providing a way to implement computed or dynamic properties.
 
-```angular2html
+```python
 class Circle:
     def __init__(self, radius):
         self.radius = radius
@@ -408,7 +409,7 @@ In this example, we use the **property** decorator to define the **diameter** an
 The **abstractmethod** decorator is used in combination with the **ABC** module to define abstract methods in abstract base classes
 The **abstractmethod** decorator ensures that any subclass of super class must implement this method.
 
-```
+```python
 from abc import ABC, abstractmethod
 
 class Shape(ABC):
@@ -436,7 +437,7 @@ The **abstractmethod** decorator ensures that any subclass of **Shape** must imp
 
 The **dataclass** decorator is available in the **dataclasses** module (introduced in Python 3.7) and provides a concise way to define classes that are primarily used to store data.
 
-```angular2html
+```python
 from dataclasses import dataclass
 
 @dataclass
@@ -458,7 +459,7 @@ The **dataclass** decorator simplifies the process of defining classes that are 
 
 The **cached_property** decorator is available in third-party libraries such as **django.utils.functional** and **cachetools** and provides a way to cache the result of a method as a property, improving performance when the method is called multiple times.
 
-```angular2html
+```python
 from django.utils.functional import cached_property
 
 class Square:
@@ -485,13 +486,13 @@ The __map()__ function in Python is a built-in function that applies a given fun
 list, tuple, or string) and returns an iterator with the results. It takes two or more arguments: the __function__ to apply
 and one or more iterables. The basic syntax of the __map()__ function is as follows:
 
-```
+```python
 map(function, iterable1, iterable2, ...)
 ```
 
 Here's an example that demonstrates the usage of the **map()** function:
 
-```
+```python
 # Example 1: Squaring numbers using map()
 numbers = [1, 2, 3, 4, 5]
 squared = map(lambda x: x**2, numbers)
@@ -512,7 +513,7 @@ objects that can be iterated (looped) over. Here are some commonly used function
 
 example of cycle():
 
-```
+```python
 import itertools
 
 colors = ['red', 'green', 'blue']
@@ -534,7 +535,7 @@ green
 
 example of combinations():
 
-```
+```python
 import itertools
 
 numbers = [1, 2, 3]
@@ -556,7 +557,7 @@ Here are a few examples of how you can utilize itertools in the context of Djang
 itertools.chain() to combine the querysets of posts and comments into a single iterable. We then sort the combined
 results based on the creation date, using sorted().
 
-```
+```python
 import itertools
 from myapp.models import Post, Comment
 
@@ -579,7 +580,7 @@ lambda arguments: expression
 
 For example, let's say we want to create a lambda function that takes two arguments and returns their sum:
 
-```
+```python
 add = lambda x, y: x + y
 result = add(3, 5)
 print(result)  # Output: 8
@@ -590,7 +591,7 @@ function as a parameter, and lambda functions provide a convenient way to define
 explicitly defining a separate function. Here's an example using the **map()** function with a **lambda** function to square a
 list of numbers:
 
-```
+```python
 numbers = [1, 2, 3, 4, 5]
 squared_numbers = list(map(lambda x: x ** 2, numbers))
 print(squared_numbers)  # Output: [1, 4, 9, 16, 25]
@@ -604,7 +605,7 @@ Exception handling in Python allows you to gracefully handle and recover from ru
 that may occur during the execution of your program. Here's an example that demonstrates the usage of exception
 handling:
 
-```
+```python
 try:
     # Code that may raise an exception
     x = 10 / 0  # division by zero raises a ZeroDivisionError
@@ -628,7 +629,7 @@ This principle states that a class should have only one responsibility. Let's sa
 Instead, we can separate these responsibilities into two classes: **Authenticator** and **UserManager**. Here's a Python
 example:
 
-```
+```python
 class Authenticator:
     def authenticate(self, username, password):
         # Authentication logic here
@@ -648,7 +649,7 @@ class UserManager:
   we have a **Shape** class with different subclasses such as **Circle** and **Rectangle**. Instead of modifying the **Shape** class
   every time we want to add a new shape, we can use **inheritance** and **polymorphism** to extend the functionality:
 
-```
+```python
 class Shape:
     def area(self):
         raise NotImplementedError()
@@ -677,7 +678,7 @@ class Rectangle(Shape):
 
 Here's a simple Python example to illustrate the _Liskov Substitution Principle_:
 
-```angular2html
+```python
 class Shape:
     def area(self):
         pass
@@ -701,7 +702,7 @@ class Square(Shape):
 In this example, we have a superclass called **Shape** with a method **area()** that calculates the area of a shape. We then have two subclasses, **Rectangle** and **Square**, that inherit from the **Shape** class and override the **area()** method to calculate the area specific to each shape.
 According to the _Liskov Substitution Principle_, we should be able to use objects of the **Rectangle** and **Square** classes interchangeably with objects of the Shape class. For example:
 
-```angular2html
+```python
 def print_area(shape):
     print(f"The area is: {shape.area()}")
 
@@ -721,7 +722,7 @@ having smaller, focused interfaces rather than large, general-purpose ones. Let'
 methods like **walk(), swim(), and fly()**. Instead of having a single interface **Animal**, we can split it into smaller interfaces
 based on functionality:
 
-```
+```python
 class Walker:
     def walk(self):
         raise NotImplementedError()
@@ -759,7 +760,7 @@ be used to store and organize data efficiently.
   A list is a mutable collection that can store an ordered sequence of elements. It is defined using square
   brackets (**[]**). Here's an example:
 
-```
+```python
 # Creating a list
 fruits = ['apple', 'banana', 'orange']
 
@@ -785,7 +786,7 @@ print(fruits)  # Output: ['apple', 'orange', 'grape']
   A tuple is an immutable collection that can store an ordered sequence of elements. It is defined using
   parentheses (). Here's an example:
 
-```
+```python
 # Creating a tuple
 point = (3, 4)
 
@@ -803,7 +804,7 @@ print(x, y)  # Output: 3 4
   A set is an unordered collection that stores unique elements. It is defined using curly braces ({}) or the set()
   function. Here's an example:
 
-```
+```python
 # Creating a set
 numbers = {1, 2, 3, 4}
 
@@ -822,7 +823,7 @@ print(numbers)  # Output: {1, 3, 4, 5}
   A dictionary is a collection that stores **key-value** pairs. It is defined using curly braces ({}) and colons (:). Here's
   an example:
 
-```
+```python
 # Creating a dictionary
 student = {
     'name': 'Alice',
@@ -855,7 +856,7 @@ student.update({'age': 21})
 In Python, a **frozenset** is an immutable (unchangeable) version of the built-in set type. It is an unordered collection of unique elements, just like a regular set, but it cannot be modified once created. This means you cannot add, remove, or modify elements in a frozenset after it is created.
 Here's an example of creating and utilizing a frozenset:
 
-```angular2html
+```python
 # Create a frozenset
 numbers = frozenset([1, 2, 3, 4, 5])
 
@@ -891,7 +892,7 @@ loading everything into memory at once.
 
 - Lazy file reading using generators:
 
-```
+```python
 def read_lines(filename):
     with open(filename, 'r') as file:
         for line in file:
@@ -907,7 +908,7 @@ Here, the **read_lines()** function returns a generator that yields one line at 
 and allows you to process large files without loading the entire contents into memory.
 Here is the implementation of the previous example with custom iterator:
 
-```
+```python
 class LineIterator:
     def __init__(self, filename):
         self.filename = filename
@@ -963,7 +964,7 @@ argument and returns the result of the addition.
 
 Here's an example of a class that defines some of these magic methods:
 
-```
+```python
 class Person:
    def __init__(self, name, age):
        self.name = name
@@ -981,7 +982,7 @@ class Person:
 
 Here is a simple example that demonstrates the difference between __str__ and __repr__:
 
-```angular2html
+```python
 class Person:
     def __init__(self, name, age):
         self.name = name
@@ -1019,7 +1020,7 @@ between multiple tasks.
   The following code snippet demonstrates how to use threading to execute multiple tasks concurrently within a single
   process.
 
-```
+```python
 import threading
 
 def task1():
@@ -1046,7 +1047,7 @@ t2.join()
   The following code snippet demonstrates how to use asyncio to execute multiple tasks concurrently within a single
   thread:
 
-```
+```python
 import asyncio
 
 async def task1():
@@ -1071,7 +1072,7 @@ loop.close()
   The following code snippet demonstrates how to use multiprocessing to execute multiple tasks in parallel across
   multiple processes:
 
-```
+```python
 import multiprocessing
 
 def task1():
@@ -1106,7 +1107,7 @@ In Python, there are three main types of methods that can be defined in a class:
    Instance methods are the most common type of methods used in Python classes. They are defined using the **self**
    parameter as the first argument. Instance methods can access and modify the instance attributes of the class.
 
-```
+```python
 class MyClass:
     def my_instance_method(self, x, y):
         self.x = x
@@ -1123,7 +1124,7 @@ print(result)  # Output: 7
    **@classmethod** decorator, and they take the class itself as their first argument, typically named **cls**. Class
    methods can be called on the class itself, rather than on an instance of the class.
 
-```
+```python
 class MyClass:
     class_attribute = 0
 
@@ -1144,7 +1145,7 @@ print(result2)  # Output: 2 + 1 + 2 = 5
    decorator and take no special first argument. Static methods are typically used for utility functions that don't
    require access to the class or instance.
 
-```
+```python
 class MyClass:
     @staticmethod
     def my_static_method(x, y):
@@ -1161,7 +1162,7 @@ Data serialization is the process of converting structured data into a format th
 
 Here's an example of using the **pickle** module to serialize and deserialize a Python object:
 
-```
+```python
 import pickle
 
 # Define a Python object
@@ -1193,7 +1194,7 @@ Overall, data classes provide a convenient way to define classes that mainly hol
 A **data class** is a class that is designed to only hold data values. It is similar to a regular class, but it usually doesn't have any other methods. It is typically used to store information that will be passed between different parts of a program or a system.
 Here's a simple example of a data class in Python:
 
-```angular2html
+```python
 from dataclasses import dataclass
 
 @dataclass
@@ -1206,7 +1207,7 @@ In the above example, the **@dataclass** decorator is used to create a data clas
 
 To add custom validation to the example using dataclasses, you can define a custom **__post_init__** method that runs after the object is initialized. Within this method, you can perform your custom validation logic. Here's how you can do it:
 
-```
+```python
 from dataclasses import dataclass
 
 @dataclass
@@ -1225,7 +1226,7 @@ class Person:
 In Python, there are two types of copying: **shallow copy** and **deep copy**. A **shallow copy** creates a new object that stores references to the child objects of the original object. In contrast, a **deep copy** creates a new object that is completely independent of the original object.
 To create a shallow copy of an object, we can use the copy method provided by the copy module in Python. The copy method returns a shallow copy of the object. For example:
 
-```angular2html
+```python
 import copy
 
 list1 = [1, 2, [3, 4]]
@@ -1243,7 +1244,7 @@ print(list2)  # [1, 2, [5, 4]]
 In this example, we create a shallow copy of **list1** using the copy method. When we modify the nested list in **list2**, the same change is reflected in **list1** because both lists share the same reference to the nested list.
 To create a deep copy of an object, we can use the deepcopy method provided by the copy module. The deepcopy method returns a deep copy of the object. For example:
 
-```angular2html
+```python
 import copy
 
 list1 = [1, 2, [3, 4]]
@@ -1265,7 +1266,7 @@ In this example, we create a deep copy of **list1** using the deepcopy method. W
 In summary, _local variables_ are declared inside a function or method and can only be accessed within that specific block, while _global variables_ are declared outside any function or method and can be accessed throughout the program and inside every function. To modify a global variable inside a function, we need to use the **global** keyword.
 Here are some simple examples of local and global variables in Python:
 
-```angular2html
+```python
 # Example of a local variable
 def my_function():
     x = 5
@@ -1285,7 +1286,7 @@ my_function()  # Output: 10
 In this example, **x** is a local variable that is declared inside the **my_function** function and can only be accessed within that function. **y**, on the other hand, is a global variable that is declared outside any function and can be accessed inside the **my_function** function.
 To modify a global variable inside a function, we need to use the **global** keyword. Here's an example:
 
-```angular2html
+```python
 # Example of modifying a global variable inside a function
 z = 15
 
@@ -1302,7 +1303,7 @@ print(z)  # Output: 20
 Comprehension is a concise and efficient way to create lists, dictionaries, and sets in Python. Multiple and nested comprehensions can be used to create complex data structures in a single line of code.
 Here's a very simple example of list comprehension:
 
-```angular2html
+```python
 # Example of list comprehension
 my_list = [x for x in range(10)]
 print(my_list)  # Output: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -1312,7 +1313,7 @@ In this example, we use list comprehension to create a list of numbers from 0 to
 
 Here's a very simple example of nested list comprehension:
 
-```angular2html
+```python
 # Example of nested list comprehension
 my_list = [[x*y for y in range(5)] for x in range(5)]
 print(my_list)  # Output: [[0, 0, 0, 0, 0], [0, 1, 2, 3, 4], [0, 2, 4, 6, 8], [0, 3, 6, 9, 12], [0, 4, 8, 12, 16]]
@@ -1325,7 +1326,7 @@ In this example, we use nested list comprehension to create a list of multiplica
 Pydantic is a Python package that provides data validation and settings management using Python type annotations. It is a lightweight and flexible package that can be used to validate and parse data from various sources such as JSON, YAML, and databases.
 Here's a simple example of using Pydantic to define a data model and validate input data:
 
-```angular2html
+```python
 from pydantic import BaseModel
 
 class Person(BaseModel):
@@ -1345,7 +1346,7 @@ print(person)
 
 To add custom validation to the example using Pydantic, you can use Pydantic's validation decorators like @validator. These decorators allow you to define custom validation functions that run when the model is being initialized. Here's how you can add custom validation to the Person model to ensure that the age is greater than or equal to 18:
 
-```
+```python
 from pydantic import BaseModel, validator
 
 class Person(BaseModel):
@@ -1379,7 +1380,7 @@ In summary, Pydantic is more suitable when you need robust data validation, type
 In Python, ***args** and ****kwargs** are used to pass a variable number of arguments to a function. They allow you to handle arbitrary numbers of positional and keyword arguments, respectively.
 __args__ is used to pass a variable number of positional arguments to a function. It allows you to pass any number of arguments to a function without explicitly specifying them in the function definition. The arguments passed using *args are collected into a tuple within the function.
 
-```angular2html
+```python
 def print_args(*args):
     for arg in args:
         print(arg)
@@ -1388,7 +1389,7 @@ print_args('Hello', 'World', '!')
 
 Output:
 
-```angular2html
+```python
 Hello
 World
 !
@@ -1397,7 +1398,7 @@ World
 ****kwargs** is used to pass a variable number of keyword arguments to a function. It allows you to pass key-value pairs as arguments to a function without explicitly specifying them in the function definition. The arguments passed using ****kwargs** are collected into a dictionary within the function.
 Here's a simple example:
 
-```angular2html
+```python
 def print_kwargs(**kwargs):
     for key, value in kwargs.items():
         print(key, value)
@@ -1422,7 +1423,7 @@ This feature provides flexibility and allows you to make your classes work with 
 
 Here's a simple example to illustrate operator overloading using the **+** operator:
 
-```angular2html
+```python
 class Point:
     def __init__(self, x, y):
         self.x = x
@@ -1445,7 +1446,7 @@ When we use the "+" operator between point1 and point2, it calls the **__add__()
 
 A recursive function in Python is a function that calls itself during its execution. It is a powerful technique used to solve problems by breaking them down into smaller, more manageable subproblems. Here's a simple example of a recursive function to calculate the factorial of a number:
 
-```angular2html
+```python
 def factorial(n):
     if n == 0 or n == 1:
         return 1
@@ -1468,7 +1469,7 @@ When you use the context manager with the **with** statement, the **__enter__** 
 
 Let's consider a practical example of a context manager for working with files. We'll create a context manager that opens a file, performs some operations, and automatically closes the file when exiting the context.
 
-```
+```python
 class FileManager:
     def __init__(self, filename, mode):
         self.filename = filename
@@ -1518,7 +1519,7 @@ Semaphores and Mutexes are synchronization mechanisms used in concurrent program
 
 Here's a simple Python example using the **threading** module:
 
-```
+```python
 import threading
 
 # Create a mutex
@@ -1552,7 +1553,7 @@ In this example, the **mutex** ensures that only one thread can execute the crit
 
 Here's a simple Python example using the **threading** module:
 
-```angular2html
+```python
 import threading
 
 # Create a semaphore with a maximum of 2 permits
@@ -1645,7 +1646,7 @@ print(pow(2, 3)) # Output: 8
 
 - `reversed()` - returns an iterator that generates the elements of a sequence in reverse order
 
-```
+```python
 fruits = ['apple', 'banana', 'cherry']
 for fruit in reversed(fruits):
     print(fruit)
@@ -1657,13 +1658,13 @@ for fruit in reversed(fruits):
 
 - `round()` - rounds a number to a specified number of decimal places
 
-```
+```python
 print(round(3.14159, 2)) # Output: 3.14
 ```
 
 - `zip()` - returns an iterator that generates tuples by aggregating the elements of several iterables
 
-```
+```python
 fruits = ['apple', 'banana', 'cherry']
 prices = [1.0, 2.0, 3.0]
 for fruit, price in zip(fruits, prices):
@@ -1676,7 +1677,7 @@ for fruit, price in zip(fruits, prices):
 
 - `format()` - formats a string using replacement fields
 
-```
+```python
 name = 'Alice'
 age = 30
 print('My name is {0} and I am {1} years old.'.format(name, age))
@@ -1685,7 +1686,7 @@ print('My name is {0} and I am {1} years old.'.format(name, age))
 
 - `frozenset()` - returns an immutable frozenset object initialized with elements from the given iterable
 
-```angular2html
+```python
 vowels = ('a', 'e', 'i', 'o', 'u')
 f_set = frozenset(vowels)
 print(f_set) # Output: frozenset({'a', 'e', 'i', 'o', 'u'})
@@ -1693,7 +1694,7 @@ print(f_set) # Output: frozenset({'a', 'e', 'i', 'o', 'u'})
 
 - `getattr()` - returns the value of a named attribute of an object
 
-```
+```python
 class Person:
     def __init__(self, name, age):
         self.name = name
@@ -1711,7 +1712,7 @@ print(hash('hello')) # Output: -3557965013271865832
 
 - `isinstance()` - returns True if an object is an instance of a specified class
 
-```angular2html
+```python
 class Person:
     pass
 
@@ -1721,7 +1722,7 @@ print(isinstance(person, Person)) # Output: True
 
 - `issubclass()` - returns True if a class is a subclass of a specified class
 
-```angular2html
+```python
 class Animal:
     pass
 
@@ -1733,7 +1734,7 @@ print(issubclass(Dog, Animal)) # Output: True
 
 - `setattr()` - sets the value of a named attribute of an object
 
-```
+```python
 class Person:
     def __init__(self, name, age):
         self.name = name
@@ -1746,7 +1747,7 @@ print(person.age) # Output: 31
 
 - `delattr()` - deletes a named attribute from an object
 
-```
+```python
 class Person:
     name = 'Alice'
 
@@ -1757,7 +1758,7 @@ print(hasattr(person, 'name')) # Output: False
 
 - `open()` - opens a file and returns a file object
 
-```
+```python
 file = open('example.txt', 'r')
 print(file.read()) # Output: This is an example file.
 file.close()
@@ -1765,7 +1766,7 @@ file.close()
 
 - `slice()` - returns a slice object
 
-```
+```python
 my_list = [1, 2, 3, 4, 5]
 my_slice = slice(1, 4)
 print(my_list[my_slice]) # Output: [2, 3, 4]
@@ -1784,7 +1785,7 @@ Let's say you want to send an email notification whenever a new user is register
 
 - **Import necessary modules:**
 
-```angular2html
+```python
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -1795,7 +1796,7 @@ from django.core.mail import send_mail
 
 - **Create a signal handler function to send an email:**
 
-```
+```python
 @receiver(post_save, sender=User)
 def send_registration_email(sender, instance, created, **kwargs):
     if created:
@@ -1812,7 +1813,7 @@ def send_registration_email(sender, instance, created, **kwargs):
 
 You need to connect the signal handler to the **post_save** signal of the **User** model. You can do this in your Django app's **apps.py** or **models.py** file, or in a separate **signals.py** file:
 
-```angular2html
+```python
 from django.apps import AppConfig
 
 class YourAppConfig(AppConfig):
@@ -1851,7 +1852,7 @@ Here are the steps to use Django middleware:
 
 Here's an example implementation:
 
-```
+```python
 class CustomHeaderMiddleware:
     def process_response(self, request, response):
         response['X-Custom-Header'] = 'Hello, World!'
@@ -1862,7 +1863,7 @@ In this example, we define a new middleware class called **CustomHeaderMiddlewar
 We implement the **process_response** method to modify the response object by adding a custom header.
 Finally, we add our middleware class to the MIDDLEWARE setting in our **settings.py** file:
 
-```
+```python
 MIDDLEWARE = [
     # Other middleware classes...
     'myapp.middleware.CustomHeaderMiddleware',
@@ -1893,7 +1894,7 @@ Here's a simple example of how to create a custom template tag in Django:
    function should return the value you want to output in the template. For example, here's a function that takes a list
    of strings and returns the first item in the list:
 
-```
+```python
 from django import template
 
 register = template.Library()
@@ -1910,7 +1911,7 @@ In this example, we're using the **@register.simple_tag** decorator to register 
 1. In your template, load the custom tag library and use the new tag in your HTML code. To load the custom tag library,
    add **{% load myapp_tags %}** at the top of your template. Here's an example of how to use the first_item tag we
    defined earlier:
-
+python
 ```
 {% load myapp_tags %}
 
@@ -1946,7 +1947,7 @@ Here's a simple example of how to use Django permissions:
    your **model's meta class**. For example, let's say you have a Book model and you want to define a permission called
    **can_edit_book**:
 
-```
+```python
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -1968,7 +1969,7 @@ named **can_edit_book**.
    or programmatically in your code. For example, let's say we want to assign the **can_edit_book** permission to a group
    called Editors:
 
-```
+```python
 from django.contrib.auth.models import Group
 
 editors_group, created = Group.objects.get_or_create(name='Editors')
@@ -1982,7 +1983,7 @@ In this example, we're using the Group model to get or create a group called Edi
 9. Finally, you can check the user's permissions in your views or templates to control access to certain actions. For
    example, let's say we have a view that allows users to edit a book:
 
-```
+```python
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required, permission_required
 from myapp.models import Book
@@ -2017,7 +2018,7 @@ Here's a simple example of how to create a custom user model in Django:
 - Create a new model for your custom user model. For example, let's say you want to add a **bio field** to your user
   model:
 
-```
+```python
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
@@ -2043,13 +2044,13 @@ We've also defined the necessary fields, including a custom bio field.
 - Update your project settings to use the custom user model. In your project's **settings.py** file, update the \*
   **AUTH_USER_MODEL** setting to point to your new user model:
 
-```
+```python
 AUTH_USER_MODEL = 'blog_auth.BlogUser'
 ```
 
 - Migrate your database to create the new user model table. Run the following commands in your terminal:
 
-```
+```shell
 python manage.py makemigrations
 python manage.py migrate
 ```
@@ -2066,7 +2067,7 @@ Here's a simple example of how to create a custom manager in Django:
 - Let's say we have a model called **Book** in our app that represents books in a library. We want to create a custom
   manager that returns only the books that are currently available for borrowing.
 
-```
+```python
 from django.db import models
 
 class AvailableBooksManager(models.Manager):
@@ -2088,7 +2089,7 @@ In this example, we've created a custom manager called **AvailableBooksManager**
 - Now we can use the custom manager in our views or templates to get only the books that are currently available for
   borrowing. For example:
 
-```
+```python
 from django.shortcuts import render
 from myapp.models import Book
 
@@ -2116,7 +2117,7 @@ create a custom validator in Django:
 - Let's say we have a model called Book in our app that represents books in a library. We want to create a custom
   validator that checks whether the book's title starts with a capital letter.
 
-```
+```python
 from django.core.exceptions import ValidationError
 
 def validate_title(value):
@@ -2151,13 +2152,13 @@ Here is a simple example to demonstrate how to create and use custom management 
 
 - Create a new Django app:
 
-```
+```shell
 python manage.py startapp myapp
 ```
 
 - Create a new directory called **management** inside the app directory, and create another directory called **commands** inside the management directory:
 
-```
+```shell
 mkdir myapp/management
 mkdir myapp/management/commands
 ```
@@ -2165,7 +2166,7 @@ mkdir myapp/management/commands
 - Create a new Python file inside the commands directory, and name it **mycommand.py**. This will be the file that
   contains the code for your custom management command:
 
-```
+```python
 from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):
@@ -2177,13 +2178,13 @@ class Command(BaseCommand):
 
 Register the new command with Django by adding an empty** **__init__.py** file inside the management directory:
 
-```
+```shell
 touch myapp/management/__init__.py
 ```
 
 - Test the new command by running it from the command line:
 
-```
+```shell
 python manage.py mycommand
 ```
 
@@ -2205,7 +2206,7 @@ Here are some examples of how to use Django's Query API:
 
 - Retrieving all objects from a model:
 
-```angular2html
+```python
 from myapp.models import MyModel
 
 all_objects = MyModel.objects.all()
@@ -2215,7 +2216,7 @@ This will retrieve all objects from the **MyModel** model and store them in the 
 
 - Filtering objects based on a condition:
 
-```angular2html
+```python
 from myapp.models import MyModel
 
 filtered_objects = MyModel.objects.filter(attribute=value)
@@ -2225,7 +2226,7 @@ This will retrieve all objects from the **MyModel** model where the attribute ma
 
 - Chaining filters:
 
-```angular2html
+```python
 from myapp.models import MyModel
 
 filtered_objects = MyModel.objects.filter(attribute1=value1).filter(attribute2=value2)
@@ -2235,7 +2236,7 @@ This will retrieve all objects from the **MyModel** model where attribute1 match
 
 - Querying related fields:
 
-```angular2html
+```python
 from myapp.models import MyModel
 
 related_objects = MyModel.objects.filter(related_model__attribute=value)
@@ -2245,7 +2246,7 @@ This will retrieve all objects from the **MyModel** model where the related mode
 
 - Ordering results:
 
-```angular2html
+```python
 from myapp.models import MyModel
 
 ordered_objects = MyModel.objects.order_by('attribute')
@@ -2255,7 +2256,7 @@ This will retrieve all objects from the **MyModel** model and order them by the 
 
 - Limiting results:
 
-```angular2html
+```python
 from myapp.models import MyModel
 
 limited_objects = MyModel.objects.all()[:10]
@@ -2265,7 +2266,7 @@ This will retrieve the first 10 objects from the **MyModel** model and store the
 
 - Using OR conditions:
 
-```angular2html
+```python
 from myapp.models import MyModel
 from django.db.models import Q
 
@@ -2276,7 +2277,7 @@ This will retrieve all objects from the **MyModel** model where either attribute
 
 - Using LIKE conditions:
 
-```angular2html
+```python
 from myapp.models import MyModel
 
 objects = MyModel.objects.filter(attribute__contains=value)
@@ -2286,7 +2287,7 @@ This will retrieve all objects from the **MyModel** model where attribute contai
 
 - Using NOT conditions:
 
-```angular2html
+```python
 from myapp.models import MyModel
 
 objects = MyModel.objects.exclude(attribute=value)
@@ -2296,7 +2297,7 @@ This will retrieve all objects from the **MyModel** model where attribute does n
 
 - Retrieving a single object:
 
-```angular2html
+```python
 from myapp.models import MyModel
 
 object = MyModel.objects.get(id=value)
@@ -2306,7 +2307,7 @@ This will retrieve a single object from the **MyModel** model where **id** match
 
 - Updating objects:
 
-```angular2html
+```python
 from myapp.models import MyModel
 
 MyModel.objects.filter(attribute=value).update(attribute=new_value)
@@ -2323,7 +2324,7 @@ Suppose you have a model called Person that represents a **person** with a first
 perform a query that returns all people whose first name starts with a given letter. Here's how you can create a custom
 query expression to perform this query:
 
-```
+```python
 from django.db.models import Lookup
 
 class StartsWith(Lookup):
@@ -2344,7 +2345,7 @@ expression for the lookup.
 
 Here's another simple example of defining and using a custom lookup in Django:
 
-```angular2html
+```python
 from django.db import models
 from django.db.models import Lookup
 
@@ -2366,7 +2367,7 @@ class Product(models.Model):
 
 Usage of the custom lookup
 
-```angular2html
+```python
 expensive_products = Product.objects.filter(price__gt=100.00)
 ```
 
@@ -2382,7 +2383,7 @@ Here are some simple examples of using Django Filterset:
 
 To filter a queryset using Django Filterset, you first need to define a filterset class that specifies the fields to filter on. For example:
 
-```angular2html
+```python
 import django_filters
 from .models import Product
 
@@ -2394,7 +2395,7 @@ class ProductFilter(django_filters.FilterSet):
 
 This defines a filterset class that filters on the **name** and **price** fields of the Product model. You can then use this filterset class to filter a queryset:
 
-```angular2html
+```python
 from .filters import ProductFilter
 
 def product_list(request):
@@ -2409,7 +2410,7 @@ This filters the queryset based on the parameters provided in the GET request.
 
 You can also define custom filters that perform more complex filtering logic. For example:
 
-```angular2html
+```python
 import django_filters
 from .models import Product
 
@@ -2441,7 +2442,7 @@ Here are some simple examples of context managers in Django:
 - **Database transactions**:
   In Django, context managers can be used to control database transactions. For example:
 
-```angular2html
+```python
 from django.db import transaction
 
 with transaction.atomic():
@@ -2451,7 +2452,7 @@ with transaction.atomic():
 - **Caching**:
   Context managers can be used to control caching in Django. For example:
 
-```angular2html
+```python
 from django.core.cache import cache
 
 class CacheContext:
@@ -2517,7 +2518,7 @@ Django provides built-in support for handling HTTP requests and responses using 
 
 To handle a GET request in a class-based view, you can define a method called **get()** in your view class. For example:
 
-```angular2html
+```python
 from django.views import View
 from django.http import HttpResponse
 
@@ -2530,7 +2531,7 @@ class HelloView(View):
 
 To handle a POST request in a class-based view, you can define a method called **post()** in your view class. For example:
 
-```angular2html
+```python
 from django.views import View
 from django.http import HttpResponse
 
@@ -2546,7 +2547,7 @@ class LoginView(View):
 
 Django's class-based views do not have built-in support for handling PUT and DELETE requests. However, you can use mixins or third-party packages like Django REST framework to handle these requests. For example, using Django REST framework, you can define a class-based view that inherits from **APIView** and override the appropriate methods for PUT and DELETE requests:
 
-```angular2html
+```python
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -2567,7 +2568,7 @@ In Django, the difference between **PUT** and **PATCH** methods is similar to th
 
 Here's an example of how to handle PUT and PATCH requests in Django using Django REST Framework:
 
-```angular2html
+```python
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -2609,7 +2610,7 @@ The output of **annotate()** is a QuerySet, which means it returns a modified qu
 
 Here is a simple example of using annotate() and aggregate() in Django:
 
-```angular2html
+```python
 from django.db.models import Count
 from myapp.models import Book, Author
 
@@ -2630,7 +2631,7 @@ It is important to note that **annotate()** returns a queryset, while **aggregat
 In Django, a **mixin** is a class that provides additional functionality to other classes through **inheritance**. Mixins are used to add common or reusable functionality to multiple classes without the need for duplicating code.
 Here's a simple example to demonstrate how mixins work in Django:
 
-```angular2html
+```python
 # Define a mixin class
 class TimestampMixin:
     created_at = models.DateTimeField(auto_now_add=True)
@@ -2680,7 +2681,7 @@ Here's a simple example to demonstrate how caching works in Django:
 
 1- Configure the cache backend in your Django settings:
 
-```angular2html
+```python
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
@@ -2692,7 +2693,7 @@ CACHES = {
 
 2- Use the **cache_page** decorator to cache the result of a view:
 
-```angular2html
+```python
 from django.views.decorators.cache import cache_page
 
 @cache_page(60 * 15)  # Cache the page for 15 minutes
@@ -2722,7 +2723,7 @@ In Django, a constraint refers to a rule or condition that can be applied to a d
 Django provides a way to define constraints on model fields using the constraints attribute. This attribute allows you to specify one or more constraints for a model, such as unique constraints, check constraints, foreign key constraints, and more.
 Here's a simple example of defining and using a constraint in Django:
 
-```angular2html
+```python
 from django.db import models
 class Person(models.Model):
     name = models.CharField(max_length=100)
@@ -2754,7 +2755,7 @@ During exceptions in Django Constraints raise database-level errors such as Inte
 In Django, bulk creation refers to the process of creating multiple model instances in a single database query, rather than creating them one by one. This can significantly improve the performance of creating large numbers of objects.  This method takes a list of model instances as an argument and inserts them into the database efficiently.
 Here's a simple example of using **bulk_create()** in Django:
 
-```angular2html
+```python
 from django.db import models
 
 class Book(models.Model):
@@ -2792,7 +2793,7 @@ In Django, **prefetch_related** and **select_related** are query optimization te
 It works for **ForeignKey** and **OneToOneField** relationships. By using **select_related**, you can avoid the overhead of multiple database queries when accessing related objects.
 Here's a simple example:
 
-```angular2html
+```python
 from django.db import models
 
 class Author(models.Model):
@@ -2805,7 +2806,7 @@ class Book(models.Model):
 
 Suppose we have a **Book** model with a **ForeignKey** relationship to the **Author** model. If we want to retrieve all books and their corresponding authors, we can use **select_related** to fetch the related authors in a single query:
 
-```angular2html
+```python
 books = Book.objects.select_related('author').all()
 
 for book in books:
@@ -2818,7 +2819,7 @@ In this example, **select_related('author')** is used to fetch the related Autho
 
 It works for **ManyToManyField** and **reverse ForeignKey** relationships. By using **prefetch_related**, you can reduce the number of queries when accessing related objects. Here's a simple example:
 
-```angular2html
+```python
 from django.db import models
 
 class Category(models.Model):
@@ -2831,7 +2832,7 @@ class Product(models.Model):
 
 Suppose we have a **Product** model with a **ManyToManyField** relationship to the **Category** model. If we want to retrieve all products and their corresponding categories, we can use **prefetch_related** to fetch the related categories efficiently:
 
-```angular2html
+```python
 products = Product.objects.prefetch_related('categories').all()
 
 for product in products:
@@ -2842,7 +2843,7 @@ for product in products:
 
 To retrieve all authors along with their books efficiently, we can use **prefetch_related** as follows:
 
-```angular2html
+```python
 authors = Author.objects.prefetch_related('books').all()
 for author in authors:
     print(f"Author: {author.name}")
@@ -2881,7 +2882,7 @@ In this example, we define a **Book** model with fields for **title**, **author*
 
 By using the **@property** decorator, we can access the **price_in_euros** method as if it were a model attribute. For example, we can retrieve the price of a book in euros as follows:
 
-```angular2html
+```python
 book = Book.objects.get(pk=1)
 print(book.price_in_euros)  # Output: "19.99 EUR"
 
@@ -2890,7 +2891,7 @@ print(book.price_in_euros)  # Output: "19.99 EUR"
 In Django models, a method with the @property decorator behaves like a model attribute, while a method without this decorator behaves like a normal method.
 Here's an example to illustrate the difference:
 
-```angular2html
+```python
 class Book(models.Model):
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=50)
@@ -2936,7 +2937,7 @@ Django ORM (Object-Relational Mapping) provides several advanced features that a
 
 Q objects allow for complex queries by combining multiple filters using logical operators like AND (&) and OR (|). They encapsulate keyword arguments for filtering and provide more flexibility in query construction
 
-```angular2html
+```python
 from django.db.models import Q
 
 # Query to retrieve books with either 'fiction' or 'mystery' genre
@@ -2947,7 +2948,7 @@ books = Book.objects.filter(Q(genre='fiction') | Q(genre='mystery'))
 
 F expressions allow you to perform database operations using field values without pulling the values from the database. They enable calculations and comparisons directly within the database query, improving performance and reducing round trips to the database
 
-```angular2html
+```python
 from django.db.models import F
 
 # Query to update the price of all books by increasing it by 10%
@@ -2958,7 +2959,7 @@ Book.objects.all().update(price=F('price') * 1.1)
 
 Django provides a comprehensive set of QuerySet methods for retrieving, filtering, and manipulating data from the database. These methods include **annotate()**, **aggregate()**, **values()**, **distinct()**, **order_by()**, **reverse()**, and many more
 
-```angular2html
+```python
 # Query to retrieve the top 5 books with the highest ratings
 top_books = Book.objects.order_by('-rating')[:5]
 
@@ -2973,7 +2974,7 @@ genres = Book.objects.values('genre').annotate(avg_price=Avg('price'))
 
 Model managers allow you to customize the default QuerySet behavior by defining custom methods on the manager class. Managers provide a way to encapsulate common query logic and make it easily accessible across multiple models
 
-```angular2html
+```python
 class BookManager(models.Manager):
     def get_best_sellers(self):
         return self.filter(sales__gt=1000)
@@ -2995,7 +2996,7 @@ best_sellers = Book.objects.get_best_sellers()
 
 Django supports model inheritance, allowing you to create more complex data models by building relationships between models. You can use abstract base classes, multi-table inheritance, and proxy models to implement different types of model inheritance
 
-```angular2html
+```python
 class Publication(models.Model):
     title = models.CharField(max_length=100)
     publisher = models.CharField(max_length=50)
@@ -3046,7 +3047,7 @@ To optimize your Django application for scalability, there are several technique
 Django's database layer provides various ways to improve performance, such as using database indexes, optimizing queries, and reducing database round trips
 Suppose you have a Django model called **Book** with a field called **title**. To optimize the database query, you can add an index to the title field by adding **db_index=True** to the field definition in the model:
 
-```angular2html
+```python
 class Book(models.Model):
     title = models.CharField(max_length=100, db_index=True)
     author = models.CharField(max_length=50)
@@ -3059,7 +3060,7 @@ this index will speed up queries that filter or order by the title field, as the
 
 Implementing caching can significantly improve the performance of your Django application. You can use tools like Django's built-in caching framework. For example, to cache the result of a query for 5 minutes, you can use the **cache_page** decorator:
 
-```angular2html
+```python
 from django.views.decorators.cache import cache_page
 
 @cache_page(60 * 5)
@@ -3077,7 +3078,7 @@ Suppose you have a Django view that returns a list of all **Book** objects in th
 
 code example:
 
-```angular2html
+```python
 def book_list(request):
     # perform database query for all books
     books = Book.objects.all()
@@ -3089,7 +3090,7 @@ def book_list(request):
 
 Optimized version:
 
-```angular2html
+```python
 def book_list(request):
     # fetch related authors in a single query
     books = Book.objects.prefetch_related('author_set').all()
@@ -3105,7 +3106,7 @@ In the first example, the code performs a separate database query for each autho
 Using distributed task queues, such as **Celery**, can help offload time-consuming tasks to separate worker processes, allowing your application to handle more concurrent requests.
 Suppose you have a view that performs a time-consuming task, such as sending an email. To offload the task to a separate worker process, you can use **Celery** such as below:
 
-```angular2html
+```python
 from celery import shared_task
 
 @shared_task
@@ -3140,7 +3141,7 @@ In this example, we will create a model called **Vote**, which can be used to re
 
 1- Define the models in **models.py**:
 
-```angular2html
+```python
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -3161,7 +3162,7 @@ class Vote(models.Model):
 2- Create instances of the models:
 Now, you can create instances of the **Vote** model and associate them with any other models in the database. For example:
 
-```angular2html
+```python
 from django.contrib.contenttypes.models import ContentType
 
 # Create a post instance (just an example, you can have other models)
@@ -3195,7 +3196,7 @@ Here's a simple example of how to create and use custom exceptions in Django:
 
 1- Define the custom exception in a **exceptions.py** file (you can create this file in your app directory):
 
-```angular2html
+```python
 class InvalidDataError(Exception):
     def __init__(self, message="Invalid data provided."):
         self.message = message
@@ -3205,7 +3206,7 @@ class InvalidDataError(Exception):
 
 2- Raise the custom exception in your views or other parts of the code:
 
-```angular2html
+```python
 from django.shortcuts import render
 from .exceptions import InvalidDataError
 
@@ -3233,7 +3234,7 @@ here are some examples of Exception Handling in Django:
 
 - Catching exceptions in views:
 
-```
+```python
 from django.http import HttpResponseServerError
 def my_view(request):
     try:
@@ -3252,7 +3253,7 @@ returns an HTTP 500 response with a custom error message.
 When working with Django's ORM (Object-Relational Mapping) and database operations, you may encounter exceptions related
 to database errors.
 
-```
+```python
 from django.db import DatabaseError
 
 def my_view(request):
@@ -3276,7 +3277,7 @@ Assume we have a model called **Book** that represents books in a library. We wa
 
 1- Define the model in **models.py**:
 
-```angular2html
+```python
 from django.db import models
 
 class Book(models.Model):
@@ -3291,7 +3292,7 @@ class Book(models.Model):
 2- Borrow the book using **select_for_update**:
 In your view or business logic, use **select_for_update** to borrow the book and update its availability status:
 
-```angular2html
+```python
 from django.db import transaction
 from .models import Book
 
@@ -3365,7 +3366,7 @@ Here are some common methods available for models in Django:
 In Django, parametric unit tests refer to the practice of executing the same test logic with different input parameters or test data. This allows you to write more concise and reusable tests by avoiding code duplication.
 Here's a simple example of a parametric unit test in Django:
 
-```angular2html
+```python
 from django.test import TestCase
 
 def multiply_numbers(a, b):
@@ -3396,7 +3397,7 @@ Using parametric unit tests like this helps to reduce code duplication and makes
 In FastAPI, dependency injection is a powerful feature that allows you to declare dependencies for your route handlers, making your code modular, testable, and reusable. Dependencies can be functions or classes that provide the necessary data or services required by a route. FastAPI automatically manages the injection of these dependencies when a request is processed.
 Here's a simple example of dependency injection in FastAPI:
 
-```
+```python
 from fastapi import FastAPI, Depends
 
 app = FastAPI()
@@ -3431,7 +3432,7 @@ async def read_item(commons: str = Depends(get_query_parameter)):
 
 Here's an example to illustrate dependency ordering in FastAPI:
 
-```
+```python
 from fastapi import FastAPI, Depends
 
 app = FastAPI()
@@ -3462,7 +3463,7 @@ In FastAPI, models are typically defined using Pydantic, a data validation and p
 - @validator Decorator:
   You can use the @validator decorator to define custom validation logic for a specific field.
 
-```
+```python
 from typing import List
 from pydantic import BaseModel, validator
 
@@ -3481,7 +3482,7 @@ class Item(BaseModel):
 - @root_validator Decorator:
   Use Case: Use the @root_validator decorator to perform validation that involves multiple fields.
 
-```
+```python
 from pydantic import BaseModel, root_validator
 
 class Item(BaseModel):
@@ -3503,7 +3504,7 @@ class Item(BaseModel):
 In FastAPI, decorators are used to modify the behavior of functions or class methods. They are functions that take another function as an argument and extend or modify the behavior of that function. Decorators in FastAPI are often used for creating reusable components, handling dependencies, and adding extra functionality to route handlers or other parts of your application.
 Let's start with a simple example of using decorators in FastAPI:
 
-```
+```python
 from fastapi import FastAPI, Depends
 
 app = FastAPI()
@@ -3536,7 +3537,7 @@ async def read_items():
 WebSocket is a communication protocol that provides full-duplex communication channels over a single, long-lived connection. FastAPI supports WebSocket communication, allowing you to build real-time applications, such as chat applications, live updates, notifications, or collaborative editing. Let's go through a simple example of using WebSocket in FastAPI and then discuss potential use cases.
 
 Now, let's create a simple WebSocket application:
-```
+```python
 from fastapi import FastAPI, WebSocket
 
 app = FastAPI()
@@ -3566,7 +3567,7 @@ FastAPI supports asynchronous file uploads, allowing you to handle large file up
 
 Now, let's create a FastAPI application with an asynchronous file upload endpoint:
 
-```angular2html
+```python
 from fastapi import FastAPI, File, UploadFile
 
 app = FastAPI()
@@ -3592,7 +3593,7 @@ The **UploadFile** class from FastAPI's **File** module is used to handle file u
 Security headers play a crucial role in web applications to enhance security by preventing certain types of attacks. FastAPI allows you to set security headers easily, providing protection against common web vulnerabilities.
 Now, let's create a FastAPI application with custom security headers:
 
-```
+```python
 from fastapi import FastAPI
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 
@@ -3640,7 +3641,7 @@ Implementing these security headers is an essential part of securing web applica
 Background tasks in FastAPI allow you to execute functions asynchronously in the background, separate from the main request-response cycle. This is particularly useful for tasks that do not need an immediate response but can be performed in the background to improve the overall responsiveness of your application. 
 Now, let's create a FastAPI application with a background task:
 
-```angular2html
+```python
 from fastapi import FastAPI, BackgroundTasks
 import time
 
@@ -3669,7 +3670,7 @@ You can add middleware to FastAPI applications using the **@app.middleware("http
 
 Here's a simple example of a middleware that adds a custom header to the response to measure the processing time:
 
-```
+```python
 from fastapi import FastAPI, Request
 import time
 
@@ -3698,7 +3699,7 @@ In FastAPI, permissions are used to control access to different parts of an appl
 
 Here's a simple example of using **permissions** in FastAPI to restrict access to a specific route based on the user's role:
 
-```
+```python
 
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
@@ -3740,7 +3741,7 @@ By using permissions, FastAPI applications can ensure that sensitive data and fu
 
 Custom validators in FastAPI can be implemented using **Pydantic**, which is used for data validation in FastAPI. Pydantic allows you to define custom validation rules for request data. Here's a simple example of using custom validators in FastAPI with Pydantic:
 
-```
+```python
 from fastapi import FastAPI
 from pydantic import BaseModel, Field, ValidationError
 
@@ -3780,7 +3781,7 @@ By using custom validators, FastAPI applications can enforce specific data valid
 ### FastAPI BaseSettings
 In FastAPI, **BaseSettings** is a class provided by **Pydantic** for managing application settings and environment variables. It allows you to define a settings model with default values and data types, and then load and use these settings throughout your application. Here's a simple example of using **BaseSettings** in FastAPI:
 
-```
+```python
 from fastapi import FastAPI
 from pydantic import BaseSettings
 
@@ -3815,7 +3816,7 @@ By using **BaseSettings**, FastAPI applications can maintain a clear and consist
 ### Dependency Caching
 In FastAPI, dependency caching refers to the ability to cache the result of a dependency function so that it is not re-evaluated for each request. This can be useful for improving performance and reducing redundant computations. Here's a simple example of using dependency caching in FastAPI:
 
-```
+```python
 from fastapi import FastAPI, Depends
 from functools import lru_cache
 
@@ -3849,7 +3850,7 @@ By leveraging dependency caching, FastAPI applications can efficiently manage th
 ### Rate Limiting
 **Rate limiting** in FastAPI allows you to restrict the number of requests a client can make to an API within a given time frame. This can be achieved using third-party packages such as **fastapi-limiter**. Here's a simple example of using rate limiting in FastAPI with fastapi-limiter:
 
-```
+```python
 from fastapi import FastAPI
 from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
@@ -3881,7 +3882,7 @@ By implementing rate limiting, FastAPI applications can effectively manage and c
 FastAPI provides various options for caching responses and function results, including third-party packages such as **fastapi-cache**. This tool allows you to cache FastAPI responses and function results, with support for backends like Redis, Memcached, and Amazon DynamoDB
 Here's a simple example of using **fastapi-cache** to cache a FastAPI response:
 
-```
+```python
 from fastapi import FastAPI
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
@@ -3917,7 +3918,7 @@ By leveraging caching in FastAPI, applications can efficiently manage and optimi
 
 Custom exceptions in FastAPI allow you to define and handle application-specific errors in a structured manner. You can create custom exception classes and handle them using FastAPI's exception handling mechanisms. Here's a simple example of using custom exceptions in FastAPI:
 
-```angular2html
+```python
 from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
