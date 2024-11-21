@@ -17,6 +17,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
   * [Python related topics:](#python-related-topics)
     * [object-oriented programming (OOP)](#object-oriented-programming-oop)
       * [Inheritance](#inheritance)
+	  * [Method Resolution Order (MRO)](#method-resolution-order-mro)
       * [Polymorphism](#polymorphism)
       * [Encapsulation](#encapsulation)
       * [Abstraction](#abstraction)
@@ -161,6 +162,149 @@ print(cat.speak())  # Output: Meow!
 In this example, Animal is the superclass, and Dog and Cat are subclasses that inherit from it. The speak method is an
 abstract method in the Animal class that is implemented in the subclasses.
 We import the **ABC** (Abstract Base Class) class from the **abc** module and use the **@abstractmethod** decorator to mark the **speak** method as an abstract method in the **Animal** class. This enforces that subclasses of **Animal** must provide an implementation for the speak method.
+
+#### Method Resolution Order (MRO)
+
+The method resolution order (MRO) defines the sequence in which base classes are searched when executing a method. Initially, the search starts within the class itself, and then proceeds according to the order specified during inheritance. This order is also known as the linearization of a class, and the set of rules governing it is referred to as MRO (Method Resolution Order).
+
+To illustrate this concept more clearly, let's walk through some examples that cover different inheritance scenarios.
+
+##### 1. Single Inheritance
+
+In single inheritance, the MRO is very straightforward. When a derived class inherits from a single base class, Python searches the base class for the desired method or attribute if it’s not found in the derived class.
+
+```
+class A:
+    def greet(self):
+        print("Hello from A")
+
+class B(A):
+    pass
+
+b = B()
+b.greet()
+```
+
+Output:
+
+```
+Hello from A
+```
+
+##### 2. Multiple Inheritance
+
+In multiple inheritance, the MRO determines the sequence in which parent classes are called. Python uses the C3 linearization algorithm to establish this order, ensuring that each class appears only once.
+
+```
+class A:
+    def greet(self):
+        print("Hello from A")
+
+class B:
+    def greet(self):
+        print("Hello from B")
+
+class C(A, B):
+    pass
+
+c = C()
+c.greet()
+```
+
+Output:
+
+```
+Hello from A
+```
+
+##### 3. The Diamond Inheritance Problem
+
+The diamond inheritance problem occurs when a class inherits from multiple classes that share a common ancestor. MRO ensures that the common ancestor is not invoked multiple times, preventing redundancy.
+
+```
+class A:
+    def greet(self):
+        print("Hello from A")
+
+class B(A):
+    def greet(self):
+        print("Hello from B")
+
+class C(A):
+    def greet(self):
+        print("Hello from C")
+
+class D(B, C):
+    pass
+
+d = D()
+d.greet()
+```
+
+Output:
+
+```
+Hello from B
+```
+
+##### 4. Using super() with MRO
+
+Using the super() function in a multiple inheritance scenario ensures that the next class in the MRO sequence is called. This is particularly useful for maintaining a consistent flow through all classes in the hierarchy.
+
+```
+class A:
+    def greet(self):
+        print("Hello from A")
+
+class B(A):
+    def greet(self):
+        print("Hello from B")
+        super().greet()
+
+class C(A):
+    def greet(self):
+        print("Hello from C")
+        super().greet()
+
+class D(B, C):
+    def greet(self):
+        print("Hello from D")
+        super().greet()
+
+d = D()
+d.greet()
+```
+
+Explanation:
+
+D calls B, B calls C, and C calls A according to the MRO (D -> B -> C -> A).
+
+Using super() ensures that each class in the MRO chain is called in order.
+
+Output:
+
+```
+Hello from D
+Hello from B
+Hello from C
+Hello from A
+```
+
+##### 5. Checking the MRO
+
+You can inspect the MRO of a class using the mro() method or the __mro__ attribute.
+
+```
+print(D.mro())
+```
+
+Output:
+
+```
+[<class '__main__.D'>, <class '__main__.B'>, <class '__main__.C'>, <class '__main__.A'>, <class 'object'>]
+```
+
+This output tells you the exact order in which classes are searched for methods or attributes when an instance of D is used.
 
 #### Polymorphism
 
