@@ -2571,6 +2571,7 @@ Here's an example of how to handle PUT and PATCH requests in Django using Django
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from myapp_models import MyResource
 
 class MyResourceView(APIView):
     def put(self, request, pk):
