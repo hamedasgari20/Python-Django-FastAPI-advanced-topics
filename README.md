@@ -3018,8 +3018,15 @@ There are several third-party packages that can greatly enhance your development
 
 The @property decorator in Django is used to define a method that behaves like a model attribute. It allows you to call custom model methods as if they were normal model attributes. Here's a simple example to illustrate the concept:
 
-```angular2html
-span
+```python
+from django.db import models
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=50)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+    @property
+    def price_in_euros(self):
+        return f"{self.price} EUR"
 ```
 
 In this example, we define a **Book** model with fields for **title**, **author**, and **price**. We then define a **price_in_euros** method with the **@property** decorator. This method returns the price of the book in euros as a string.
