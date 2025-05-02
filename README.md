@@ -8,16 +8,19 @@ reader with a mental framework. In this article, I have used very simple example
 Naturally, studying and examining more and more practical examples will help a lot to understand each topic. I hope
 reading this article is useful for you. (**Hamid Asgari**)
 
-I am grateful to all my friends who have guided me in writing this article:
-__Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__, __Ali Emamalinejad__
-, __Malihe Sheidaiefar__, __Ali Lavasani__, __Fatemeh Pasandideh__
+
 
 <!-- TOC -->
   * [Introduction](#introduction)
   * [Python related topics:](#python-related-topics)
     * [object-oriented programming (OOP)](#object-oriented-programming-oop)
       * [Inheritance](#inheritance)
-	  * [Method Resolution Order (MRO)](#method-resolution-order-mro)
+      * [Method Resolution Order (MRO)](#method-resolution-order-mro)
+        * [1. Single Inheritance](#1-single-inheritance)
+        * [2. Multiple Inheritance](#2-multiple-inheritance)
+        * [3. The Diamond Inheritance Problem](#3-the-diamond-inheritance-problem)
+        * [4. Using super() with MRO](#4-using-super-with-mro)
+        * [5. Checking the MRO](#5-checking-the-mro)
       * [Polymorphism](#polymorphism)
       * [Encapsulation](#encapsulation)
       * [Abstraction](#abstraction)
@@ -68,7 +71,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Cache in Django](#cache-in-django)
     * [Django constraint](#django-constraint)
     * [bulk creation in Django](#bulk-creation-in-django)
-    * [prefetch_related and select_related in Django](#prefetchrelated-and-selectrelated-in-django)
+    * [prefetch_related and select_related in Django](#prefetch_related-and-select_related-in-django)
     * [Third-party packages in Django](#third-party-packages-in-django)
     * [Property decorators](#property-decorators)
     * [WSGI and ASGI](#wsgi-and-asgi)
@@ -79,7 +82,7 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Django optimization](#django-optimization)
     * [Generic Foreign Key in Django](#generic-foreign-key-in-django)
     * [Django custom exceptions](#django-custom-exceptions)
-    * [select_for_update in Django](#selectforupdate-in-django)
+    * [select_for_update in Django](#select_for_update-in-django)
     * [Django model methods](#django-model-methods)
     * [Parametric unit tests](#parametric-unit-tests)
   * [FastAPI related topics:](#fastapi-related-topics)
@@ -111,10 +114,10 @@ __Alireza Amouzadeh__ , __Zahra Rezaei__, __Shokooh Rigi__, __Saharnaz Rashidi__
     * [Custom Exceptions in FastAPI](#custom-exceptions-in-fastapi)
       * [Use Cases in Real-World Applications](#use-cases-in-real-world-applications-4)
     * [Optimization techniques in FastAPI](#optimization-techniques-in-fastapi)
-    * [Unit tests with pytest](#unit-tests-with-pytest)
     * [Concurrency and Parallelism In FastAPI](#concurrency-and-parallelism-in-fastapi)
-    * [GraphQL Integration](#graphql-integration)
-    * [Third party packages in FastAPI](#third-party-packages-in-fastapi)
+  * [Interview Preparation questions](#interview-preparation-questions)
+    * [PostgreSQL Querying](#postgresql-querying)
+    * [Algorithmic Problem Solving](#algorithmic-problem-solving)
 <!-- TOC -->
 
 ## Python related topics:
@@ -4149,3 +4152,327 @@ Real-world use cases of concurrency and parallelism in FastAPI include:
 - **Real-time Data Streaming:** Concurrency enables the server to handle real-time data streaming, such as sending continuous updates to clients while simultaneously processing other tasks.
 - **Background Tasks:** Asynchronous operations are useful for executing background tasks, such as sending emails, processing notifications, or performing periodic maintenance tasks without blocking the main application flow
 
+## Interview Preparation questions
+
+This guide provides explanations, practical examples, questions, answers, and Python code snippets to solidify your understanding. Let's dive in!
+
+### PostgreSQL Querying
+
+- **Why Raw SQL?**
+
+While ORMs (like SQLAlchemy or Django ORM) are incredibly useful for rapid development and abstraction, understanding raw SQL is crucial for:
+
+*   **Performance Tuning:** Writing highly optimized queries that an ORM might not generate.
+*   **Complex Reporting:** Crafting intricate queries involving multiple joins, subqueries, window functions, or CTEs.
+*   **Debugging:** Understanding the exact SQL being executed by an ORM or identifying database-level issues.
+*   **Database Features:** Leveraging specific PostgreSQL features not directly exposed by all ORMs (e.g., specific index types, extensions).
+*   **Legacy Systems:** Working with systems that may not use an ORM.
+
+
+- **Core SQL Concepts Review**
+
+Before diving into questions, let's quickly recap essential SQL commands:
+
+*   `SELECT`: Retrieves data from one or more tables.
+*   `FROM`: Specifies the table(s) to query.
+*   `WHERE`: Filters rows based on specified conditions.
+*   `JOIN` (`INNER`, `LEFT`, `RIGHT`, `FULL OUTER`): Combines rows from two or more tables based on a related column.
+*   `GROUP BY`: Groups rows that have the same values in specified columns into a summary row. Often used with aggregate functions (`COUNT`, `MAX`, `MIN`, `SUM`, `AVG`).
+*   `HAVING`: Filters groups based on a specified condition (used *after* `GROUP BY`).
+*   `ORDER BY`: Sorts the result set based on specified columns (`ASC`, `DESC`).
+*   `LIMIT`: Restricts the number of rows returned.
+*   `OFFSET`: Skips a specified number of rows before starting to return rows (often used with `LIMIT` for pagination).
+*   `INSERT INTO`: Adds new rows to a table.
+*   `UPDATE`: Modifies existing rows in a table.
+*   `DELETE FROM`: Removes rows from a table.
+*   **Transactions:** (`BEGIN`, `COMMIT`, `ROLLBACK`) Ensuring atomicity of operations.
+*   **Indexes:** Data structures that improve the speed of data retrieval operations. Common types: B-tree (default), Hash, GiST, GIN.
+*   **Subqueries:** Queries nested inside another query.
+*   **Common Table Expressions (CTEs):** (`WITH ... AS ...`) Temporary, named result sets you can reference within a single statement. Improves readability for complex queries.
+*   **Window Functions:** Perform calculations across a set of table rows that are somehow related to the current row (e.g., ranking, running totals).
+
+- **Example Schema**
+
+We'll use the following simple schema for our practice questions:
+
+```sql
+-- Departments Table
+CREATE TABLE departments (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    location VARCHAR(100)
+);
+
+-- Employees Table
+CREATE TABLE employees (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    salary DECIMAL(10, 2) CHECK (salary > 0),
+    hire_date DATE DEFAULT CURRENT_DATE,
+    department_id INTEGER REFERENCES departments(id) ON DELETE SET NULL -- Foreign key
+);
+
+-- Projects Table
+CREATE TABLE projects (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL UNIQUE,
+    start_date DATE,
+    deadline DATE
+);
+
+-- Employee-Project Junction Table (Many-to-Many)
+CREATE TABLE employee_projects (
+    employee_id INTEGER REFERENCES employees(id) ON DELETE CASCADE,
+    project_id INTEGER REFERENCES projects(id) ON DELETE CASCADE,
+    role VARCHAR(50),
+    PRIMARY KEY (employee_id, project_id) -- Composite primary key
+);
+
+-- Sample Data (Conceptual)
+INSERT INTO departments (name, location) VALUES
+('Engineering', 'Building A'), ('Sales', 'Building B'), ('HR', 'Building A'), ('Marketing', 'Building B');
+
+INSERT INTO employees (name, email, salary, department_id) VALUES
+('Alice', 'alice@company.com', 90000, 1),
+('Bob', 'bob@company.com', 85000, 1),
+('Charlie', 'charlie@company.com', 70000, 2),
+('David', 'david@company.com', 72000, 2),
+('Eve', 'eve@company.com', 110000, 1),
+('Frank', 'frank@company.com', 60000, 3),
+('Grace', 'grace@company.com', 95000, NULL); -- No department assigned yet
+
+INSERT INTO projects (name, start_date, deadline) VALUES
+('Project Alpha', '2023-01-15', '2023-12-31'),
+('Project Beta', '2023-03-01', '2024-06-30'),
+('Project Gamma', '2023-07-01', NULL);
+
+INSERT INTO employee_projects (employee_id, project_id, role) VALUES
+(1, 1, 'Developer'), (1, 2, 'Lead Developer'),
+(2, 1, 'Developer'),
+(3, 2, 'Sales Lead'),
+(5, 2, 'Tech Lead'),
+(5, 3, 'Architect');
+```
+
+- **Practice Questions & Answers (SQL)**
+
+**Q1: Basic Retrieval**
+
+*   **Question:** Find the names and salaries of all employees earning more than $80,000.
+*   **Answer (SQL):**
+    ```sql
+    SELECT name, salary
+    FROM employees
+    WHERE salary > 80000;
+    ```
+    
+**Q2: `ORDER BY` and `LIMIT`**
+
+*   **Question:** Find the names and hire dates of the 3 most recently hired employees.
+*   **Answer (SQL):**
+    ```sql
+    SELECT name, hire_date
+    FROM employees
+    ORDER BY hire_date DESC
+    LIMIT 3;
+    ```
+
+**Q3: `JOIN`**
+
+*   **Question:** List the names of all employees and their corresponding department names. Only include employees who are assigned to a department.
+*   **Answer (SQL):**
+    ```sql
+    SELECT e.name AS employee_name, d.name AS department_name
+    FROM employees e
+    INNER JOIN departments d ON e.department_id = d.id;
+    ```
+
+
+
+**Q4: `LEFT JOIN`**
+
+*   **Question:** List all employee names and their department names. Include employees even if they are not currently assigned to a department.
+*   **Answer (SQL):**
+    ```sql
+    SELECT e.name AS employee_name, d.name AS department_name
+    FROM employees e
+    LEFT JOIN departments d ON e.department_id = d.id;
+    ```
+*   **Explanation:** `LEFT JOIN` ensures all rows from the *left* table (`employees`) are included. If there's no match in the *right* table (`departments`), the columns from the right table will be `NULL`.
+
+
+
+**Q5: `GROUP BY` and Aggregate Functions**
+
+*   **Question:** Find the number of employees in each department. Display the department name and the count.
+*   **Answer (SQL):**
+    ```sql
+    SELECT d.name AS department_name, COUNT(e.id) AS employee_count
+    FROM departments d
+    LEFT JOIN employees e ON d.id = e.department_id
+    GROUP BY d.name
+    ORDER BY employee_count DESC;
+    ```
+*   **Note:** Using `LEFT JOIN` here ensures departments with zero employees are also listed (with a count of 0). Using `COUNT(e.id)` correctly counts employees, ignoring `NULL`s from the `LEFT JOIN`.
+
+
+**Q6: `GROUP BY` and `HAVING`**
+
+*   **Question:** Find the departments with an average employee salary greater than $85,000. Display the department name and the average salary.
+*   **Answer (SQL):**
+    ```sql
+    SELECT d.name AS department_name, AVG(e.salary) AS average_salary
+    FROM employees e
+    JOIN departments d ON e.department_id = d.id
+    GROUP BY d.name
+    HAVING AVG(e.salary) > 85000;
+    ```
+*   **Explanation:** `WHERE` filters rows *before* aggregation, while `HAVING` filters groups *after* aggregation.
+
+
+**Q7: Subquery in `WHERE` Clause**
+
+*   **Question:** Find the names of employees who earn more than the overall average salary of all employees.
+*   **Answer (SQL):**
+    ```sql
+    SELECT name, salary
+    FROM employees
+    WHERE salary > (SELECT AVG(salary) FROM employees);
+    ```
+
+**Q8: Subquery in `SELECT` Clause (Correlated Subquery)**
+
+*   **Question:** For each employee, show their name, salary, and the average salary of their department.
+*   **Answer (SQL):**
+    ```sql
+    SELECT
+        e.name AS employee_name,
+        e.salary,
+        (SELECT AVG(salary) FROM employees e2 WHERE e2.department_id = e.department_id) AS department_avg_salary
+    FROM employees e;
+    ```
+*   **Note:** Correlated subqueries can sometimes be less performant than joins or window functions for this type of task, especially on large tables.
+
+
+**Q9: Many-to-Many Join**
+
+*   **Question:** List all employees working on 'Project Beta'. Show employee name and their role on the project.
+*   **Answer (SQL):**
+    ```sql
+    SELECT e.name AS employee_name, ep.role
+    FROM employees e
+    JOIN employee_projects ep ON e.id = ep.employee_id
+    JOIN projects p ON ep.project_id = p.id
+    WHERE p.name = 'Project Beta';
+    ```
+**Q10: Common Table Expression (CTE)**
+
+*   **Question:** Find departments where the maximum salary is greater than $100,000. Use a CTE to first find the maximum salary per department.
+*   **Answer (SQL):**
+    ```sql
+    WITH DepartmentMaxSalary AS (
+        SELECT
+            department_id,
+            MAX(salary) AS max_salary
+        FROM employees
+        WHERE department_id IS NOT NULL
+        GROUP BY department_id
+    )
+    SELECT d.name AS department_name, dms.max_salary
+    FROM departments d
+    JOIN DepartmentMaxSalary dms ON d.id = dms.department_id
+    WHERE dms.max_salary > 100000;
+    ```
+
+**Q11: Window Function (`RANK`)**
+
+*   **Question:** Rank employees within each department based on their salary (highest salary gets rank 1). Display department name, employee name, salary, and rank.
+*   **Answer (SQL):**
+    ```sql
+    SELECT
+        d.name AS department_name,
+        e.name AS employee_name,
+        e.salary,
+        RANK() OVER (PARTITION BY e.department_id ORDER BY e.salary DESC) AS salary_rank
+    FROM employees e
+    JOIN departments d ON e.department_id = d.id
+    ORDER BY d.name, salary_rank;
+    ```
+*   **Explanation:** `PARTITION BY e.department_id` divides the rows into partitions (one for each department). `ORDER BY e.salary DESC` sorts rows within each partition. `RANK()` assigns the rank based on this order. `DENSE_RANK()` is similar but doesn't leave gaps for ties. `ROW_NUMBER()` assigns unique numbers regardless of ties.
+
+**Q12: Data Modification (`INSERT`, `UPDATE`, `DELETE`)**
+
+*   **Question:**
+    1.  Add a new department 'Finance' in 'Building C'.
+    2.  Update 'Charlie's salary to $75,000.
+    3.  Remove the employee named 'Frank'.
+*   **Answer (SQL):**
+    ```sql
+    -- 1. Insert new department
+    INSERT INTO departments (name, location)
+    VALUES ('Finance', 'Building C');
+
+    -- 2. Update Charlie's salary (assuming email is unique identifier if name isn't)
+    UPDATE employees
+    SET salary = 75000
+    WHERE email = 'charlie@company.com'; -- Use a unique identifier like id or email
+
+    -- 3. Delete Frank (use a unique identifier)
+    DELETE FROM employees
+    WHERE name = 'Frank' AND email = 'frank@company.com'; -- Be specific
+    ```
+*   **Caution:** `DELETE` operations are permanent. Always be careful and use specific `WHERE` clauses, preferably targeting primary keys or unique constraints. Transactions (`BEGIN`, `COMMIT`, `ROLLBACK`) are essential for safety.
+
+**Q13: Indexing Concept**
+
+*   **Question:** When would you add an index to the `employees` table? Explain your reasoning for choosing a specific column(s).
+*   **Answer (Conceptual):**
+    *   You would add an index to columns frequently used in `WHERE` clauses, `JOIN` conditions, or `ORDER BY` clauses to speed up data retrieval.
+    *   **`id` (Primary Key):** PostgreSQL automatically creates a unique B-tree index on primary keys. This is essential for fast lookups and enforcing uniqueness.
+    *   **`department_id` (Foreign Key):** Definitely index this column. It's used in `JOIN` operations with the `departments` table and potentially in `WHERE` clauses (e.g., `WHERE department_id = X`). A B-tree index is suitable here.
+    *   **`email` (Unique Constraint):** PostgreSQL often automatically creates an index for unique constraints (typically B-tree) to efficiently check for duplicates during inserts/updates and speed up lookups based on email.
+    *   **`name`:** If you frequently search or sort employees by name (`WHERE name = '...'` or `ORDER BY name`), an index on this column could be beneficial. A B-tree index works well for range queries and exact matches.
+    *   **`salary`:** If you often filter or sort by salary (`WHERE salary > X`, `ORDER BY salary`), indexing this column can improve performance. A B-tree index is appropriate.
+    *   **`hire_date`:** Similar to `salary`, if filtering or sorting by `hire_date` is common, an index helps.
+    *   **Composite Index:** If you frequently filter by `department_id` AND `salary` together (e.g., `WHERE department_id = X AND salary > Y`), a composite index on `(department_id, salary)` might be more efficient than two separate indexes. The order matters.
+    *   **Trade-offs:** Indexes speed up reads (`SELECT`) but slow down writes (`INSERT`, `UPDATE`, `DELETE`) because the index also needs to be updated. They also consume disk space. Only index columns where the performance benefit outweighs the cost.
+
+
+**Q14: Transaction Concept**
+
+*   **Question:** Imagine you need to transfer an employee ('Alice') from 'Engineering' to 'Sales' and simultaneously update her role on 'Project Alpha' to 'Consultant'. Why is it important to use a transaction for these operations?
+*   **Answer (Conceptual):**
+    *   A transaction groups multiple SQL statements into a single, atomic unit of work. It guarantees **ACID** properties (Atomicity, Consistency, Isolation, Durability).
+    *   **Atomicity:** In this scenario, both updating the employee's `department_id` and updating their role in `employee_projects` must succeed together, or neither should happen. If the first update succeeds but the second fails (e.g., due to a constraint violation or connection drop), a transaction ensures the first update is rolled back, leaving the database in its original consistent state. Without a transaction, you could end up with inconsistent data (Alice in Sales but still listed as 'Developer' on the project, or vice-versa depending on the order and failure point).
+    *   **Consistency:** The transaction ensures the database transitions from one valid state to another, respecting all constraints.
+    *   **Isolation:** If other users are querying the data concurrently, a transaction ensures they see the data either *before* the changes or *after* both changes are committed, preventing them from seeing intermediate, inconsistent states (e.g., Alice listed in Sales but still having her old Engineering role on the project).
+    *   **Durability:** Once a transaction is committed, the changes are permanent and will survive system crashes.
+    *   **Syntax Example:**
+        ```sql
+        BEGIN; -- Start transaction
+
+        UPDATE employees
+        SET department_id = (SELECT id FROM departments WHERE name = 'Sales')
+        WHERE email = 'alice@company.com';
+
+        UPDATE employee_projects
+        SET role = 'Consultant'
+        WHERE employee_id = (SELECT id FROM employees WHERE email = 'alice@company.com')
+          AND project_id = (SELECT id FROM projects WHERE name = 'Project Alpha');
+
+        -- Add more related operations if needed...
+
+        COMMIT; -- Apply changes permanently if all succeed
+        -- Or ROLLBACK; if an error occurs or check fails
+        ```
+
+
+
+
+
+
+
+
+
+### Algorithmic Problem Solving
