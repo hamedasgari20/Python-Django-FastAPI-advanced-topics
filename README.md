@@ -118,6 +118,9 @@ reading this article is useful for you. (**Hamid Asgari**)
   * [Interview Preparation questions](#interview-preparation-questions)
     * [PostgreSQL Querying](#postgresql-querying)
     * [Algorithmic Problem Solving](#algorithmic-problem-solving)
+      * [Common Data Structures Review](#common-data-structures-review)
+      * [Problem-Solving Strategy](#problem-solving-strategy)
+      * [Practice Problems & Solutions (Python)](#practice-problems--solutions-python)
 <!-- TOC -->
 
 ## Python related topics:
@@ -4476,3 +4479,354 @@ INSERT INTO employee_projects (employee_id, project_id, role) VALUES
 
 
 ### Algorithmic Problem Solving
+
+Senior Python roles often require solving algorithmic problems efficiently. This involves understanding data structures, common algorithms, and complexity analysis (Big O notation).
+
+#### Common Data Structures Review
+
+Be comfortable using and knowing the trade-offs of:
+
+*   **Lists:** Ordered, mutable sequences. O(1) append, O(n) insertion/deletion/search.
+*   **Tuples:** Ordered, immutable sequences. Used for fixed collections.
+*   **Dictionaries (Hash Maps):** Key-value pairs. Average O(1) insertion/deletion/lookup. Crucial for many algorithms.
+*   **Sets:** Unordered collections of unique elements. Average O(1) add/remove/contains check. Useful for uniqueness and membership testing.
+*   **Strings:** Immutable sequences of characters.
+*   **(Conceptual) Stacks (LIFO):** Use `list.append()` for push, `list.pop()` for pop.
+*   **(Conceptual) Queues (FIFO):** Use `collections.deque` for efficient O(1) appends and pops from both ends.
+*   **(Conceptual) Heaps (Priority Queues):** Use `heapq` module. O(log n) push/pop smallest element.
+*   **(Conceptual) Trees (Binary Search Trees, Tries):** Know their properties and traversal methods (in-order, pre-order, post-order, level-order/BFS).
+*   **(Conceptual) Graphs:** Know representations (adjacency list, adjacency matrix) and traversal algorithms (BFS, DFS).
+
+#### Problem-Solving Strategy
+
+1.  **Understand:** Clarify the problem, inputs, outputs, constraints, and edge cases. Ask questions!
+2.  **Plan:** Think about different approaches. Consider data structures. Whiteboard or sketch ideas. Analyze potential time/space complexity.
+3.  **Code:** Write clean, readable Python code. Use meaningful variable names.
+4.  **Test:** Test with examples, edge cases (empty input, large input, specific values), and constraints.
+5.  **Optimize:** If necessary, revisit your plan to improve time or space complexity.
+
+---
+
+#### Practice Problems & Solutions (Python)
+
+**Problem 1: Two Sum**
+
+**Statement:** Given an array of integers `nums` and an integer `target`, return *indices* of the two numbers such that they add up to `target`. Assume that each input would have *exactly one solution*, and you may not use the same element twice.
+
+**Example:** `nums = [2, 7, 11, 15]`, `target = 9` -> Output: `[0, 1]` (because `nums[0] + nums[1] == 9`)
+
+**Approach:** Iterate through the array. For each number `n`, check if `target - n` exists in a hash map (dictionary) that stores numbers encountered so far and their indices. If it exists, we found the pair. If not, add the current number `n` and its index to the map.
+
+**Python Code:**
+
+    ```python
+    def two_sum(nums: list[int], target: int) -> list[int]:
+        """Finds indices of two numbers that sum to target."""
+        num_map = {} # Stores {number: index}
+        for index, num in enumerate(nums):
+            complement = target - num
+            if complement in num_map:
+                return [num_map[complement], index]
+            num_map[num] = index
+        return [] # Should not be reached based on problem statement
+    ```
+**Complexity:**
+
+*   Time: O(n) - We iterate through the list once. Dictionary lookups/insertions are O(1) on average.
+*   Space: O(n) - In the worst case, the dictionary stores all numbers.
+
+
+**Problem 2: Valid Parentheses**
+
+**Statement:** Given a string `s` containing just the characters `(`, `)`, `{`, `}`, `[` and `]`, determine if the input string is valid. An input string is valid if:
+    1.  Open brackets must be closed by the same type of brackets.
+    2.  Open brackets must be closed in the correct order.
+    3.  Every close bracket has a corresponding open bracket of the same type.
+
+**Example:** `s = "()[]{}"` -> `True`; `s = "(]"` -> `False`; `s = "{[]}"` -> `True`
+
+**Approach:** Use a stack. Iterate through the string. If an opening bracket (`(`, `{`, `[`) is encountered, push it onto the stack. If a closing bracket (`)`, `}`, `]`) is encountered, check if the stack is empty or if the top of the stack is the corresponding opening bracket. If not, return `False`. If it matches, pop the stack. After iterating through the string, the stack should be empty for the string to be valid.
+
+**Python Code:**
+
+```python
+    def is_valid_parentheses(s: str) -> bool:
+        """Checks if a string of parentheses is valid."""
+        stack = []
+        mapping = {")": "(", "}": "{", "]": "["}
+
+        for char in s:
+            if char in mapping: # It's a closing bracket
+                # Pop from stack if not empty, otherwise use a dummy value
+                top_element = stack.pop() if stack else '#'
+                if mapping[char] != top_element:
+                    return False
+            else: # It's an opening bracket
+                stack.append(char)
+
+        return not stack # Stack should be empty at the end
+```
+    
+*   **Complexity:**
+    *   Time: O(n) - We iterate through the string once. Stack operations are O(1).
+    *   Space: O(n) - In the worst case (e.g., `((((...))))`), the stack stores all opening brackets.
+
+
+
+**Problem 3: Longest Substring Without Repeating Characters**
+
+*   **Statement:** Given a string `s`, find the length of the longest substring without repeating characters.
+*   **Example:** `s = "abcabcbb"` -> `3` ("abc"); `s = "bbbbb"` -> `1` ("b"); `s = "pwwkew"` -> `3` ("wke")
+*   **Approach:** Use a sliding window technique. Maintain a window `[left, right]` and a set (or dictionary) to keep track of characters currently in the window. Expand the window by moving `right`. If `s[right]` is already in the set, shrink the window from the left by moving `left` and removing `s[left]` from the set until `s[right]` is no longer a duplicate. Add `s[right]` to the set. Update the maximum length found so far (`right - left + 1`).
+*   **Python Code:**
+    ```python
+    def length_of_longest_substring(s: str) -> int:
+        """Finds the length of the longest substring without repeating chars."""
+        char_set = set()
+        left = 0
+        max_length = 0
+
+        for right in range(len(s)):
+            # If char already in window, shrink from left until it's removed
+            while s[right] in char_set:
+                char_set.remove(s[left])
+                left += 1
+            # Add the new character to the set and update max length
+            char_set.add(s[right])
+            max_length = max(max_length, right - left + 1)
+
+        return max_length
+    ```
+*   **Complexity:**
+    *   Time: O(n) - Although there's a nested `while` loop, each character is added and removed from the set at most once. Both `left` and `right` pointers traverse the string linearly.
+    *   Space: O(min(m, n)) - Where `n` is the length of the string and `m` is the size of the character set (e.g., 26 for lowercase English letters, or up to `n`). The space is used by the `char_set`.
+
+
+**Problem 4: Kth Largest Element in an Array**
+
+*   **Statement:** Given an integer array `nums` and an integer `k`, return the `k`th largest element in the array. Note that it is the `k`th largest element in the sorted order, not the `k`th distinct element.
+*   **Example:** `nums = [3, 2, 1, 5, 6, 4]`, `k = 2` -> `5`; `nums = [3, 2, 3, 1, 2, 4, 5, 5, 6]`, `k = 4` -> `4`
+*   **Approach (Heap):** Use a min-heap. Iterate through the numbers. Push each number onto the heap. If the heap size exceeds `k`, pop the smallest element (the root of the min-heap). After iterating through all numbers, the root of the heap will be the `k`th largest element.
+*   **Python Code:**
+    ```python
+    import heapq
+
+    def find_kth_largest(nums: list[int], k: int) -> int:
+        """Finds the Kth largest element using a min-heap."""
+        # Create a min-heap
+        min_heap = []
+        for num in nums:
+            heapq.heappush(min_heap, num)
+            # If heap size exceeds k, remove the smallest element
+            if len(min_heap) > k:
+                heapq.heappop(min_heap)
+        # The root of the heap is the Kth largest element
+        return min_heap[0]
+
+    # Alternative concise version using heapify:
+    # def find_kth_largest_concise(nums: list[int], k: int) -> int:
+    #     return heapq.nlargest(k, nums)[-1]
+    ```
+*   **Complexity:**
+    *   Time: O(n log k) - We process `n` elements. Heap push/pop operations take O(log k) time since the heap size is capped at `k`. (`heapq.nlargest` is often O(n log k) as well). A Quickselect approach offers average O(n) but worst-case O(n^2).
+    *   Space: O(k) - To store the elements in the heap.
+
+
+**Problem 5: Coin Change**
+
+*   **Statement:** You are given an integer array `coins` representing coins of different denominations and an integer `amount` representing a total amount of money. Return the *fewest* number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return `-1`. Assume you have an infinite number of each kind of coin.
+*   **Example:** `coins = [1, 2, 5]`, `amount = 11` -> `3` (11 = 5 + 5 + 1); `coins = [2]`, `amount = 3` -> `-1`
+*   **Approach (Dynamic Programming):** Create a DP array `dp` of size `amount + 1`, initialized with a value indicating infinity (e.g., `amount + 1`) except `dp[0] = 0` (0 coins needed for amount 0). Iterate from `1` to `amount`. For each amount `i`, iterate through the `coins`. If a coin `c` is less than or equal to `i`, check if using this coin can lead to a smaller number of coins needed: `dp[i] = min(dp[i], 1 + dp[i - c])`. After the loops, if `dp[amount]` is still the infinity value, it means the amount is unreachable; otherwise, `dp[amount]` holds the minimum number of coins.
+*   **Python Code:**
+    ```python
+    def coin_change(coins: list[int], amount: int) -> int:
+        """Finds the minimum number of coins to make a given amount (DP)."""
+        # dp[i] will store the minimum coins needed for amount i
+        # Initialize with a value larger than any possible result (amount + 1)
+        dp = [amount + 1] * (amount + 1)
+        dp[0] = 0 # Base case: 0 coins for amount 0
+
+        for i in range(1, amount + 1):
+            for coin in coins:
+                if coin <= i:
+                    # If we use 'coin', we need 1 + dp[i - coin] coins
+                    dp[i] = min(dp[i], 1 + dp[i - coin])
+
+        # If dp[amount] is still amount + 1, it means amount is unreachable
+        return dp[amount] if dp[amount] <= amount else -1
+    ```
+
+*   **Complexity:**
+    *   Time: O(amount * num_coins) - We have nested loops iterating up to `amount` and through the `coins`.
+    *   Space: O(amount) - We use a DP array of size `amount + 1`.
+
+    
+Here is another solution:
+
+*   **Python Code:**
+    ```python
+    def coin_change(coins, amount):
+        map_dict = {}
+        fewest = 1000
+        for element in coins:
+            remainder = amount % element
+            qu = amount // element
+            if remainder == 0 or remainder in coins:
+                fewest = min(qu + remainder, fewest)
+    
+        return -1 if fewest == 1000 else fewest
+    ```
+
+
+**Problem 6: Merge Intervals**
+
+**Statement:** Given an array of intervals where intervals`[i] = [start_i, end_i]`, merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.
+
+**Example:** `intervals = [[1,3],[2,6],[8,10],[15,18]] -> [[1,6],[8,10],[15,18]]` (because `[1,3]` and [2,6] overlap and merge into `[1,6]`). `intervals = [[1,4],[4,5]] -> [[1,5]]` (overlap at the boundary).
+
+**Approach:** First, sort the intervals based on their start times. Initialize a list merged_intervals with the first interval. Iterate through the sorted intervals starting from the second one. If the current interval overlaps with the last interval in merged_intervals (i.e., current_interval.start <= last_merged_interval.end), merge them by updating the end time of the last interval in merged_intervals to the maximum of the two end times. Otherwise, if they don't overlap, add the current interval to merged_intervals.
+
+**Python Code:**
+
+```python
+def merge_intervals(intervals: list[list[int]]) -> list[list[int]]:
+    if not intervals:
+        return []
+
+    # Sort intervals based on the start time
+    intervals.sort(key=lambda x: x[0])
+
+    merged_intervals = [intervals[0]]
+
+    for i in range(1, len(intervals)):
+        current_start, current_end = intervals[i]
+        last_merged_start, last_merged_end = merged_intervals[-1]
+
+        # Check for overlap
+        if current_start <= last_merged_end:
+            # Merge: update the end of the last merged interval
+            merged_intervals[-1][1] = max(last_merged_end, current_end)
+        else:
+            # No overlap, add the current interval
+            merged_intervals.append([current_start, current_end])
+
+    return merged_intervals
+```
+
+Complexity:
+
+Time: O(n log n) - Dominated by the sorting step. The merging process is O(n).
+
+Space: O(n) or O(log n) - O(n) for the merged_intervals list. The space complexity of sorting depends on the implementation (Timsort in Python is O(n), but sometimes considered O(log n) for recursion stack if not in-place).
+
+
+
+
+
+**Problem 7: Number of Islands**
+
+**Statement:** Given an **m x n** 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are surrounded by water.
+
+**Example:**
+
+`
+grid = [
+  ["1","1","1","1","0"],
+  ["1","1","0","1","0"],
+  ["1","1","0","0","0"],
+  ["0","0","0","0","0"]
+] -> 1
+`
+
+`
+grid = [
+  ["1","1","0","0","0"],
+  ["1","1","0","0","0"],
+  ["0","0","1","0","0"],
+  ["0","0","0","1","1"]
+] -> 3
+`
+
+**Approach (DFS or BFS):** Iterate through each cell of the grid. If a cell contains '1' (land) and hasn't been visited yet (or is part of a found island), increment the island count. Then, start a traversal (DFS or BFS) from this cell to find all connected land cells belonging to this island. Mark these visited cells (e.g., change '1' to '0' or use a separate visited set) to avoid recounting them. Continue iterating through the grid.
+
+**Python Code (DFS):**
+
+```python
+def num_islands(grid: list[list[str]]) -> int:
+    """Counts the number of islands in a grid using DFS."""
+    if not grid or not grid[0]:
+        return 0
+
+    rows, cols = len(grid), len(grid[0])
+    num_islands = 0
+
+    def dfs(r, c):
+        # Check boundaries and if it's water or already visited (marked as '0')
+        if r < 0 or c < 0 or r >= rows or c >= cols or grid[r][c] == '0':
+            return
+        # Mark the current cell as visited (by changing it to water)
+        grid[r][c] = '0' 
+        # Explore neighbors
+        dfs(r + 1, c)
+        dfs(r - 1, c)
+        dfs(r, c + 1)
+        dfs(r, c - 1)
+
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == '1':
+                num_islands += 1
+                dfs(r, c) # Explore and mark the entire island
+
+    return num_islands
+```
+
+
+**Complexity:**
+
+Time: `O(m * n)` - Each cell is visited at most a constant number of times.
+
+Space: `O(m * n)` - In the worst case (grid full of land), the recursion depth for DFS could go up to mn. If using BFS, the queue could also store up to `O(mn)` cells. Also `O(m*n)` if using a separate visited set instead of modifying the grid.
+
+
+**Problem 8: Maximum Subarray**
+
+**Statement:** Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+
+**Example:** `nums = [-2,1,-3,4,-1,2,1,-5,4] -> 6` (subarray `[4,-1,2,1]`). `nums = [1] -> 1`. `nums = [5,4,-1,7,8] -> 23` (subarray `[5,4,-1,7,8]`).
+
+**Approach (Kadane's Algorithm):** Iterate through the array, keeping track of the maximum sum ending at the current position (current_max) and the overall maximum sum found so far (global_max). For each number, update current_max to be the maximum of the number itself OR the number plus the current_max from the previous position. This effectively decides whether to extend the previous subarray or start a new one. Update global_max whenever current_max is greater.
+
+**Python Code:**
+
+```python
+def max_subarray(nums: list[int]) -> int:
+    """Finds the maximum sum of a contiguous subarray using Kadane's Algo."""
+    if not nums:
+        return 0 # Or raise error, depends on constraints
+
+    current_max = nums[0]
+    global_max = nums[0]
+
+    for i in range(1, len(nums)):
+        # Decide whether to extend the current subarray or start a new one
+        current_max = max(nums[i], current_max + nums[i])
+        # Update the overall maximum sum found so far
+        global_max = max(global_max, current_max)
+        
+    return global_max
+
+```
+
+
+**Complexity:**
+
+Time: O(n) - Single pass through the array.
+
+Space: O(1) - Only a few variables are used.
+
+
+
+
+
+
