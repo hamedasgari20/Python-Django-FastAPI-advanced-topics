@@ -121,6 +121,8 @@ reading this article is useful for you. (**Hamid Asgari**)
       * [Common Data Structures Review](#common-data-structures-review)
       * [Problem-Solving Strategy](#problem-solving-strategy)
       * [Practice Problems & Solutions (Python)](#practice-problems--solutions-python)
+  * [Interview Questions](#interview-questions)
+    * [Problem 1: Database Transactions (Django & SQLAlchemy)](#problem-1-database-transactions-django--sqlalchemy)
 <!-- TOC -->
 
 ## Python related topics:
@@ -4830,3 +4832,173 @@ Space: O(1) - Only a few variables are used.
 
 
 
+
+## Interview Questions
+
+### Problem 1: Database Transactions (Django & SQLAlchemy)
+
+**Statement:** Explain the concept of database transactions, why they are important, and demonstrate how to use them when performing multiple operations involving related models in both Django and SQLAlchemy.
+
+**Concept:**
+
+A database transaction is a sequence of one or more database operations treated as a single logical unit of work. This unit is governed by the ACID properties, primarily **Atomicity**. Atomicity ensures that either all operations within the transaction are successfully completed and the changes are committed to the database, or if any operation fails, the entire transaction is aborted, and all changes are rolled back to their state before the transaction began. This prevents partial updates and maintains data consistency, especially when dealing with interrelated data or multiple steps that must collectively succeed or fail.
+
+1.  You need to perform multiple write operations that depend on each other (e.g., debiting one account and crediting another – both must happen).
+2.  An operation involves modifying data based on the current state, and you want to prevent other processes from changing that state in between.
+3.  You want a set of operations to be retryable or easily undone if something goes wrong.
+
+**Example Models (Author and Book):**
+
+We'll use simple `Author` and `Book` models where a `Book` has a foreign key relationship to an `Author`. Creating an author and several books for them is a common scenario where a transaction is useful – you want either the author *and* all specified books to be created, or none of them if any step fails (e.g., a validation error on a book title).
+
+**Django ORM:**
+
+Django manages transactions automatically for individual `save()` or `create()` calls (usually implicit), but for a block of multiple operations, you typically use `django.db.transaction.atomic()`. This context manager guarantees atomicity for the operations performed within the `with` block.
+
+```python
+
+# Assume these models are defined in your Django app's models.py
+# from django.db import models
+
+# class Author(models.Model):
+#     name = models.CharField(max_length=100)
+
+# class Book(models.Model):
+#     title = models.CharField(max_length=200)
+#     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+
+from django.db import transaction, IntegrityError
+
+def create_author_and_books_django(author_name, book_titles):
+    """
+    Creates an author and multiple books within a single transaction.
+    If any step fails, the entire operation is rolled back.
+    """
+    try:
+        # Use the 'atomic' block to ensure the operations are transactional
+        with transaction.atomic():
+            print(f"Starting transaction to create {author_name} and {len(book_titles)} books...")
+
+            # Operation 1: Create the Author
+            author = Author.objects.create(name=author_name)
+            print(f"Created Author: {author.name} (ID: {author.id})")
+
+            # Operation 2+: Create Books linked to the Author
+            for i, title in enumerate(book_titles):
+                # Simulate a potential error for demonstration (e.g., validation fails)
+                if "Invalid" in title:
+                     print(f"Simulating error for book '{title}'. This will trigger rollback.")
+                     raise ValueError(f"Invalid book title encountered: {title}")
+
+                Book.objects.create(title=title, author=author)
+                print(f"Created Book: '{title}' for {author.name}")
+
+            # If the block finishes without exceptions, the transaction is committed
+            print("Transaction successful! Changes committed.")
+
+    except (ValueError, IntegrityError) as e:
+        # If an exception occurs within the 'atomic' block, the transaction is rolled back
+        print(f"An error occurred: {e}. Transaction rolled back.")
+        # Note: Any partial creations within the block are undone.
+
+
+# --- Example Usage (Requires Django setup) ---
+# Assume you have run 'manage.py migrate' and can import your models
+from myapp.models import Author, Book # Adjust import based on your app name
+
+# Example 1: Success
+print("\n--- Running successful scenario ---")
+create_author_and_books_django("Jane Austen", ["Pride and Prejudice", "Sense and Sensibility"])
+print("\n--- Database State After Success ---")
+print("Authors:", list(Author.objects.values_list('name', flat=True)))
+print("Books:", list(Book.objects.values_list('title', flat=True)))
+
+
+```
+
+**SQLAlchemy**:
+
+In SQLAlchemy, sessions manage transactions. The recommended way to handle transactions is using the session as a context manager (with session). This automatically handles the commit if the block completes successfully and performs a rollback if an exception occurs.
+
+```python
+
+# Assume these models are defined using SQLAlchemy Declarative Base
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
+
+class Author(Base):
+    __tablename__ = 'authors_sqla' # Use different table names if mixing ORMs in one DB
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    books = relationship("Book", back_populates="author")
+
+class Book(Base):
+    __tablename__ = 'books_sqla'
+    id = Column(Integer, primary_key=True)
+    title = Column(String)
+    author_id = Column(Integer, ForeignKey('authors_sqla.id'))
+    author = relationship("Author", back_populates="books")
+
+# --- Example Setup (needed to run SQLAlchemy code) ---
+engine = create_engine('sqlite:///:memory:') # Or your actual database URL
+Base.metadata.create_all(engine) # Create tables based on models
+SessionLocal = sessionmaker(bind=engine) # Configure a session factory
+
+from sqlalchemy.exc import SQLAlchemyError # Import specific exceptions as needed
+
+def create_author_and_books_sqla(session, author_name, book_titles):
+    """
+    Creates an author and multiple books within a SQLAlchemy transaction
+    managed by the session context.
+    """
+    try:
+        # The 'with session:' context manager handles the transaction:
+        # It calls session.begin(), session.commit() on success,
+        # and session.rollback() on exception.
+        with session: # Start a transaction
+            print(f"Starting SQLAlchemy session/transaction to create {author_name} and {len(book_titles)} books...")
+
+            # Operation 1: Create the Author
+            author = Author(name=author_name)
+            session.add(author)
+            # You might need session.flush() here if subsequent operations
+            # immediately need the author.id before commit, but for relationship
+            # assignment like book.author = author, it's often handled by SA.
+            session.flush() # Get the author's ID assigned if needed
+
+            print(f"Added Author: {author.name} (ID will be assigned on commit or flush)")
+
+            # Operation 2+: Create Books linked to the Author
+            for i, title in enumerate(book_titles):
+                 # Simulate a potential error
+                if "Invalid" in title:
+                     print(f"Simulating error for book '{title}'. This will trigger rollback.")
+                     raise ValueError(f"Invalid book title encountered: {title}")
+
+                book = Book(title=title, author=author) # Link using the Author object
+                session.add(book)
+                print(f"Added Book: '{title}' for {author.name}")
+
+
+            # If the block finishes without exceptions, session.commit() is called automatically
+            print("Transaction successful! Changes committed.")
+
+    except (ValueError, SQLAlchemyError) as e:
+        # If an exception occurs, session.rollback() is called automatically by the 'with' block
+        print(f"An error occurred: {e}. Transaction rolled back.")
+        # Note: The session might be in an invalid state after rollback;
+        # it's often best to close and get a new one for subsequent operations.
+
+# --- Example Usage (Requires SQLAlchemy setup above) ---
+from your_models_file import Author, Book, SessionLocal # Adjust import
+session = SessionLocal() # Get a new session instance
+
+Example 1: Success
+print("\n--- Running successful scenario (SQLA) ---")
+create_author_and_books_sqla(session, "J.R.R. Tolkien", ["The Hobbit", "The Fellowship of the Ring"])
+session.close() # Always close the session
+
+```
