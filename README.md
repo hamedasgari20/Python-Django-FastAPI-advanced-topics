@@ -51,6 +51,31 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [Python 3.11 over previous versions](#python-311-over-previous-versions)
     * [Semaphores and Mutexes](#semaphores-and-mutexes)
     * [Python built-in functions](#python-built-in-functions)
+    * [Type Hints and Type Checking](#type-hints-and-type-checking)
+    * [Package Management](#package-management)
+    * [Code Quality Tools](#code-quality-tools)
+    * [Performance Profiling](#performance-profiling)
+    * [Metaclasses](#metaclasses)
+    * [Descriptors](#descriptors)
+    * [functools Module](#functools-module)
+    * [Advanced Collections](#advanced-collections)
+    * [Enum and NamedTuple](#enum-and-namedtuple)
+    * [asyncio (Advanced)](#asyncio-advanced)
+    * [pathlib Module](#pathlib-module)
+    * [Regular Expressions (re module)](#regular-expressions-re-module)
+    * [datetime Module](#datetime-module)
+    * [__slots__ and Memory Optimization](#__slots__-and-memory-optimization)
+    * [__init__ vs __new__](#__init__-vs-__new__)
+    * [Abstract Base Classes (ABC) Advanced](#abstract-base-classes-abc-advanced)
+    * [Weak References](#weak-references)
+    * [Monkey Patching and Metaprogramming](#monkey-patching-and-metaprogramming)
+    * [__getattr__ vs __getattribute__](#__getattr__-vs-__getattribute__)
+    * [Threading vs Multiprocessing (Detailed)](#threading-vs-multiprocessing-detailed)
+    * [Memory Management and Garbage Collection](#memory-management-and-garbage-collection)
+    * [JSON vs Pickle Comparison](#json-vs-pickle-comparison)
+    * [Protocol and Structural Subtyping](#protocol-and-structural-subtyping)
+    * [Composition vs Inheritance](#composition-vs-inheritance)
+    * [Duck Typing](#duck-typing)
   * [Django related topics:](#django-related-topics)
     * [Django signals](#django-signals)
     * [Django middleware](#django-middleware)
@@ -85,6 +110,11 @@ reading this article is useful for you. (**Hamid Asgari**)
     * [select_for_update in Django](#select_for_update-in-django)
     * [Django model methods](#django-model-methods)
     * [Parametric unit tests](#parametric-unit-tests)
+    * [Database Migrations (Advanced)](#database-migrations-advanced)
+    * [Database Indexing Strategies](#database-indexing-strategies)
+    * [Testing in Django](#testing-in-django)
+    * [Security Best Practices in Django](#security-best-practices-in-django)
+    * [Logging and Monitoring in Django](#logging-and-monitoring-in-django)
   * [FastAPI related topics:](#fastapi-related-topics)
     * [Dependency Injection in FastAPI](#dependency-injection-in-fastapi)
       * [use cases](#use-cases)
@@ -115,6 +145,16 @@ reading this article is useful for you. (**Hamid Asgari**)
       * [Use Cases in Real-World Applications](#use-cases-in-real-world-applications-4)
     * [Optimization techniques in FastAPI](#optimization-techniques-in-fastapi)
     * [Concurrency and Parallelism In FastAPI](#concurrency-and-parallelism-in-fastapi)
+    * [API Documentation Best Practices](#api-documentation-best-practices)
+    * [Testing in FastAPI](#testing-in-fastapi)
+    * [Security Best Practices in FastAPI](#security-best-practices-in-fastapi)
+    * [Logging and Monitoring in FastAPI](#logging-and-monitoring-in-fastapi)
+  * [General Topics:](#general-topics)
+    * [REST API Design Principles](#rest-api-design-principles)
+    * [Deployment and DevOps](#deployment-and-devops)
+      * [Docker and Containerization](#docker-and-containerization)
+      * [CI/CD Pipelines](#cicd-pipelines)
+      * [Environment Management](#environment-management)
   * [Interview Preparation questions](#interview-preparation-questions)
     * [PostgreSQL Querying](#postgresql-querying)
     * [Algorithmic Problem Solving](#algorithmic-problem-solving)
@@ -1923,6 +1963,1643 @@ my_slice = slice(1, 4)
 print(my_list[my_slice]) # Output: [2, 3, 4]
 ```
 
+### Type Hints and Type Checking
+
+Type hints in Python allow you to specify the expected types of variables, function parameters, and return values. This improves code readability, enables better IDE support, and allows static type checking with tools like `mypy`.
+
+**Basic Type Hints:**
+
+```python
+from typing import List, Dict, Optional, Union, Tuple
+
+# Function with type hints
+def greet(name: str, age: int) -> str:
+    return f"Hello, {name}. You are {age} years old."
+
+# Variables with type hints
+count: int = 10
+name: str = "Alice"
+is_active: bool = True
+
+# Collections
+numbers: List[int] = [1, 2, 3, 4, 5]
+user_data: Dict[str, Union[str, int]] = {"name": "John", "age": 30}
+```
+
+**Optional and Union Types:**
+
+```python
+from typing import Optional, Union
+
+def find_user(user_id: int) -> Optional[Dict[str, str]]:
+    # Returns Dict or None
+    if user_id > 0:
+        return {"id": str(user_id), "name": "John"}
+    return None
+
+def process_data(data: Union[str, int, float]) -> str:
+    return str(data)
+```
+
+**Generic Types and Type Variables:**
+
+```python
+from typing import TypeVar, Generic, List
+
+T = TypeVar('T')
+
+class Stack(Generic[T]):
+    def __init__(self) -> None:
+        self._items: List[T] = []
+    
+    def push(self, item: T) -> None:
+        self._items.append(item)
+    
+    def pop(self) -> T:
+        return self._items.pop()
+
+# Usage
+int_stack: Stack[int] = Stack()
+int_stack.push(1)
+int_stack.push(2)
+```
+
+**Type Checking with mypy:**
+
+Install mypy: `pip install mypy`
+
+Run type checking: `mypy your_file.py`
+
+**Use Cases:**
+
+1. **Code Documentation:** Type hints serve as inline documentation
+2. **IDE Support:** Better autocomplete and error detection
+3. **Refactoring:** Safer refactoring with type checking
+4. **Team Collaboration:** Clearer code contracts between team members
+5. **Catching Bugs:** Static type checking can catch type-related errors before runtime
+
+### Package Management
+
+Effective package management is crucial for Python projects. Here are the main tools and practices:
+
+**pip and requirements.txt:**
+
+```python
+# requirements.txt
+Django==4.2.0
+requests==2.31.0
+pytest==7.4.0
+
+# Install packages
+# pip install -r requirements.txt
+
+# Generate requirements.txt
+# pip freeze > requirements.txt
+```
+
+**Poetry (Modern Package Management):**
+
+```bash
+# Install Poetry
+# curl -sSL https://install.python-poetry.org | python3 -
+
+# Create a new project
+poetry new myproject
+
+# Add dependencies
+poetry add django
+poetry add pytest --dev
+
+# Install dependencies
+poetry install
+
+# Update dependencies
+poetry update
+```
+
+**pyproject.toml (Poetry configuration):**
+
+```toml
+[tool.poetry]
+name = "myproject"
+version = "0.1.0"
+description = ""
+
+[tool.poetry.dependencies]
+python = "^3.9"
+django = "^4.2.0"
+requests = "^2.31.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.4.0"
+black = "^23.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+```
+
+**Virtual Environments:**
+
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate (Windows)
+venv\Scripts\activate
+
+# Activate (Linux/Mac)
+source venv/bin/activate
+
+# Deactivate
+deactivate
+```
+
+**Best Practices:**
+
+1. **Always use virtual environments** for project isolation
+2. **Pin dependency versions** in production (use `==` instead of `>=`)
+3. **Separate dev dependencies** from production dependencies
+4. **Use poetry or pip-tools** for better dependency resolution
+5. **Regularly update dependencies** to get security patches
+
+### Code Quality Tools
+
+Maintaining code quality is essential for long-term project success. Here are key tools:
+
+**Black (Code Formatter):**
+
+```bash
+# Install
+pip install black
+
+# Format a file
+black your_file.py
+
+# Format entire project
+black .
+
+# Check without formatting
+black --check .
+```
+
+**Flake8 (Linter):**
+
+```bash
+# Install
+pip install flake8
+
+# Run linter
+flake8 your_file.py
+
+# Configuration in .flake8 or setup.cfg
+[flake8]
+max-line-length = 88
+exclude = .git,__pycache__,venv
+```
+
+**Pylint (Advanced Linting):**
+
+```bash
+# Install
+pip install pylint
+
+# Run pylint
+pylint your_file.py
+
+# Generate configuration
+pylint --generate-rcfile > .pylintrc
+```
+
+**isort (Import Sorter):**
+
+```bash
+# Install
+pip install isort
+
+# Sort imports
+isort your_file.py
+
+# Check imports
+isort --check-only .
+```
+
+**Pre-commit Hooks:**
+
+```yaml
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+```
+
+**Use Cases:**
+
+1. **Consistent Code Style:** Black ensures consistent formatting
+2. **Error Detection:** Linters catch potential bugs and code smells
+3. **Import Organization:** isort organizes imports consistently
+4. **Automated Checks:** Pre-commit hooks enforce quality before commits
+5. **Team Standards:** Shared configuration ensures team-wide consistency
+
+### Performance Profiling
+
+Profiling helps identify performance bottlenecks in your code:
+
+**cProfile (Built-in Profiler):**
+
+```python
+import cProfile
+import pstats
+
+def slow_function():
+    total = 0
+    for i in range(1000000):
+        total += i * 2
+    return total
+
+# Profile the function
+profiler = cProfile.Profile()
+profiler.enable()
+slow_function()
+profiler.disable()
+
+# Print statistics
+stats = pstats.Stats(profiler)
+stats.sort_stats('cumulative')
+stats.print_stats(10)  # Print top 10 functions
+```
+
+**line_profiler (Line-by-line Profiling):**
+
+```python
+# Install: pip install line_profiler
+
+@profile
+def my_function():
+    result = []
+    for i in range(1000):
+        result.append(i * 2)
+    return result
+
+# Run: kernprof -l -v script.py
+```
+
+**memory_profiler (Memory Usage):**
+
+```python
+# Install: pip install memory-profiler
+
+@profile
+def my_function():
+    data = [0] * 1000000
+    return sum(data)
+
+# Run: python -m memory_profiler script.py
+```
+
+**timeit (Quick Timing):**
+
+```python
+import timeit
+
+# Time a function
+time_taken = timeit.timeit(
+    'sum(range(1000))',
+    number=10000
+)
+print(f"Time taken: {time_taken} seconds")
+```
+
+**Use Cases:**
+
+1. **Bottleneck Identification:** Find slow parts of your code
+2. **Optimization Guidance:** Know what to optimize first
+3. **Memory Leaks:** Detect memory issues
+4. **Performance Regression:** Compare performance before/after changes
+5. **Production Monitoring:** Profile in production environments
+
+### Metaclasses
+
+Metaclasses are the "classes of classes" - they define how classes are created. They are an advanced feature that allows you to customize class creation.
+
+**Basic Metaclass:**
+
+```python
+class MyMeta(type):
+    def __new__(cls, name, bases, attrs):
+        # Add a class attribute to all classes using this metaclass
+        attrs['created_by'] = 'MyMeta'
+        return super().__new__(cls, name, bases, attrs)
+
+class MyClass(metaclass=MyMeta):
+    pass
+
+print(MyClass.created_by)  # Output: MyMeta
+```
+
+**Metaclass for Automatic Registration:**
+
+```python
+class RegistryMeta(type):
+    registry = {}
+    
+    def __new__(cls, name, bases, attrs):
+        new_class = super().__new__(cls, name, bases, attrs)
+        if hasattr(new_class, 'name'):
+            cls.registry[new_class.name] = new_class
+        return new_class
+
+class Animal(metaclass=RegistryMeta):
+    name = None
+
+class Dog(Animal):
+    name = 'dog'
+
+class Cat(Animal):
+    name = 'cat'
+
+print(RegistryMeta.registry)  # Output: {'dog': <class '__main__.Dog'>, 'cat': <class '__main__.Cat'>}
+```
+
+**Use Cases:**
+
+1. **Framework Development:** Django ORM uses metaclasses for model creation
+2. **API Generation:** Automatically generate methods based on class attributes
+3. **Validation:** Enforce rules during class definition
+4. **Singleton Pattern:** Ensure only one instance of a class exists
+
+### Descriptors
+
+Descriptors are objects that define how attribute access works. They're used to implement properties, methods, and static methods.
+
+**Property Descriptor:**
+
+```python
+class Temperature:
+    def __init__(self):
+        self._celsius = 0
+    
+    def get_celsius(self):
+        return self._celsius
+    
+    def set_celsius(self, value):
+        if value < -273.15:
+            raise ValueError("Temperature below absolute zero")
+        self._celsius = value
+    
+    celsius = property(get_celsius, set_celsius)
+
+temp = Temperature()
+temp.celsius = 25
+print(temp.celsius)  # Output: 25
+```
+
+**Custom Descriptor:**
+
+```python
+class ValidatedAttribute:
+    def __init__(self, validator):
+        self.validator = validator
+        self.name = None
+    
+    def __set_name__(self, owner, name):
+        self.name = name
+    
+    def __get__(self, obj, objtype=None):
+        if obj is None:
+            return self
+        return obj.__dict__.get(self.name)
+    
+    def __set__(self, obj, value):
+        if not self.validator(value):
+            raise ValueError(f"Invalid value for {self.name}")
+        obj.__dict__[self.name] = value
+
+def is_positive(value):
+    return value > 0
+
+class Product:
+    price = ValidatedAttribute(is_positive)
+    
+    def __init__(self, price):
+        self.price = price
+
+# Usage
+product = Product(100)  # OK
+# product = Product(-10)  # Raises ValueError
+```
+
+**Use Cases:**
+
+1. **Data Validation:** Validate attribute values before assignment
+2. **Lazy Evaluation:** Compute values only when accessed
+3. **Caching:** Cache expensive computations
+4. **ORM Implementation:** Django ORM uses descriptors for field access
+
+### functools Module
+
+The `functools` module provides higher-order functions and operations on callable objects.
+
+**lru_cache (Memoization):**
+
+```python
+from functools import lru_cache
+import time
+
+@lru_cache(maxsize=128)
+def fibonacci(n):
+    if n < 2:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+# First call - computes
+start = time.time()
+result = fibonacci(30)
+print(f"Time: {time.time() - start}")  # Slower
+
+# Second call - uses cache
+start = time.time()
+result = fibonacci(30)
+print(f"Time: {time.time() - start}")  # Much faster
+```
+
+**partial (Partial Application):**
+
+```python
+from functools import partial
+
+def multiply(x, y, z):
+    return x * y * z
+
+# Create a new function with some arguments pre-filled
+multiply_by_2 = partial(multiply, 2)
+result = multiply_by_2(3, 4)  # Equivalent to multiply(2, 3, 4)
+print(result)  # Output: 24
+```
+
+**wraps (Preserving Function Metadata):**
+
+```python
+from functools import wraps
+
+def my_decorator(func):
+    @wraps(func)  # Preserves function metadata
+    def wrapper(*args, **kwargs):
+        print(f"Calling {func.__name__}")
+        return func(*args, **kwargs)
+    return wrapper
+
+@my_decorator
+def say_hello(name):
+    """Greets a person"""
+    return f"Hello, {name}!"
+
+print(say_hello.__name__)  # Output: say_hello (not wrapper)
+print(say_hello.__doc__)    # Output: Greets a person
+```
+
+**reduce (Functional Reduction):**
+
+```python
+from functools import reduce
+
+numbers = [1, 2, 3, 4, 5]
+product = reduce(lambda x, y: x * y, numbers)
+print(product)  # Output: 120
+
+# Equivalent to:
+result = 1
+for num in numbers:
+    result *= num
+```
+
+**Use Cases:**
+
+1. **Performance Optimization:** Cache expensive function calls
+2. **Function Composition:** Create specialized functions from general ones
+3. **Decorator Development:** Preserve function metadata in decorators
+4. **Functional Programming:** Apply functional patterns
+
+### Advanced Collections
+
+Python's `collections` module provides specialized container datatypes.
+
+**defaultdict (Default Dictionary):**
+
+```python
+from collections import defaultdict
+
+# Regular dict - raises KeyError for missing keys
+regular_dict = {}
+# regular_dict['missing']  # KeyError
+
+# defaultdict - returns default value
+dd = defaultdict(list)
+dd['fruits'].append('apple')
+dd['fruits'].append('banana')
+print(dd['vegetables'])  # Output: [] (empty list, not KeyError)
+```
+
+**Counter (Counting Elements):**
+
+```python
+from collections import Counter
+
+# Count occurrences
+words = ['apple', 'banana', 'apple', 'cherry', 'banana', 'apple']
+counter = Counter(words)
+print(counter)  # Output: Counter({'apple': 3, 'banana': 2, 'cherry': 1})
+
+# Most common
+print(counter.most_common(2))  # Output: [('apple', 3), ('banana', 2)]
+```
+
+**OrderedDict (Remember Insertion Order):**
+
+```python
+from collections import OrderedDict
+
+# In Python 3.7+, regular dicts maintain order, but OrderedDict has extra features
+od = OrderedDict()
+od['first'] = 1
+od['second'] = 2
+od['third'] = 3
+
+# Move to end
+od.move_to_end('first')
+print(list(od.keys()))  # Output: ['second', 'third', 'first']
+```
+
+**deque (Double-Ended Queue):**
+
+```python
+from collections import deque
+
+# Efficient append/pop from both ends
+dq = deque([1, 2, 3])
+dq.appendleft(0)  # Add to left
+dq.append(4)       # Add to right
+print(dq)  # Output: deque([0, 1, 2, 3, 4])
+
+dq.popleft()  # Remove from left
+dq.pop()      # Remove from right
+```
+
+**ChainMap (Multiple Dictionaries):**
+
+```python
+from collections import ChainMap
+
+dict1 = {'a': 1, 'b': 2}
+dict2 = {'c': 3, 'd': 4}
+dict3 = {'b': 5, 'e': 6}
+
+# Chain maps - searches in order
+chain = ChainMap(dict1, dict2, dict3)
+print(chain['b'])  # Output: 2 (from dict1, first match)
+print(chain['c'])  # Output: 3 (from dict2)
+```
+
+**Use Cases:**
+
+1. **Data Grouping:** defaultdict for grouping operations
+2. **Frequency Analysis:** Counter for counting occurrences
+3. **Queue Operations:** deque for efficient queue/stack operations
+4. **Configuration Management:** ChainMap for layered configurations
+
+### Enum and NamedTuple
+
+**Enum (Enumerations):**
+
+```python
+from enum import Enum, auto
+
+class Color(Enum):
+    RED = 1
+    GREEN = 2
+    BLUE = 3
+
+# Usage
+print(Color.RED)        # Output: Color.RED
+print(Color.RED.value)  # Output: 1
+print(Color.RED.name)  # Output: RED
+
+# Auto values
+class Status(Enum):
+    PENDING = auto()
+    PROCESSING = auto()
+    COMPLETED = auto()
+
+# String enum
+class HttpMethod(str, Enum):
+    GET = "GET"
+    POST = "POST"
+    PUT = "PUT"
+    DELETE = "DELETE"
+```
+
+**NamedTuple (Tuple with Named Fields):**
+
+```python
+from collections import namedtuple
+
+# Define a named tuple
+Point = namedtuple('Point', ['x', 'y'])
+
+# Create instances
+p1 = Point(1, 2)
+p2 = Point(x=3, y=4)
+
+print(p1.x, p1.y)  # Output: 1 2
+print(p1[0])       # Output: 1 (still indexable)
+
+# With type hints (Python 3.6+)
+from typing import NamedTuple
+
+class Point(NamedTuple):
+    x: int
+    y: int
+
+p = Point(1, 2)
+print(p.x, p.y)  # Output: 1 2
+```
+
+**Use Cases:**
+
+1. **Constants:** Enum for fixed set of values
+2. **Status Codes:** Represent states with enums
+3. **Data Structures:** NamedTuple for simple data containers
+4. **API Design:** Use enums for method types, status codes
+
+### asyncio (Advanced)
+
+Advanced asyncio patterns for complex asynchronous programming.
+
+**Async Context Managers:**
+
+```python
+import asyncio
+
+class AsyncContextManager:
+    async def __aenter__(self):
+        print("Entering async context")
+        return self
+    
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        print("Exiting async context")
+        return False
+
+async def main():
+    async with AsyncContextManager() as acm:
+        print("Inside async context")
+        await asyncio.sleep(1)
+
+asyncio.run(main())
+```
+
+**Async Generators:**
+
+```python
+async def async_range(n):
+    for i in range(n):
+        await asyncio.sleep(0.1)
+        yield i
+
+async def main():
+    async for value in async_range(5):
+        print(value)
+
+asyncio.run(main())
+```
+
+**Task Groups (Python 3.11+):**
+
+```python
+async def fetch_data(url):
+    await asyncio.sleep(0.1)
+    return f"Data from {url}"
+
+async def main():
+    async with asyncio.TaskGroup() as tg:
+        task1 = tg.create_task(fetch_data("url1"))
+        task2 = tg.create_task(fetch_data("url2"))
+        task3 = tg.create_task(fetch_data("url3"))
+    
+    # All tasks completed
+    print(task1.result(), task2.result(), task3.result())
+
+asyncio.run(main())
+```
+
+**Use Cases:**
+
+1. **Concurrent I/O:** Handle multiple network requests simultaneously
+2. **Streaming Data:** Process data streams asynchronously
+3. **Real-time Applications:** WebSockets, chat applications
+4. **Resource Management:** Async context managers for resources
+
+### pathlib Module
+
+Modern path handling with `pathlib` (Python 3.4+).
+
+**Basic Usage:**
+
+```python
+from pathlib import Path
+
+# Create Path objects
+p = Path('/home/user/documents/file.txt')
+
+# Path operations
+print(p.name)        # Output: file.txt
+print(p.stem)        # Output: file
+print(p.suffix)      # Output: .txt
+print(p.parent)      # Output: /home/user/documents
+print(p.parts)       # Output: ('/', 'home', 'user', 'documents', 'file.txt')
+
+# Join paths
+new_path = Path('/home/user') / 'documents' / 'file.txt'
+```
+
+**File Operations:**
+
+```python
+from pathlib import Path
+
+# Read/write
+path = Path('data.txt')
+path.write_text('Hello, World!')
+content = path.read_text()
+print(content)
+
+# Check existence
+if path.exists():
+    print("File exists")
+
+# Create directory
+dir_path = Path('new_directory')
+dir_path.mkdir(exist_ok=True)
+
+# Iterate over directory
+for file in Path('.').iterdir():
+    if file.is_file():
+        print(file.name)
+```
+
+**Glob Patterns:**
+
+```python
+from pathlib import Path
+
+# Find all Python files
+for py_file in Path('.').glob('*.py'):
+    print(py_file)
+
+# Recursive search
+for py_file in Path('.').rglob('*.py'):
+    print(py_file)
+
+# Pattern matching
+for file in Path('.').glob('test_*.py'):
+    print(file)
+```
+
+**Use Cases:**
+
+1. **File Management:** Handle file paths cross-platform
+2. **Directory Traversal:** Navigate directory structures
+3. **Path Manipulation:** Join, split, and modify paths safely
+4. **Configuration Files:** Locate config files reliably
+
+### Regular Expressions (re module)
+
+Powerful pattern matching with regular expressions.
+
+**Basic Matching:**
+
+```python
+import re
+
+# Search for pattern
+text = "The price is $100.50"
+match = re.search(r'\$(\d+\.\d+)', text)
+if match:
+    print(match.group(1))  # Output: 100.50
+
+# Find all matches
+text = "Contact: email@example.com or phone: 123-456-7890"
+emails = re.findall(r'\b[\w.-]+@[\w.-]+\.\w+\b', text)
+print(emails)  # Output: ['email@example.com']
+```
+
+**Compiled Patterns:**
+
+```python
+import re
+
+# Compile pattern for reuse
+pattern = re.compile(r'\d{3}-\d{3}-\d{4}')
+
+text = "Call 123-456-7890 or 987-654-3210"
+matches = pattern.findall(text)
+print(matches)  # Output: ['123-456-7890', '987-654-3210']
+```
+
+**Groups and Capturing:**
+
+```python
+import re
+
+text = "Date: 2024-01-15"
+pattern = r'(\d{4})-(\d{2})-(\d{2})'
+match = re.search(pattern, text)
+
+if match:
+    print(match.group(0))  # Output: 2024-01-15 (full match)
+    print(match.group(1))  # Output: 2024 (year)
+    print(match.group(2))  # Output: 01 (month)
+    print(match.group(3))  # Output: 15 (day)
+    print(match.groups())  # Output: ('2024', '01', '15')
+```
+
+**Substitution:**
+
+```python
+import re
+
+text = "Hello, my name is John Doe"
+# Replace name with [REDACTED]
+result = re.sub(r'\b\w+\s+\w+\b', '[REDACTED]', text)
+print(result)  # Output: Hello, my name is [REDACTED]
+
+# With callback
+def mask_email(match):
+    email = match.group(0)
+    return email.split('@')[0] + '@***'
+
+text = "Contact: user@example.com"
+result = re.sub(r'\b[\w.-]+@[\w.-]+\.\w+\b', mask_email, text)
+print(result)  # Output: Contact: user@***
+```
+
+**Use Cases:**
+
+1. **Data Validation:** Validate email, phone, URLs
+2. **Text Processing:** Extract information from text
+3. **Data Cleaning:** Remove or replace patterns
+4. **Parsing:** Parse structured text data
+
+### datetime Module
+
+Comprehensive date and time handling.
+
+**Basic Operations:**
+
+```python
+from datetime import datetime, date, time, timedelta
+
+# Current date and time
+now = datetime.now()
+print(now)  # Output: 2024-01-15 10:30:45.123456
+
+# Create specific date/time
+dt = datetime(2024, 1, 15, 10, 30, 45)
+print(dt.date())  # Output: 2024-01-15
+print(dt.time())  # Output: 10:30:45
+
+# Formatting
+formatted = dt.strftime('%Y-%m-%d %H:%M:%S')
+print(formatted)  # Output: 2024-01-15 10:30:45
+
+# Parsing
+parsed = datetime.strptime('2024-01-15', '%Y-%m-%d')
+print(parsed)  # Output: 2024-01-15 00:00:00
+```
+
+**Time Arithmetic:**
+
+```python
+from datetime import datetime, timedelta
+
+now = datetime.now()
+
+# Add/subtract time
+future = now + timedelta(days=7, hours=3)
+past = now - timedelta(weeks=2)
+
+# Difference
+diff = future - past
+print(diff.days)  # Output: 21
+
+# Timezone aware
+from datetime import timezone
+utc_now = datetime.now(timezone.utc)
+print(utc_now)  # Output: 2024-01-15 10:30:45.123456+00:00
+```
+
+**Use Cases:**
+
+1. **Date Calculations:** Calculate deadlines, durations
+2. **Logging:** Timestamp events
+3. **Scheduling:** Schedule tasks and reminders
+4. **Data Analysis:** Time series data processing
+
+### __slots__ and Memory Optimization
+
+`__slots__` restricts instance attributes and reduces memory usage.
+
+**Basic Usage:**
+
+```python
+class RegularClass:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+class SlottedClass:
+    __slots__ = ['x', 'y']
+    
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+# Regular class allows dynamic attributes
+r = RegularClass(1, 2)
+r.z = 3  # OK
+
+# Slotted class doesn't
+s = SlottedClass(1, 2)
+# s.z = 3  # AttributeError: 'SlottedClass' object has no attribute 'z'
+```
+
+**Memory Comparison:**
+
+```python
+import sys
+
+class Regular:
+    pass
+
+class Slotted:
+    __slots__ = ['x', 'y']
+
+r = Regular()
+s = Slotted()
+
+print(sys.getsizeof(r))  # Larger (typically 56+ bytes)
+print(sys.getsizeof(s))  # Smaller (typically 48 bytes)
+
+# With many instances, the difference is significant
+regular_instances = [Regular() for _ in range(1000)]
+slotted_instances = [Slotted() for _ in range(1000)]
+```
+
+**Use Cases:**
+
+1. **Memory Optimization:** Reduce memory for many instances
+2. **Performance:** Faster attribute access
+3. **Preventing Errors:** Prevent typos in attribute names
+4. **Framework Development:** ORMs use slots for models
+
+### __init__ vs __new__
+
+Understanding the difference between object creation and initialization.
+
+**__new__ (Object Creation):**
+
+```python
+class Singleton:
+    _instance = None
+    
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+    
+    def __init__(self):
+        print("Initialized")
+
+s1 = Singleton()  # Output: Initialized
+s2 = Singleton()  # No output (same instance)
+print(s1 is s2)   # Output: True
+```
+
+**Custom __new__ for Immutability:**
+
+```python
+class PositiveInt(int):
+    def __new__(cls, value):
+        if value < 0:
+            raise ValueError("Value must be positive")
+        return super().__new__(cls, value)
+
+# Usage
+pos = PositiveInt(5)
+print(pos)  # Output: 5
+# pos = PositiveInt(-5)  # ValueError
+```
+
+**Use Cases:**
+
+1. **Singleton Pattern:** Ensure single instance
+2. **Immutable Objects:** Control object creation
+3. **Subclassing Built-ins:** Customize built-in types
+4. **Object Pooling:** Reuse objects for performance
+
+### Abstract Base Classes (ABC) Advanced
+
+Advanced usage of ABCs for interface definition.
+
+**Multiple Abstract Methods:**
+
+```python
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+    
+    @abstractmethod
+    def perimeter(self):
+        pass
+    
+    def describe(self):
+        return f"Shape with area {self.area()} and perimeter {self.perimeter()}"
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+    
+    def area(self):
+        return self.width * self.height
+    
+    def perimeter(self):
+        return 2 * (self.width + self.height)
+
+# Can't instantiate Shape directly
+# shape = Shape()  # TypeError
+
+rect = Rectangle(5, 3)
+print(rect.describe())
+```
+
+**Abstract Properties:**
+
+```python
+from abc import ABC, abstractproperty
+
+class Animal(ABC):
+    @abstractproperty
+    def sound(self):
+        pass
+
+class Dog(Animal):
+    @property
+    def sound(self):
+        return "Woof!"
+
+dog = Dog()
+print(dog.sound)  # Output: Woof!
+```
+
+**Use Cases:**
+
+1. **Interface Definition:** Define contracts for subclasses
+2. **Framework Design:** Create extensible frameworks
+3. **Type Checking:** Enable static type checking
+4. **Documentation:** Document expected methods
+
+### Weak References
+
+Weak references allow objects to be garbage collected even if referenced.
+
+**Basic Usage:**
+
+```python
+import weakref
+
+class MyClass:
+    def __init__(self, name):
+        self.name = name
+    
+    def __repr__(self):
+        return f"MyClass({self.name})"
+
+# Regular reference
+obj = MyClass("test")
+ref = obj
+del obj
+print(ref)  # Still exists
+
+# Weak reference
+obj = MyClass("test")
+weak_ref = weakref.ref(obj)
+print(weak_ref())  # Output: MyClass(test)
+
+del obj
+print(weak_ref())  # Output: None (object was garbage collected)
+```
+
+**WeakValueDictionary:**
+
+```python
+import weakref
+
+class Cache:
+    def __init__(self):
+        self._cache = weakref.WeakValueDictionary()
+    
+    def get(self, key):
+        return self._cache.get(key)
+    
+    def set(self, key, value):
+        self._cache[key] = value
+
+cache = Cache()
+obj = MyClass("cached")
+cache.set("key1", obj)
+
+print(cache.get("key1"))  # Output: MyClass(cached)
+
+del obj
+print(cache.get("key1"))  # Output: None (automatically removed)
+```
+
+**Use Cases:**
+
+1. **Caching:** Cache that doesn't prevent garbage collection
+2. **Circular References:** Break circular reference cycles
+3. **Observer Pattern:** Weak references in observer patterns
+4. **Resource Management:** Manage resources without strong references
+
+### Monkey Patching and Metaprogramming
+
+Dynamically modifying classes and objects at runtime.
+
+**Monkey Patching:**
+
+```python
+class MyClass:
+    def original_method(self):
+        return "Original"
+
+obj = MyClass()
+
+# Add method at runtime
+def new_method(self):
+    return "New method"
+
+MyClass.new_method = new_method
+print(obj.new_method())  # Output: New method
+
+# Replace existing method
+def patched_method(self):
+    return "Patched"
+
+MyClass.original_method = patched_method
+print(obj.original_method())  # Output: Patched
+```
+
+**Dynamic Attribute Access:**
+
+```python
+class DynamicClass:
+    def __getattr__(self, name):
+        if name.startswith('get_'):
+            attr_name = name[4:]
+            return lambda: getattr(self, attr_name, None)
+        raise AttributeError(f"'{type(self).__name__}' has no attribute '{name}'")
+
+obj = DynamicClass()
+obj.value = 42
+print(obj.get_value())  # Output: 42
+```
+
+**Use Cases:**
+
+1. **Testing:** Mock methods in tests
+2. **Extending Libraries:** Add functionality to third-party code
+3. **Plugin Systems:** Dynamically add features
+4. **Debugging:** Add logging to existing methods
+
+### __getattr__ vs __getattribute__
+
+Understanding attribute access hooks.
+
+**__getattr__ (Called for Missing Attributes):**
+
+```python
+class DynamicAttributes:
+    def __init__(self):
+        self.existing = "I exist"
+    
+    def __getattr__(self, name):
+        return f"Attribute '{name}' not found, but I'll return this"
+
+obj = DynamicAttributes()
+print(obj.existing)      # Output: I exist (normal access)
+print(obj.missing)       # Output: Attribute 'missing' not found, but I'll return this
+```
+
+**__getattribute__ (Called for All Attributes):**
+
+```python
+class LoggingAttributes:
+    def __init__(self):
+        self.value = 42
+    
+    def __getattribute__(self, name):
+        print(f"Accessing attribute: {name}")
+        # Must use super() to avoid infinite recursion
+        return super().__getattribute__(name)
+
+obj = LoggingAttributes()
+print(obj.value)  # Output: Accessing attribute: value\n42
+```
+
+**Use Cases:**
+
+1. **Lazy Loading:** Load attributes on demand
+2. **Proxy Objects:** Forward attribute access
+3. **Validation:** Validate attribute access
+4. **Logging:** Log all attribute accesses
+
+### Threading vs Multiprocessing (Detailed)
+
+Detailed comparison and when to use each.
+
+**Threading (I/O-bound tasks):**
+
+```python
+import threading
+import requests
+import time
+
+def fetch_url(url):
+    response = requests.get(url)
+    return response.status_code
+
+urls = ['http://example.com'] * 10
+
+# Sequential
+start = time.time()
+results = [fetch_url(url) for url in urls]
+print(f"Sequential: {time.time() - start}")
+
+# Threading
+start = time.time()
+threads = [threading.Thread(target=fetch_url, args=(url,)) for url in urls]
+for t in threads:
+    t.start()
+for t in threads:
+    t.join()
+print(f"Threading: {time.time() - start}")  # Much faster for I/O
+```
+
+**Multiprocessing (CPU-bound tasks):**
+
+```python
+import multiprocessing
+import time
+
+def cpu_intensive(n):
+    total = 0
+    for i in range(n):
+        total += i ** 2
+    return total
+
+numbers = [10000000] * 4
+
+# Sequential
+start = time.time()
+results = [cpu_intensive(n) for n in numbers]
+print(f"Sequential: {time.time() - start}")
+
+# Multiprocessing
+start = time.time()
+with multiprocessing.Pool() as pool:
+    results = pool.map(cpu_intensive, numbers)
+print(f"Multiprocessing: {time.time() - start}")  # Much faster for CPU
+```
+
+**Use Cases:**
+
+1. **Threading:** Network requests, file I/O, database queries
+2. **Multiprocessing:** Mathematical computations, image processing
+3. **Asyncio:** Modern alternative to threading for I/O-bound tasks
+4. **Hybrid:** Combine multiprocessing with threading for complex workloads
+
+### Memory Management and Garbage Collection
+
+Understanding Python's memory management.
+
+**Reference Counting:**
+
+```python
+import sys
+
+obj = [1, 2, 3]
+print(sys.getrefcount(obj))  # Reference count
+
+# Increase references
+ref1 = obj
+ref2 = obj
+print(sys.getrefcount(obj))  # Increased
+
+# Decrease references
+del ref1, ref2
+print(sys.getrefcount(obj))  # Decreased
+```
+
+**Garbage Collection:**
+
+```python
+import gc
+
+# Force garbage collection
+gc.collect()
+
+# Get GC statistics
+stats = gc.get_stats()
+print(stats)
+
+# Check if object is tracked
+obj = [1, 2, 3]
+print(gc.is_tracked(obj))  # True for containers
+```
+
+**Circular References:**
+
+```python
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+# Create circular reference
+node1 = Node(1)
+node2 = Node(2)
+node1.next = node2
+node2.next = node1  # Circular!
+
+# Without GC, these would never be freed
+del node1, node2
+gc.collect()  # GC handles circular references
+```
+
+**Use Cases:**
+
+1. **Memory Optimization:** Understand memory usage patterns
+2. **Debugging:** Identify memory leaks
+3. **Performance:** Optimize memory-intensive applications
+4. **Resource Management:** Properly manage resources
+
+### JSON vs Pickle Comparison
+
+Understanding serialization options.
+
+**JSON (Text-based, Portable):**
+
+```python
+import json
+
+data = {'name': 'John', 'age': 30, 'scores': [85, 90, 95]}
+
+# Serialize
+json_str = json.dumps(data)
+print(json_str)  # Output: {"name": "John", "age": 30, "scores": [85, 90, 95]}
+
+# Deserialize
+loaded = json.loads(json_str)
+print(loaded)  # Output: {'name': 'John', 'age': 30, 'scores': [85, 90, 95]}
+
+# File operations
+with open('data.json', 'w') as f:
+    json.dump(data, f)
+
+with open('data.json', 'r') as f:
+    loaded = json.load(f)
+```
+
+**Pickle (Binary, Python-specific):**
+
+```python
+import pickle
+
+class CustomClass:
+    def __init__(self, value):
+        self.value = value
+
+obj = CustomClass(42)
+
+# Serialize
+pickled = pickle.dumps(obj)
+
+# Deserialize
+unpickled = pickle.loads(pickled)
+print(unpickled.value)  # Output: 42
+
+# File operations
+with open('data.pkl', 'wb') as f:
+    pickle.dump(obj, f)
+
+with open('data.pkl', 'rb') as f:
+    loaded = pickle.load(f)
+```
+
+**Comparison:**
+
+| Feature | JSON | Pickle |
+|---------|------|--------|
+| Format | Text | Binary |
+| Python objects | Limited | All types |
+| Security | Safe | Can execute code |
+| Portability | Cross-language | Python only |
+| Speed | Slower | Faster |
+| File size | Larger | Smaller |
+
+**Use Cases:**
+
+1. **JSON:** API communication, configuration files, data exchange
+2. **Pickle:** Python-specific data, complex objects, temporary storage
+3. **Security:** Always prefer JSON for untrusted data
+4. **Performance:** Pickle for internal Python applications
+
+### Protocol and Structural Subtyping
+
+Python's structural typing system (PEP 544).
+
+**Protocol (Duck Typing with Type Checking):**
+
+```python
+from typing import Protocol
+
+class Drawable(Protocol):
+    def draw(self) -> None:
+        ...
+
+class Circle:
+    def draw(self) -> None:
+        print("Drawing circle")
+
+class Rectangle:
+    def draw(self) -> None:
+        print("Drawing rectangle")
+
+def render(item: Drawable) -> None:
+    item.draw()
+
+# Works with any object that has draw() method
+render(Circle())      # OK
+render(Rectangle())   # OK
+```
+
+**TypedDict (Dictionary with Type Hints):**
+
+```python
+from typing import TypedDict
+
+class UserDict(TypedDict):
+    name: str
+    age: int
+    email: str
+
+# Type-checked dictionary
+user: UserDict = {
+    'name': 'John',
+    'age': 30,
+    'email': 'john@example.com'
+}
+
+# Type checker will catch errors
+# user['invalid'] = 'value'  # Error
+```
+
+**Use Cases:**
+
+1. **Type Safety:** Structural typing without inheritance
+2. **API Contracts:** Define expected interfaces
+3. **Duck Typing:** Formalize duck typing with types
+4. **Data Validation:** TypedDict for structured data
+
+### Composition vs Inheritance
+
+Choosing between composition and inheritance.
+
+**Inheritance:**
+
+```python
+class Animal:
+    def make_sound(self):
+        pass
+
+class Dog(Animal):
+    def make_sound(self):
+        return "Woof!"
+
+class Cat(Animal):
+    def make_sound(self):
+        return "Meow!"
+```
+
+**Composition:**
+
+```python
+class Engine:
+    def start(self):
+        return "Engine started"
+
+class Car:
+    def __init__(self):
+        self.engine = Engine()  # Composition
+    
+    def start(self):
+        return self.engine.start()
+
+car = Car()
+print(car.start())  # Output: Engine started
+```
+
+**When to Use:**
+
+- **Inheritance:** "is-a" relationship, code reuse, polymorphism
+- **Composition:** "has-a" relationship, flexibility, avoid deep hierarchies
+
+**Use Cases:**
+
+1. **Inheritance:** Model hierarchies, shared behavior
+2. **Composition:** Flexible design, avoid coupling
+3. **Mixins:** Combine both approaches
+4. **Design Patterns:** Strategy, Decorator patterns use composition
+
+### Duck Typing
+
+"If it walks like a duck and quacks like a duck, it's a duck."
+
+**Basic Concept:**
+
+```python
+class Duck:
+    def quack(self):
+        return "Quack!"
+
+class Person:
+    def quack(self):
+        return "I'm quacking like a duck!"
+
+def make_it_quack(thing):
+    # Doesn't care about type, only behavior
+    return thing.quack()
+
+print(make_it_quack(Duck()))    # Output: Quack!
+print(make_it_quack(Person()))  # Output: I'm quacking like a duck!
+```
+
+**Iterable Protocol:**
+
+```python
+class MyRange:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+    
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        if self.start >= self.end:
+            raise StopIteration
+        current = self.start
+        self.start += 1
+        return current
+
+# Works with any iterable
+for value in MyRange(1, 5):
+    print(value)  # Output: 1, 2, 3, 4
+
+# Works with built-in functions
+print(list(MyRange(1, 5)))  # Output: [1, 2, 3, 4]
+```
+
+**Use Cases:**
+
+1. **Flexibility:** Write code that works with multiple types
+2. **Polymorphism:** Achieve polymorphism without inheritance
+3. **Protocols:** Implement protocols implicitly
+4. **Pythonic Code:** Write idiomatic Python code
+
 ## Django related topics:
 
 ### Django signals
@@ -3549,6 +5226,379 @@ When running the test, Django's test runner will execute the **test_multiply_num
 
 Using parametric unit tests like this helps to reduce code duplication and makes it easier to add, modify, or remove test cases. It also provides a clear overview of which test cases pass or fail and enables you to test your code against a variety of scenarios.
 
+### Database Migrations (Advanced)
+
+Django migrations are a powerful way to manage database schema changes. Understanding advanced migration techniques is crucial for complex projects.
+
+**Custom Migrations:**
+
+```python
+# myapp/migrations/0002_custom_migration.py
+from django.db import migrations, models
+
+def populate_initial_data(apps, schema_editor):
+    # Get the historical model
+    MyModel = apps.get_model('myapp', 'MyModel')
+    # Create initial data
+    MyModel.objects.create(name='Initial Item')
+
+def reverse_populate(apps, schema_editor):
+    MyModel = apps.get_model('myapp', 'MyModel')
+    MyModel.objects.filter(name='Initial Item').delete()
+
+class Migration(migrations.Migration):
+    dependencies = [
+        ('myapp', '0001_initial'),
+    ]
+
+    operations = [
+        migrations.RunPython(populate_initial_data, reverse_populate),
+    ]
+```
+
+**Data Migrations:**
+
+```python
+from django.db import migrations
+
+def update_user_status(apps, schema_editor):
+    User = apps.get_model('auth', 'User')
+    User.objects.filter(is_active=False).update(status='inactive')
+
+class Migration(migrations.Migration):
+    dependencies = [
+        ('myapp', '0001_initial'),
+    ]
+
+    operations = [
+        migrations.RunPython(update_user_status),
+    ]
+```
+
+**Squashing Migrations:**
+
+```bash
+# Squash migrations 0001 to 0005
+python manage.py squashmigrations myapp 0001 0005
+```
+
+**Use Cases:**
+
+1. **Data Transformation:** Migrate data during schema changes
+2. **Backward Compatibility:** Handle migrations that need to work with old data
+3. **Performance:** Optimize migration performance for large datasets
+4. **Complex Changes:** Handle multi-step schema changes safely
+
+### Database Indexing Strategies
+
+Proper indexing is crucial for database performance. Here are advanced indexing strategies:
+
+**Basic Indexing:**
+
+```python
+from django.db import models
+
+class Book(models.Model):
+    title = models.CharField(max_length=200, db_index=True)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    published_date = models.DateField()
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['title', 'author']),
+            models.Index(fields=['-published_date']),  # Descending order
+        ]
+```
+
+**Composite Indexes:**
+
+```python
+class Meta:
+    indexes = [
+        models.Index(fields=['author', 'published_date'], name='author_date_idx'),
+    ]
+```
+
+**Partial Indexes (PostgreSQL):**
+
+```python
+from django.contrib.postgres.indexes import GinIndex, BTreeIndex
+
+class Article(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    is_published = models.BooleanField(default=False)
+    
+    class Meta:
+        indexes = [
+            models.Index(
+                fields=['title'],
+                condition=models.Q(is_published=True),
+                name='published_title_idx'
+            ),
+        ]
+```
+
+**Full-Text Search Indexes:**
+
+```python
+from django.contrib.postgres.indexes import GinIndex
+from django.contrib.postgres.search import SearchVectorField
+
+class Article(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    search_vector = SearchVectorField(null=True)
+    
+    class Meta:
+        indexes = [
+            GinIndex(fields=['search_vector']),
+        ]
+```
+
+**Use Cases:**
+
+1. **Query Optimization:** Speed up frequently used queries
+2. **Foreign Key Indexing:** Automatically indexed, but composite indexes can help
+3. **Full-Text Search:** Enable fast text search capabilities
+4. **Unique Constraints:** Ensure data integrity while maintaining performance
+
+### Testing in Django
+
+Comprehensive testing is essential for Django applications:
+
+**Test Client:**
+
+```python
+from django.test import TestCase, Client
+from django.urls import reverse
+
+class ViewTestCase(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(
+            username='testuser',
+            password='testpass123'
+        )
+    
+    def test_home_page(self):
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 200)
+    
+    def test_login_required(self):
+        response = self.client.get(reverse('protected'))
+        self.assertRedirects(response, '/login/')
+```
+
+**Mocking External Services:**
+
+```python
+from unittest.mock import patch, Mock
+from django.test import TestCase
+
+class EmailTestCase(TestCase):
+    @patch('myapp.views.send_email')
+    def test_send_notification(self, mock_send_email):
+        mock_send_email.return_value = True
+        response = self.client.post('/send-notification/')
+        self.assertTrue(mock_send_email.called)
+```
+
+**Factory Boy (Test Data Generation):**
+
+```python
+# Install: pip install factory_boy
+import factory
+from django.contrib.auth.models import User
+
+class UserFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = User
+    
+    username = factory.Sequence(lambda n: f"user{n}")
+    email = factory.LazyAttribute(lambda obj: f"{obj.username}@example.com")
+
+# Usage in tests
+user = UserFactory()
+```
+
+**Fixtures:**
+
+```python
+# fixtures/initial_data.json
+[
+    {
+        "model": "myapp.book",
+        "pk": 1,
+        "fields": {
+            "title": "Test Book",
+            "author": 1
+        }
+    }
+]
+
+# In tests
+class BookTestCase(TestCase):
+    fixtures = ['initial_data.json']
+```
+
+**Use Cases:**
+
+1. **Unit Testing:** Test individual components in isolation
+2. **Integration Testing:** Test component interactions
+3. **API Testing:** Test REST API endpoints
+4. **Performance Testing:** Test query performance and optimization
+
+### Security Best Practices in Django
+
+Security is paramount in web applications. Here are essential security practices:
+
+**CSRF Protection:**
+
+```python
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
+
+# CSRF is enabled by default
+# To exempt (use carefully):
+@csrf_exempt
+def my_view(request):
+    pass
+```
+
+**SQL Injection Prevention:**
+
+```python
+# BAD - Vulnerable to SQL injection
+User.objects.extra(where=["username = '%s'" % username])
+
+# GOOD - Use parameterized queries
+User.objects.filter(username=username)
+```
+
+**XSS Prevention:**
+
+```python
+# In templates, always use:
+{{ user_input|escape }}
+# or
+{% autoescape on %}
+    {{ user_input }}
+{% endautoescape %}
+```
+
+**Password Hashing:**
+
+```python
+from django.contrib.auth.hashers import make_password, check_password
+
+# Hash password
+hashed = make_password('mypassword')
+
+# Check password
+is_valid = check_password('mypassword', hashed)
+```
+
+**Security Settings:**
+
+```python
+# settings.py
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+```
+
+**Use Cases:**
+
+1. **Authentication:** Secure user authentication and authorization
+2. **Data Protection:** Protect sensitive data from unauthorized access
+3. **Input Validation:** Prevent injection attacks
+4. **HTTPS Enforcement:** Ensure secure communication
+
+### Logging and Monitoring in Django
+
+Effective logging and monitoring help track application behavior:
+
+**Logging Configuration:**
+
+```python
+# settings.py
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'django.log',
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'myapp': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+        },
+    },
+}
+```
+
+**Using Loggers:**
+
+```python
+import logging
+
+logger = logging.getLogger(__name__)
+
+def my_view(request):
+    logger.info('Processing request')
+    try:
+        # Your code
+        logger.debug('Debug information')
+    except Exception as e:
+        logger.error(f'Error occurred: {e}', exc_info=True)
+```
+
+**Sentry Integration:**
+
+```python
+# Install: pip install sentry-sdk
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="your-sentry-dsn",
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
+    send_default_pii=True
+)
+```
+
+**Use Cases:**
+
+1. **Error Tracking:** Monitor and debug production errors
+2. **Performance Monitoring:** Track slow queries and operations
+3. **Audit Logging:** Log important user actions
+4. **Debugging:** Detailed logs for troubleshooting
+
 ## FastAPI related topics:
 
 ### Dependency Injection in FastAPI
@@ -4156,6 +6206,577 @@ Real-world use cases of concurrency and parallelism in FastAPI include:
 - **Parallel Processing:** For CPU-bound tasks like data processing or machine learning computations, parallelism can be used to execute multiple tasks concurrently, leveraging multi-core processors for improved performance.
 - **Real-time Data Streaming:** Concurrency enables the server to handle real-time data streaming, such as sending continuous updates to clients while simultaneously processing other tasks.
 - **Background Tasks:** Asynchronous operations are useful for executing background tasks, such as sending emails, processing notifications, or performing periodic maintenance tasks without blocking the main application flow
+
+### API Documentation Best Practices
+
+FastAPI automatically generates interactive API documentation, but following best practices enhances its usefulness:
+
+**Customizing OpenAPI Schema:**
+
+```python
+from fastapi import FastAPI
+from fastapi.openapi.utils import get_openapi
+
+app = FastAPI(
+    title="My API",
+    description="A comprehensive API for managing resources",
+    version="1.0.0",
+)
+
+def custom_openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+    openapi_schema = get_openapi(
+        title="My API",
+        version="1.0.0",
+        description="Custom API documentation",
+        routes=app.routes,
+    )
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+app.openapi = custom_openapi
+```
+
+**Adding Examples and Descriptions:**
+
+```python
+from pydantic import BaseModel, Field
+
+class Item(BaseModel):
+    name: str = Field(..., description="Item name", example="Widget")
+    price: float = Field(..., gt=0, description="Item price in USD", example=29.99)
+    description: str = Field(None, description="Item description", example="A useful widget")
+
+@app.post("/items/", response_model=Item, summary="Create an item", 
+          description="Create a new item in the system",
+          response_description="The created item")
+async def create_item(item: Item):
+    """Create a new item.
+    
+    - **name**: The name of the item
+    - **price**: The price must be greater than 0
+    - **description**: Optional description
+    """
+    return item
+```
+
+**Tagging and Grouping:**
+
+```python
+@app.post("/users/", tags=["users"], summary="Create user")
+async def create_user(user: User):
+    pass
+
+@app.get("/users/", tags=["users"], summary="List users")
+async def list_users():
+    pass
+
+@app.post("/items/", tags=["items"], summary="Create item")
+async def create_item(item: Item):
+    pass
+```
+
+**Use Cases:**
+
+1. **API Discovery:** Help developers understand available endpoints
+2. **Testing:** Interactive docs allow testing endpoints directly
+3. **Documentation:** Automatic documentation reduces maintenance
+4. **Client Generation:** OpenAPI schema can generate client libraries
+
+### Testing in FastAPI
+
+Comprehensive testing ensures FastAPI applications work correctly:
+
+**Test Client:**
+
+```python
+from fastapi.testclient import TestClient
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"message": "Hello World"}
+
+# Tests
+def test_read_root():
+    client = TestClient(app)
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json() == {"message": "Hello World"}
+```
+
+**Testing with Dependencies:**
+
+```python
+from fastapi import Depends
+from unittest.mock import Mock
+
+def get_db():
+    # Mock database dependency
+    return Mock()
+
+@app.get("/items/")
+def read_items(db=Depends(get_db)):
+    return db.query_items()
+
+def test_read_items():
+    client = TestClient(app)
+    response = client.get("/items/")
+    assert response.status_code == 200
+```
+
+**Async Testing:**
+
+```python
+import pytest
+from httpx import AsyncClient
+
+@pytest.mark.asyncio
+async def test_async_endpoint():
+    async with AsyncClient(app=app, base_url="http://test") as ac:
+        response = await ac.get("/async-endpoint/")
+        assert response.status_code == 200
+```
+
+**Use Cases:**
+
+1. **Unit Testing:** Test individual endpoints and functions
+2. **Integration Testing:** Test complete request/response cycles
+3. **API Contract Testing:** Ensure API contracts are maintained
+4. **Performance Testing:** Test endpoint performance under load
+
+### Security Best Practices in FastAPI
+
+Security is critical for API applications:
+
+**Authentication with JWT:**
+
+```python
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+SECRET_KEY = "your-secret-key"
+ALGORITHM = "HS256"
+
+async def get_current_user(token: str = Depends(oauth2_scheme)):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+    return username
+
+@app.get("/protected/")
+async def protected_route(current_user: str = Depends(get_current_user)):
+    return {"user": current_user}
+```
+
+**Input Validation:**
+
+```python
+from pydantic import BaseModel, validator, EmailStr
+
+class UserCreate(BaseModel):
+    email: EmailStr
+    password: str
+    
+    @validator('password')
+    def validate_password(cls, v):
+        if len(v) < 8:
+            raise ValueError('Password must be at least 8 characters')
+        return v
+```
+
+**Rate Limiting:**
+
+```python
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+@app.get("/api/")
+@limiter.limit("5/minute")
+async def limited_endpoint(request: Request):
+    return {"message": "This is rate limited"}
+```
+
+**CORS Configuration:**
+
+```python
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://example.com"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+```
+
+**Use Cases:**
+
+1. **Authentication:** Secure API access with tokens
+2. **Authorization:** Control access to resources
+3. **Input Sanitization:** Prevent injection attacks
+4. **Rate Limiting:** Prevent abuse and ensure fair usage
+
+### Logging and Monitoring in FastAPI
+
+Effective logging and monitoring help track API behavior:
+
+**Structured Logging:**
+
+```python
+import logging
+import sys
+from pythonjsonlogger import jsonlogger
+
+# Configure JSON logger
+logHandler = logging.StreamHandler(sys.stdout)
+formatter = jsonlogger.JsonFormatter()
+logHandler.setFormatter(formatter)
+rootLogger = logging.getLogger()
+rootLogger.addHandler(logHandler)
+rootLogger.setLevel(logging.INFO)
+
+logger = logging.getLogger(__name__)
+
+@app.get("/items/")
+async def get_items():
+    logger.info("Fetching items", extra={"endpoint": "/items/"})
+    return {"items": []}
+```
+
+**Request Logging Middleware:**
+
+```python
+import time
+from fastapi import Request
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    logger.info(
+        "Request processed",
+        extra={
+            "method": request.method,
+            "url": str(request.url),
+            "status_code": response.status_code,
+            "process_time": process_time,
+        }
+    )
+    return response
+```
+
+**Prometheus Metrics:**
+
+```python
+# Install: pip install prometheus-fastapi-instrumentator
+from prometheus_fastapi_instrumentator import Instrumentator
+
+Instrumentator().instrument(app).expose(app)
+```
+
+**Use Cases:**
+
+1. **Error Tracking:** Monitor and debug production errors
+2. **Performance Monitoring:** Track response times and throughput
+3. **Audit Logging:** Log important API operations
+4. **Analytics:** Understand API usage patterns
+
+## General Topics:
+
+### REST API Design Principles
+
+Following REST principles ensures APIs are intuitive and maintainable:
+
+**Resource-Based URLs:**
+
+```python
+# Good
+GET    /api/users/          # List users
+POST   /api/users/          # Create user
+GET    /api/users/123/      # Get user
+PUT    /api/users/123/      # Update user
+DELETE /api/users/123/      # Delete user
+
+# Bad
+GET    /api/getUser/123
+POST   /api/createUser
+```
+
+**HTTP Status Codes:**
+
+```python
+from fastapi import status
+
+@app.post("/users/", status_code=status.HTTP_201_CREATED)
+async def create_user(user: User):
+    return user
+
+@app.get("/users/", status_code=status.HTTP_200_OK)
+async def list_users():
+    return []
+
+@app.get("/users/999/", status_code=status.HTTP_404_NOT_FOUND)
+async def get_user(user_id: int):
+    raise HTTPException(status_code=404, detail="User not found")
+```
+
+**Versioning:**
+
+```python
+# URL versioning
+@app.get("/v1/users/")
+async def list_users_v1():
+    pass
+
+@app.get("/v2/users/")
+async def list_users_v2():
+    pass
+
+# Header versioning
+@app.get("/users/", headers={"API-Version": "v1"})
+async def list_users():
+    pass
+```
+
+**Pagination:**
+
+```python
+from fastapi import Query
+
+@app.get("/items/")
+async def list_items(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(10, ge=1, le=100)
+):
+    return {"items": [], "skip": skip, "limit": limit}
+```
+
+**Use Cases:**
+
+1. **API Consistency:** Standard patterns make APIs easier to use
+2. **Scalability:** RESTful design supports growth
+3. **Maintainability:** Clear structure simplifies updates
+4. **Developer Experience:** Intuitive APIs reduce learning curve
+
+### Deployment and DevOps
+
+#### Docker and Containerization
+
+Containerization ensures consistent deployment across environments:
+
+**Dockerfile for FastAPI:**
+
+```dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+**Dockerfile for Django:**
+
+```dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+RUN python manage.py collectstatic --noinput
+
+CMD ["gunicorn", "myproject.wsgi:application", "--bind", "0.0.0.0:8000"]
+```
+
+**Docker Compose:**
+
+```yaml
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://user:pass@db:5432/mydb
+    depends_on:
+      - db
+  
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=mydb
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+```
+
+**Use Cases:**
+
+1. **Environment Consistency:** Same environment in dev, staging, production
+2. **Isolation:** Applications don't interfere with each other
+3. **Scalability:** Easy to scale containers horizontally
+4. **CI/CD Integration:** Containers work seamlessly with CI/CD pipelines
+
+#### CI/CD Pipelines
+
+Automated testing and deployment improve development workflow:
+
+**GitHub Actions Example:**
+
+```yaml
+# .github/workflows/ci.yml
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+      - name: Run tests
+        run: pytest
+      - name: Run linter
+        run: |
+          pip install black flake8
+          black --check .
+          flake8 .
+  
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy to production
+        run: |
+          # Deployment commands
+```
+
+**GitLab CI Example:**
+
+```yaml
+# .gitlab-ci.yml
+stages:
+  - test
+  - deploy
+
+test:
+  stage: test
+  image: python:3.11
+  script:
+    - pip install -r requirements.txt
+    - pytest
+    - black --check .
+    - flake8 .
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying to production"
+  only:
+    - main
+```
+
+**Use Cases:**
+
+1. **Automated Testing:** Run tests on every commit
+2. **Code Quality:** Enforce code standards automatically
+3. **Deployment Automation:** Deploy to production automatically
+4. **Rollback Capability:** Easy to revert to previous versions
+
+#### Environment Management
+
+Managing different environments (dev, staging, production) effectively:
+
+**Environment Variables:**
+
+```python
+# .env
+DATABASE_URL=postgresql://user:pass@localhost/db
+SECRET_KEY=your-secret-key
+DEBUG=True
+
+# settings.py
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+SECRET_KEY = os.getenv("SECRET_KEY")
+DEBUG = os.getenv("DEBUG", "False") == "True"
+```
+
+**Configuration Management:**
+
+```python
+# config.py
+from pydantic_settings import BaseSettings
+
+class Settings(BaseSettings):
+    database_url: str
+    secret_key: str
+    debug: bool = False
+    
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+
+settings = Settings()
+```
+
+**Use Cases:**
+
+1. **Security:** Keep secrets out of code
+2. **Flexibility:** Different configs for different environments
+3. **Maintainability:** Centralized configuration management
+4. **Compliance:** Meet security and compliance requirements
 
 ## Interview Preparation questions
 
